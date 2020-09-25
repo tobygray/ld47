@@ -10,7 +10,7 @@ stages:
 test_async:
   stage: test
   script:
-   - npm install --registry http://gitlab.lislan.org.uk:5080
+   - npm install --registry http://npm-local:5080
    - node ./specs/start.js ./specs/async.spec.js
   tags:
     - docker

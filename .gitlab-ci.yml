@@ -20,6 +20,7 @@ test_stuff:
    - npm install 
    - npm run-script build
    # TODO: some kinda testy stuff?
+   - npm run test
   tags:
     - docker
 

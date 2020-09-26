@@ -34,7 +34,7 @@ build-docker:
   script:
     - docker build -t my-docker-image .
     - docker run my-docker-image /bin/echo this is totally a legit test!
-    - docker push ld47/deploy:latest
+    - docker push registry.lislan.org.uk:5050/ld47-deploy:latest
   tags:
     - docker
 

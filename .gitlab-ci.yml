@@ -27,9 +27,11 @@ build-docker:
   stage: build
   before_script: 
     - docker info
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
   script:
     - docker build -t my-docker-image .
     - docker run my-docker-image /bin/echo this is totally a legit test!
+    - docker push ld47/deploy:latest
   tags:
     - docker
 

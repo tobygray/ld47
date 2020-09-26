@@ -28,7 +28,7 @@ build-docker:
   before_script: 
     - docker info
     #    - echo $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD | cat
-    - curl https://registry.lislan.org.uk:5050/v2/
+    - apt -y install curl && curl https://registry.lislan.org.uk:5050/v2/
     - docker login registry.lislan.org.uk:5050 -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
   script:
     - docker build -t my-docker-image .

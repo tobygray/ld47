@@ -38,7 +38,7 @@ build-docker:
     # Cache all the things!
     - docker pull $IMAGE_TAG || true 
     - docker build --cache-from $IMAGE_TAG -t $IMAGE_TAG .
-    - docker run my-docker-image /bin/echo this is totally a legit test!
+    - docker run $IMAGE_TAG /bin/echo this is totally a legit test!
     - docker push $IMAGE_TAG
   tags:
     - docker

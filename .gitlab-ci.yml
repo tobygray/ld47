@@ -23,10 +23,11 @@ test_stuff:
     - docker
 
 build-docker:
-  image: docker:19.03
+  #image: docker:19.03
+  image: curlimages/curl
   stage: build
   before_script: 
-    - docker info
+    #- docker info
     #    - echo $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD | cat
     - echo -en 'GET /v2/\r\n\r\n' | openssl s_client -connect registry.lislan.org.uk:5050
     - docker login registry.lislan.org.uk:5050 -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD

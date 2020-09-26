@@ -4,10 +4,6 @@ cache:
   paths:
   - node_modules/
 
-build-docker:
-  services:
-    - docker:19.03-dind
-
 stages:
   - test
   - build
@@ -32,5 +28,8 @@ build-docker:
     - docker run my-docker-image /bin/echo this is totally a legit test!
   tags:
     - docker
+  services:
+    - docker:19.03-dind
+
 
 

@@ -4,6 +4,10 @@ cache:
   paths:
   - node_modules/
 
+build-docker:
+  services:
+    - docker:19.03-dind
+
 stages:
   - test
   - build
@@ -18,7 +22,7 @@ test_stuff:
   tags:
     - docker
 
-dockerise:
+build-docker:
   image: docker:19.03
   stage: build
   before_script: 

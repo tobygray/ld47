@@ -6,14 +6,23 @@ cache:
 
 stages:
   - test
+  - build
 
-test_install:
+test_stuff:
   stage: test
   script:
-  # trust the cache --registry http://0.0.0.0:5080
    - npm install 
-#--registry http://gitlab.lislan.org.uk:5080
-#   - node ./specs/start.js ./specs/async.spec.js
+   - npm run-script build
+   # TODO: some kinda testy stuff?
   tags:
     - docker
+
+dockerise:
+  stage: build
+  before_script: 
+    - docker info
+  script:
+    - docker build -t my-docker-image
+    - docker run my-docker-image /bin/echo this is totally a legit test!
+
 

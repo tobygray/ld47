@@ -32,7 +32,7 @@ build-docker:
     #- curl https://registry.lislan.org.uk:5050/v2/
     - docker login registry.lislan.org.uk:5050 -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
   script:
-    - docker build -t ld47-latest .
+    - docker build -t ld47-deploy .
     - docker run my-docker-image /bin/echo this is totally a legit test!
     - docker push registry.lislan.org.uk:5050/ld47-deploy:latest
   tags:

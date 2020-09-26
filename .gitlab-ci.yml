@@ -28,12 +28,10 @@ build-docker:
   before_script: 
     - docker info
   script:
-    - docker build -t my-docker-image
+    - docker build -t my-docker-image .
     - docker run my-docker-image /bin/echo this is totally a legit test!
   tags:
     - docker
-      #  services:
-      #    - docker:19.03-dind
 
 
 

@@ -5,4 +5,4 @@ RUN npm install
 RUN npm run-script build
 EXPOSE 3000
 
-ENTRYPOINT [ "npm", "start" ]
+CMD [ "npm", "start" ]

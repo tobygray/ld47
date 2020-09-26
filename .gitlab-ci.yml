@@ -47,15 +47,12 @@ build-docker:
 
 
 deploy-docker:
-  image: docker:19.03
+  image: docker/compose:1.27.4
   stage: deploy
   before_script:
     - docker info
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
   script:
-    - apk add --update curl
-    - curl -L --fail https://github.com/docker/compose/releases/download/1.27.4/run.sh -o /usr/local/bin/docker-compose
-    - chmod a+x /usr/local/bin/docker-compose
     - docker-compose up --no-deps -d web
   tags:
     - docker

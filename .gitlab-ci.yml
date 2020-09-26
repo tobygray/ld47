@@ -1,4 +1,4 @@
-image: node:14.11.0-alpine
+#image: node:14.11.0-alpine
 
 cache:
   paths:
@@ -9,6 +9,7 @@ stages:
   - build
 
 test_stuff:
+  image: node:14.11.0-alpine
   stage: test
   script:
    - npm install 
@@ -18,11 +19,14 @@ test_stuff:
     - docker
 
 dockerise:
+  image: docker:19.03
   stage: build
   before_script: 
     - docker info
   script:
     - docker build -t my-docker-image
     - docker run my-docker-image /bin/echo this is totally a legit test!
+  tags:
+    - docker
 
 

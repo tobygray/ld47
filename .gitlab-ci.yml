@@ -1,8 +1,8 @@
 #image: node:14.11.0-alpine
 #
-variables:
-  DOCKER_DRIVER: overlay2
-  #  DOCKER_HOST: tcp://localhost:2375
+#variables:
+#  DOCKER_DRIVER: overlay2
+#  #  DOCKER_HOST: tcp://localhost:2375
 
 cache:
   paths:
@@ -32,8 +32,8 @@ build-docker:
     - docker run my-docker-image /bin/echo this is totally a legit test!
   tags:
     - docker
-  services:
-    - docker:19.03-dind
+      #  services:
+      #    - docker:19.03-dind
 
 
 

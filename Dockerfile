@@ -3,6 +3,6 @@ WORKDIR /srv/ld47
 COPY . .
 RUN npm install
 RUN npm run-script build
-EXPOSE 8080
+EXPOSE 3000
 
-CMD ["npm" "start" ]
+ENTRYPOINT [ "npm", "start" ]

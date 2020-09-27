@@ -1,0 +1,10 @@
+extends layout
+
+block scripts
+  script(src='js/runtime.bundle.js')
+  script(src='js/vendors~main.bundle.js')
+  script(src='js/main.bundle.js')
+
+block content
+  h1= title
+  p Welcome to #{title} test test test

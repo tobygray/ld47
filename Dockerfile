@@ -1,4 +1,4 @@
-FROM node:14.11
+FROM registry.lislan.org.uk:5050/ld47/ld47-assets:latest
 WORKDIR /srv/ld47
 COPY . .
 RUN npm install

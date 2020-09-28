@@ -8,7 +8,8 @@
     "build": "webpack --mode=production --env.NODE_ENV=production",
     "test": "./node_modules/mocha/bin/mocha test/**/*Test.js --reporter spec",
     "lint": "eslint --ignore-path .gitignore .",
-    "lint-fix": "eslint --ignore-path .gitignore --fix ."
+    "lint-fix": "eslint --ignore-path .gitignore --fix .",
+    "version": "node ./scripts/version.js"
   },
   "pre-commit": [
     "test",

@@ -18,6 +18,7 @@ test_stuff:
   stage: test
   script:
    - npm install
+   - npm run-script version -- $CI_COMMIT_SHORT_SHA $CI_COMMIT_TIMESTAMP
    - npm run-script build
    - npm run test
    - npm run lint
@@ -36,7 +37,7 @@ build-docker:
   script:
     # Cache all the things!
     - docker pull $IMAGE_TAG || true
-    - docker build --cache-from $IMAGE_TAG -t $IMAGE_TAG .
+    - docker build --build-arg CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA --build-arg CI_COMMIT_TIMESTAMP=$CI_COMMIT_TIMESTAMP --cache-from $IMAGE_TAG -t $IMAGE_TAG .
     - docker run $IMAGE_TAG /bin/echo this is totally a legit test!
     - docker push $IMAGE_TAG
   tags:

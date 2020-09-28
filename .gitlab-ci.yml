@@ -18,6 +18,7 @@ test_stuff:
   stage: test
   script:
    - npm install
+   - npm run-script vesion -- $CI_COMMIT_SHORT_SHA $CI_COMMIT_SHORT_SHA
    - npm run-script build
    - npm run test
    - npm run lint

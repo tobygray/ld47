@@ -1,4 +1,4 @@
-FROM node:14.11
+FROM node:12
 WORKDIR /srv/ld47
 COPY . .
 

@@ -5,5 +5,5 @@ const versionInfo = {
   time: process.argv[3],
 };
 
-fs.writeFile('build_info.json', JSON.stringify(versionInfo),
+fs.writeFile('dist/build_info.json', JSON.stringify(versionInfo),
   (err) => { if (err) throw err; });

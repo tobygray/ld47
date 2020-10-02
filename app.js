@@ -3,11 +3,22 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const fs = require('fs');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+
+// Read build info json file if available
+fs.readFile('dist/build_info.json', 'utf8', (err, data) => {
+  if (err) {
+    global.buildInfo = { commit: '<LOCAL>', time: 'now' };
+  } else {
+    // parse JSON string to JSON object
+    global.buildInfo = JSON.parse(data);
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

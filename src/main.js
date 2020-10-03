@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import KeyboardFactory from './controller/keyboardfactory';
 
 /* eslint-disable no-console */
 console.log('HI');
@@ -25,4 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   app.renderer.view.style.display = 'block';
   app.renderer.autoResize = true;
   app.renderer.resize(window.innerWidth / 1.25, window.innerHeight / 1.25);
+
+  const keyboardfactory = new KeyboardFactory();
+  keyboardfactory.createController(document, ' ');
 });

@@ -62,8 +62,12 @@ class GamepadEventHandler {
     }
   }
 
+  forAllGamepads(action) {
+    Object.values(this.controllers).forEach(action);
+  }
+
   scanGamepads() {
-    Object.values(this.controllers).forEach((controller) => {
+    this.forAllGamepads((controller) => {
       controller.scan();
     });
   }

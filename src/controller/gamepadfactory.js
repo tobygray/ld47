@@ -9,9 +9,19 @@ class GamepadFactory {
     this.gamepadEventHandler.setRemovedControllerListener((controller) => {
       this.removedController(controller);
     });
+    // Also detect any pre-existing controllers that change as new.
+    this.gamepadEventHandler.forAllGamepads((controller) => {
+      controller.setChangeListener(() => {
+        controller.setChangeListener(null);
+        this.newController(controller);
+      });
+    });
   }
 
   destroy() {
+    this.gamepadEventHandler.forAllGamepads((controller) => {
+      controller.setChangeListener(null);
+    });
     this.gamepadEventHandler.setNewControllerListener(null);
     this.gamepadEventHandler.setRemovedControllerListener(null);
     this.newControllerListener = null;

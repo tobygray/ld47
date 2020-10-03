@@ -3,9 +3,14 @@ import * as PIXI from 'pixi.js';
 import setupRaceConfigScreen from './setup_screen';
 import setupWelcomeScreen from './welcome_screen';
 import setupTackEvent from './track_screen';
+import setupScoreboardScreen from './scoreboard_screen';
 
-/* eslint-disable no-console */
-console.log('HI');
+const ALL_SCREEN_RESOURCES = [
+  setupWelcomeScreen.resources,
+  setupRaceConfigScreen.resources,
+  setupTackEvent.resources,
+  setupScoreboardScreen.resources,
+];
 
 let type = 'WebGL';
 if (!PIXI.utils.isWebGLSupported()) {
@@ -24,12 +29,6 @@ function loadProgressHandler(loader, resource) {
   console.log('progress: ' + loader.progress + '%');
 }
 
-const ALL_SCREEN_RESOURCES = [
-  setupWelcomeScreen.resources,
-  setupRaceConfigScreen.resources,
-  setupTackEvent.resources,
-];
-
 function setup(app) {
   document.body.appendChild(app.view);
 
@@ -38,17 +37,37 @@ function setup(app) {
   app.renderer.autoResize = true;
   app.renderer.resize(1920, 1080);
 
-  function transitionToActualRace() {
-    console.log('Trqnsistioning to Race, yes I Cant spell!');
-    const trackScreen = setupTackEvent(app, () => {});
-    app.stage.addChild(trackScreen);
-  }
+  // Cyclical depndency problem
+  let transitionToConfigScreen;
+  let transitionToActualRace;
 
-  function transitionToConfigScreen() {
+  function transitionToScoreboard() {
+    console.log('Transitioning to scoreboard');
+    app.stage.removeChildren();
+    // TODO: the functions we pass in to this setup for the scoreborad need to actually
+    //       be closures holding references to the previous setup in order to handle
+    //       default settings for the new race.
+    const scoreboardScreen = setupScoreboardScreen(
+      app, transitionToConfigScreen, transitionToActualRace,
+    );
+    app.stage.addChild(scoreboardScreen);
+  }
+  // Hack to enable testing without breaking all the merges:
+  window.transitionToScoreboard = transitionToScoreboard; // TODO: delete me!
+
+  transitionToActualRace = function () {
+    console.log('Trqnsistioning to Race, yes I Cant spell!');
+    app.stage.removeChildren();
+    const trackScreen = setupTackEvent(app, transitionToScoreboard);
+    app.stage.addChild(trackScreen);
+  };
+
+  transitionToConfigScreen = function () {
     console.log('Transitioning to config screen');
+    app.stage.removeChildren();
     const setupScreen = setupRaceConfigScreen(app, transitionToActualRace);
     app.stage.addChild(setupScreen);
-  }
+  };
 
   const welcomeScreen = setupWelcomeScreen(app, transitionToConfigScreen);
   app.stage.addChild(welcomeScreen);

@@ -5,7 +5,9 @@ export default class Car {
     this.speed = 0;
     this.power = 0;
     this.distance = 0;
-    this.currentTrack = 0;
+    this.currentTrack = 0; // This variable counts track segments mod track length
+    this.totalTrack = 0; // This counts total elapsted segments and so after the first lap is > len
+    this.currentLap = 0; // Counts the current lap
     this.fallOut = 0;
     this.pos = [0, 0];
     this.angle = 0;

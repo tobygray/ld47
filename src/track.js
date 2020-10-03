@@ -5,6 +5,7 @@ import physics from './physics';
 import TrackPiece from './track_piece';
 
 const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
+const idiv = (a, b) => Math.trunc(a / b);
 const rad = (a) => (a * Math.PI) / 180;
 
 export default class Track {
@@ -111,7 +112,9 @@ export default class Track {
     let dist = car.distance + delta * car.speed;
     while (dist > this.track[car.currentTrack].getLength(side)) {
       dist -= this.track[car.currentTrack].getLength(side);
-      car.currentTrack = mod(car.currentTrack + 1, this.track.length);
+      car.totalTrack += 1;
+      car.currentTrack = mod(car.totalTrack, this.track.length);
+      car.currentLap = idiv(car.totalTrack, this.track.length);
     }
     car.distance = dist;
   }

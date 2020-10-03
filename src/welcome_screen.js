@@ -24,6 +24,15 @@ function setupWelcomeScreen(app, completionFunction) {
     window.removeEventListener('click', playClickEvent);
     completionFunction();
   });
+  // Only go full screen on the first user click.
+  document.onclick = () => {
+    document.querySelector('canvas').requestFullscreen();
+    document.onclick = null;
+  };
+  // But always go full screen on double click.
+  document.ondblclick = () => {
+    document.querySelector('canvas').requestFullscreen();
+  };
 
   return container;
 }

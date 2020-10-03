@@ -1,5 +1,7 @@
 class ControllerBase {
-  constructor(document, name) {
+  constructor(name) {
+    this.name = name;
+
     this.div = document.createElement('div');
     this.div.className = 'controller';
     this.value = 0.0;
@@ -21,8 +23,15 @@ class ControllerBase {
     this.debugDiv.className = 'controller-debug';
     this.trackDiv.appendChild(this.debugDiv);
 
-    document.getElementById('controllers').appendChild(this.div);
+    this.shown = false;
     this.setValue(this.value);
+  }
+
+  show() {
+    if (!this.shown) {
+      document.getElementById('controllers').appendChild(this.div);
+      this.shown = true;
+    }
   }
 
   getValue() {

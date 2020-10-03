@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import TRACK_INFO from './track_info';
 
-function createTrackPicker(app) {
+function createTrackPicker(app, raceConfig) {
   const container = new PIXI.Container();
 
   const trackSprites = TRACK_INFO.map((track, idx) => {
@@ -28,6 +28,8 @@ function createTrackPicker(app) {
       // Step 2: add a border on the current clicked one now we've removed them all
       currentTrackTexture.scale.set(1.5, 1.5);
       currentTrackTexture.tint = 0xFFFFFF; // No tint
+      // Record the choice!
+      raceConfig.track = track;
     });
 
     return currentTrackTexture;

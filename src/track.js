@@ -101,14 +101,4 @@ export default class Track {
     }
     car.distance = dist;
   }
-
-  static makeOval() {
-    const pieces = [
-      's', 's', 's', 's',
-      'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2',
-      's', 's', 's', 's',
-      'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2',
-    ];
-    return new Track(pieces);
-  }
 }

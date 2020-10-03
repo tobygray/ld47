@@ -9,7 +9,7 @@ class TrackScreen {
     this.raceConfig = raceConfig;
     this.controllers = raceConfig.controllers;
 
-    this.track = Track.makeOval();
+    this.track = new Track(raceConfig.track.pieces);
     this.container = this.track.container;
     // TODO work out the scaling factors here properly
     this.container.scale.x = 0.5;

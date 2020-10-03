@@ -5,7 +5,7 @@ import createControllerPicker from './controller_picker_widget';
 import RaceConfig from './race_config';
 
 function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback) {
-  const raceConfig = new RaceConfig();
+  const raceConfig = new RaceConfig(controllerHandler);
   const container = new PIXI.Container();
 
   const bgImage = new PIXI.Sprite(

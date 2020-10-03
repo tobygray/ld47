@@ -20,6 +20,13 @@ class GamepadEventHandler {
     }
   }
 
+  disablePolling() {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
+      this.pollingInterval = null;
+    }
+  }
+
   setNewControllerListener(listener) {
     this.newControllerListener = listener;
   }

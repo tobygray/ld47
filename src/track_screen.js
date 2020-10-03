@@ -3,9 +3,11 @@
 import Track from './track';
 
 class TrackScreen {
-  constructor(app, raceOverCallback) {
+  constructor(app, raceOverCallback, raceConfig) {
     this.app = app;
     this.raceOverCallback = raceOverCallback;
+    this.raceConfig = raceConfig;
+    this.controllers = raceConfig.controllers;
 
     this.track = Track.makeOval();
     this.container = this.track.container;
@@ -25,15 +27,15 @@ class TrackScreen {
 
   gameLoop(delta) {
     // HACK until controller input is integrated
-    this.track.leftCar.speed = 1;
-    this.track.rightCar.speed = 1;
+    this.track.leftCar.speed = this.controllers[0] ? this.controllers[0].value : 1;
+    this.track.rightCar.speed = this.controllers[1] ? this.controllers[1].value : 1;
     this.track.moveCars(delta);
     this.track.positionCars();
   }
 }
 
-function setupTackEvent(_app, _raceOverCallback) {
-  const screen = new TrackScreen(_app, _raceOverCallback);
+function setupTackEvent(_app, _raceOverCallback, raceConfig) {
+  const screen = new TrackScreen(_app, _raceOverCallback, raceConfig);
   return screen;
 }
 

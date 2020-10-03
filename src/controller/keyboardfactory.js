@@ -1,15 +1,21 @@
 import KeyboardController from './keyboard';
 
-const START_KEY = ' ';
-const ENABLE_DEBUG_KEY = 'd';
-let PLAYER_1_CONTROLLER;
+const START_KEYS = {
+  Space: null,
+  KeyW: null,
+  ArrowUp: null,
+};
+
+const ENABLE_DEBUG_KEY = 'KeyD';
 
 class KeyboardFactory {
   constructor(keyboardEventHandler) {
     this.keyboardEventHandler = keyboardEventHandler;
     this.newControllerListener = null;
 
-    this.keyboardEventHandler.addHandler(this, START_KEY);
+    Object.keys(START_KEYS).forEach((code) => {
+      this.keyboardEventHandler.addHandler(this, code);
+    });
     this.keyboardEventHandler.addHandler(this, ENABLE_DEBUG_KEY);
   }
 
@@ -18,21 +24,23 @@ class KeyboardFactory {
   }
 
   destroy() {
-    this.keyboardEventHandler.removeHandler(this, START_KEY);
+    Object.keys(START_KEYS).forEach((code) => {
+      this.keyboardEventHandler.removeHandler(this, code);
+    });
     this.keyboardEventHandler.removeHandler(this, ENABLE_DEBUG_KEY);
   }
 
   keyDownEvent(event) {
-    if (event.key === START_KEY) {
+    if (event.code in START_KEYS) {
       if (this.newControllerListener) {
-        if (!PLAYER_1_CONTROLLER) {
-          PLAYER_1_CONTROLLER = new KeyboardController(this.keyboardEventHandler, event.key);
+        if (!START_KEYS[event.code]) {
+          START_KEYS[event.code] = new KeyboardController(this.keyboardEventHandler, event.code);
         } else {
-          PLAYER_1_CONTROLLER.register();
+          START_KEYS[event.code].register();
         }
-        this.newControllerListener(PLAYER_1_CONTROLLER);
+        this.newControllerListener(START_KEYS[event.code]);
       }
-    } else if (event.key === ENABLE_DEBUG_KEY) {
+    } else if (event.code === ENABLE_DEBUG_KEY) {
       const controllers = document.getElementById('controllers');
       if (controllers.style.visibility === 'visible') {
         controllers.style.visibility = 'hidden';
@@ -47,8 +55,8 @@ class KeyboardFactory {
   }
 
   reportAgain(controller) {
-    if (controller === PLAYER_1_CONTROLLER) {
-      this.keyboardEventHandler.addHandler(this, START_KEY);
+    if (Object.values(START_KEYS).includes(controller)) {
+      this.keyboardEventHandler.addHandler(this, controller.code);
     }
   }
 }

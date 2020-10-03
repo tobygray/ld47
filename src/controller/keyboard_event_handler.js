@@ -5,26 +5,26 @@ class KeyboardEventHandler {
     window.addEventListener('keyup', (event) => { this.keyUpListener(event); }, true);
   }
 
-  addHandler(listener, key) {
-    this.listeners[key] = listener;
+  addHandler(listener, code) {
+    this.listeners[code] = listener;
   }
 
-  removeHandler(listener, key) {
-    if (this.listeners[key] === listener) {
-      delete this.listeners[key];
+  removeHandler(listener, code) {
+    if (this.listeners[code] === listener) {
+      delete this.listeners[code];
     }
   }
 
   keyDownListener(event) {
-    if (event.key in this.listeners) {
-      this.listeners[event.key].keyDownEvent(event);
+    if (event.code in this.listeners) {
+      this.listeners[event.code].keyDownEvent(event);
       event.preventDefault();
     }
   }
 
   keyUpListener(event) {
-    if (event.key in this.listeners) {
-      this.listeners[event.key].keyUpEvent(event);
+    if (event.code in this.listeners) {
+      this.listeners[event.code].keyUpEvent(event);
       event.preventDefault();
     }
   }

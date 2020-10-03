@@ -34,6 +34,11 @@ function setCurrentArray(arr) {
 
 function redrawTrack(pieces, app) {
   const track = new Track(pieces);
+  // TODO work out the scaling factors here properly
+  track.container.scale.x = 0.5;
+  track.container.scale.y = 0.5;
+  track.container.x = 300;
+  track.container.y = 400;
   app.stage.removeChildren();
   app.stage.addChild(track.container);
 }

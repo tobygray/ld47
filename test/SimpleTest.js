@@ -6,7 +6,7 @@ describe('GET /', () => {
   it('respond with hello world', (done) => {
     // navigate to root and check the the response
     request(app).get('/').end((err, res) => {
-      res.text.should.match(/Turbo Waffle/);
+      res.text.should.match(/Sketchy 'lectrics/);
       done();
     });
   });

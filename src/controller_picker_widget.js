@@ -14,12 +14,12 @@ const style = new PIXI.TextStyle({
 });
 
 class ControllerPicker extends PIXI.Container {
-  constructor(app, raceConfig) {
+  constructor(app, controllerHandler, raceConfig) {
     super();
     this.app = app;
     this.controller_selections = [];
     this.raceConfig = raceConfig;
-    this.newControllerListener = new NewControllerListener((controller) => {
+    this.newControllerListener = new NewControllerListener(controllerHandler, (controller) => {
       this.handleNewController(controller);
     });
 
@@ -50,10 +50,8 @@ class ControllerPicker extends PIXI.Container {
   }
 }
 
-function createControllerPicker(app, raceConfig) {
-  const picker = new ControllerPicker(app, raceConfig);
-
-  return picker;
+function createControllerPicker(app, controllerHandler, raceConfig) {
+  return new ControllerPicker(app, controllerHandler, raceConfig);
 }
 
 export default createControllerPicker;

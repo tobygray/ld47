@@ -11,6 +11,8 @@ a {
   position: absolute;
   top: 0px;
   right: 0px;
+  visibility: hidden;
+  z-index: 2;
 }
 
 .controller {

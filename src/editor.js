@@ -1,3 +1,6 @@
+import createViewElementInDom from './viewer';
+import setupTackEvent from './track_screen';
+
 const $ = require('jquery');
 
 function getTextElement() {
@@ -28,7 +31,12 @@ function setCurrentArray(arr) {
   setCurrentJSON(JSON.stringify(arr));
 }
 
+function setup(app) {
+  console.log('editor live with app: ', app);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  createViewElementInDom(setupTackEvent.resources, setup);
   console.log('editor running');
   $('form#editor input').on('click', (evt) => {
     // Input buttons just change the text area and hook off that

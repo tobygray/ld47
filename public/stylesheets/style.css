@@ -7,13 +7,26 @@ a {
   color: #00B7FF;
 }
 
+#controllers {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
 .controller {
-  position: fixed;
-  background-color: darkgray;
-  height: 10em;
   width: 5em;
-  bottom: 0;
-  right: 0;
+}
+
+.controller-label {
+  margin: 0 auto;
+  border: 2px solid black;
+  padding: 2px;
+}
+
+.controller-track {
+  margin: auto;
+  height: 10em;
+  background-color: darkgray;
 }
 
 .controller-debug {

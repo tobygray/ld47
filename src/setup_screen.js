@@ -1,4 +1,6 @@
 import * as PIXI from 'pixi.js';
+import TRACK_INFO from './track_info';
+import createTrackPicker from './track_picker_widget';
 
 function setupRaceConfigScreen(app, transitionToRaceCallback) {
   const raceState = {}; // TODO:
@@ -9,6 +11,8 @@ function setupRaceConfigScreen(app, transitionToRaceCallback) {
   );
   bgImage.position.set(0, 0);
   container.addChild(bgImage);
+
+  container.addChild(createTrackPicker(app));
 
   const launchButton = new PIXI.Sprite(
     PIXI.utils.TextureCache['ui/icons/launch-race.png'],
@@ -37,6 +41,7 @@ setupRaceConfigScreen.resources = [
   'ui/icons/controller.png',
   'ui/icons/touch.png',
   'ui/icons/launch-race.png',
+  ...TRACK_INFO.map((track) => track.preview_file),
 ];
 
 export default setupRaceConfigScreen;

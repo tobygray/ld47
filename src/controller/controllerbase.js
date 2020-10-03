@@ -1,5 +1,6 @@
 class ControllerBase {
-  constructor(name, icon) {
+  constructor(factory, name, icon) {
+    this.factory = factory;
     this.name = name;
     this.changeListener = null;
     this.icon = `ui/icons/${icon}`;

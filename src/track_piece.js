@@ -2,7 +2,7 @@ const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
 const rad = (a) => (a * Math.PI) / 180;
 
 export default class TrackPiece {
-  constructor(radius, size, startPos, startAngle) {
+  constructor(radius, size, startPos, startAngle, texture) {
     // radius = 0 for straight, size is then length
     // radius > 0 for right turn, size ignored
     // radius < 0 for left turn, size ignored
@@ -28,6 +28,7 @@ export default class TrackPiece {
     this.startVector = null;
     this.endAngle = this.findAngle(this.length);
     this.endPos = this.findPos(this.length);
+    this.texture = texture;
   }
 
   findPos(distance, side = 'middle') {

@@ -53,6 +53,12 @@ class KeyboardFactory {
   /* eslint-disable class-methods-use-this */
   keyUpEvent(_event) {
   }
+
+  reportAgain(controller) {
+    if (Object.values(START_KEYS).includes(controller)) {
+      this.keyboardEventHandler.addHandler(this, controller.key);
+    }
+  }
 }
 
 export default KeyboardFactory;

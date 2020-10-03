@@ -1,5 +1,6 @@
 class RaceConfig {
-  constructor() {
+  constructor(controllerHandler) {
+    this.controllerHandler = controllerHandler;
     this._track = null;
     this._controllers = [];
     this._changeListener = null;

@@ -2,9 +2,8 @@ import ControllerBase from './controllerbase';
 
 class KeyboardController extends ControllerBase {
   constructor(factory, key) {
-    super(`Keyboard-${key}`, 'keyboard.png');
+    super(factory, `Keyboard-${key}`, 'keyboard.png');
     this.key = key;
-    this.factory = factory;
 
     this.register();
   }

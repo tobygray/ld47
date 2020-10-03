@@ -41,19 +41,17 @@ function setup(app) {
   let transitionToConfigScreen;
   let transitionToActualRace;
 
-  function transitionToScoreboard() {
+  function transitionToScoreboard(raceConfig) {
     console.log('Transitioning to scoreboard');
     app.stage.removeChildren();
     // TODO: the functions we pass in to this setup for the scoreborad need to actually
     //       be closures holding references to the previous setup in order to handle
     //       default settings for the new race.
     const scoreboardScreen = setupScoreboardScreen(
-      app, transitionToConfigScreen, transitionToActualRace,
+      app, transitionToConfigScreen, () => transitionToActualRace(raceConfig),
     );
     app.stage.addChild(scoreboardScreen);
   }
-  // Hack to enable testing without breaking all the merges:
-  window.transitionToScoreboard = transitionToScoreboard; // TODO: delete me!
 
   transitionToActualRace = (raceConfig) => {
     console.log('Trqnsistioning to Race, yes I Cant spell!');
@@ -61,6 +59,9 @@ function setup(app) {
     const trackScreen = setupTackEvent(app, transitionToScoreboard, raceConfig);
     app.stage.addChild(trackScreen.container);
     app.ticker.add((delta) => trackScreen.gameLoop(delta));
+
+    // Hack to enable testing without breaking all the merges:
+    window.transitionToScoreboard = () => transitionToScoreboard(raceConfig); // TODO: delete me!
   };
 
   transitionToConfigScreen = () => {

@@ -1,21 +1,19 @@
 import ControllerBase from './controllerbase';
 
 class KeyboardController extends ControllerBase {
-  constructor(document, listeners, key) {
-    super(document, 'Keyboard');
+  constructor(factory, key) {
+    super('Keyboard');
     this.key = key;
-    this.listeners = listeners;
+    this.factory = factory;
 
     // Register for notifications.
-    this.listeners[key] = this;
+    this.factory.addHandler(this, key);
   }
 
   remove() {
     super.remove();
 
-    if (this.listeners[this.key] === this) {
-      delete this.listeners[this.key];
-    }
+    this.factory.removeHandler(this, this.key);
   }
 
   keyUpEvent(event) {

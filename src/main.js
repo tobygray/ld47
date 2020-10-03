@@ -4,7 +4,7 @@ import setupRaceConfigScreen from './setup_screen';
 import setupWelcomeScreen from './welcome_screen';
 import setupTackEvent from './track_screen';
 
-import KeyboardFactory from './controller/keyboardfactory';
+import NewControllerListener from './controller/newcontrollerlistener';
 
 /* eslint-disable no-console */
 console.log('HI');
@@ -72,6 +72,17 @@ document.addEventListener('DOMContentLoaded', () => {
     .add([].concat(...ALL_SCREEN_RESOURCES))
     .load(() => setup(app));
 
-  const keyboardfactory = new KeyboardFactory();
-  keyboardfactory.createController(document, ' ');
+  const controllers = [];
+  const newControllerListener = new NewControllerListener((controller) => {
+    console.log('Got new controller', controller);
+    controllers.push(controller);
+    controller.show();
+  });
+
+  document.getElementById('clear-controllers').onclick = () => {
+    controllers.forEach((controller) => {
+      controller.remove();
+    });
+    newControllerListener.reset();
+  };
 });

@@ -27,6 +27,7 @@ a {
   margin: auto;
   height: 10em;
   background-color: darkgray;
+  position: relative;
 }
 
 .controller-debug {

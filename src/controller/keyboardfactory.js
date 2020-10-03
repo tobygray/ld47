@@ -1,6 +1,7 @@
 import KeyboardController from './keyboard';
 
 const START_KEY = ' ';
+const ENABLE_DEBUG_KEY = 'd';
 
 class KeyboardFactory {
   constructor() {
@@ -26,13 +27,24 @@ class KeyboardFactory {
   }
 
   keyDownListener(event) {
+    let consume = true;
     if (event.key in this.listeners) {
       this.listeners[event.key].keyDownEvent(event);
-      event.preventDefault();
     } else if (event.key === START_KEY) {
       if (this.newControllerListener) {
         this.newControllerListener(this.createController(START_KEY));
       }
+    } else if (event.key === ENABLE_DEBUG_KEY) {
+      const controllers = document.getElementById('controllers');
+      if (controllers.style.visibility === 'visible') {
+        controllers.style.visibility = 'hidden';
+      } else {
+        controllers.style.visibility = 'visible';
+      }
+    } else {
+      consume = false;
+    }
+    if (consume) {
       event.preventDefault();
     }
   }

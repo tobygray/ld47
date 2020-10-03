@@ -16,7 +16,7 @@ function setupRaceConfigScreen(app, transitionToRaceCallback) {
   bgImage.position.set(0, 0);
   container.addChild(bgImage);
 
-  container.addChild(createTrackPicker(app));
+  container.addChild(createTrackPicker(app, raceConfig));
   container.addChild(createControllerPicker(app, raceConfig));
 
   const launchButton = new PIXI.Sprite(

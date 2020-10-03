@@ -1,11 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-let type = 'WebGL';
-if (!PIXI.utils.isWebGLSupported()) {
-  type = 'canvas';
-}
-
-PIXI.utils.sayHello(type);
+PIXI.utils.sayHello('WebGL');
 
 function loadProgressHandler(loader, resource) {
   // NOTE: resource.data lets you access the file's raw binary data

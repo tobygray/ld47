@@ -10,6 +10,9 @@ class GamepadController extends ControllerBase {
 
     const gp = navigator.getGamepads()[this.index];
     this.isXbox = gp.id.includes('Xbox');
+    this.hasActuators = (
+      ('vibrationActuator' in gp) && ('playEffect' in gp.vibrationActuator)
+    );
 
     // Register for notifications.
     this.factory.addController(this);
@@ -33,6 +36,22 @@ class GamepadController extends ControllerBase {
       }
     }
     this.setValue(value);
+  }
+
+  setDangerValue(newValue) {
+    if (!this.hasActuators) {
+      return;
+    }
+    if (newValue === 0) {
+      return;
+    }
+    const gp = navigator.getGamepads()[this.index];
+    // From https://docs.google.com/document/d/1jPKzVRNzzU4dUsvLpSXm1VXPQZ8FP-0lKMT-R_p-s6g/edit
+    gp.vibrationActuator.playEffect('dual-rumble', {
+      duration: 50,
+      strongMagnitude: newValue,
+      weakMagnitude: newValue,
+    });
   }
 }
 

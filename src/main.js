@@ -59,7 +59,8 @@ function setup(app) {
     console.log('Trqnsistioning to Race, yes I Cant spell!');
     app.stage.removeChildren();
     const trackScreen = setupTackEvent(app, transitionToScoreboard);
-    app.stage.addChild(trackScreen);
+    app.stage.addChild(trackScreen.container);
+    app.ticker.add((delta) => trackScreen.gameLoop(delta));
   };
 
   transitionToConfigScreen = function () {

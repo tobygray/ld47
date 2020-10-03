@@ -7,6 +7,7 @@ module.exports = (env) => {
     mode,
     entry: {
       main: './src/main.js',
+      editor: './src/editor.js',
     },
     devtool: (mode === 'development') ? 'inline-source-map' : false,
     output: {

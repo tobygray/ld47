@@ -7,6 +7,7 @@ const fs = require('fs');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const editorRouter = require('./routes/editor');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/editor', editorRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

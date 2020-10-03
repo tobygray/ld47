@@ -27,10 +27,9 @@ class TrackScreen {
 
   gameLoop(delta) {
     // HACK until controller input is integrated
-    this.track.leftCar.speed = this.controllers[0] ? this.controllers[0].value : 1;
-    this.track.rightCar.speed = this.controllers[1] ? this.controllers[1].value : 1;
-    this.track.moveCars(delta);
-    this.track.positionCars();
+    this.track.leftCar.power = this.controllers[0] ? this.controllers[0].value : 0.5;
+    this.track.rightCar.power = this.controllers[1] ? this.controllers[1].value : 0.5;
+    this.track.updateCars(delta);
   }
 }
 

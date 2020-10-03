@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 
 import Car from './car';
+import physics from './physics';
 import TrackPiece from './track_piece';
 
 const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
@@ -80,12 +81,19 @@ export default class Track {
   }
 
   positionCar(car, side) {
+    if (car.fallOut > 0) {
+      [car.sprite.x, car.sprite.y] = car.pos;
+      car.sprite.rotation = mod(car.sprite.rotation + 0.1, Math.PI * 2);
+      return;
+    }
     // at this point we can safely assume the car is on the right piece of track
     const trackPiece = this.track[car.currentTrack];
     const pos = trackPiece.findPos(car.distance, side);
     const angle = trackPiece.findAngle(car.distance, side);
     [car.sprite.x, car.sprite.y] = pos;
     car.sprite.rotation = rad(angle);
+    car.pos = pos;
+    car.angle = angle;
   }
 
   moveCars(delta) {
@@ -94,11 +102,33 @@ export default class Track {
   }
 
   moveCar(delta, car, side) {
+    if (car.fallOut > 0) {
+      // car is going to carry on at its present direction + speed
+      car.pos[0] += car.speed * Math.sin(rad(car.angle));
+      car.pos[1] -= car.speed * Math.cos(rad(car.angle));
+      return;
+    }
     let dist = car.distance + delta * car.speed;
     while (dist > this.track[car.currentTrack].getLength(side)) {
       dist -= this.track[car.currentTrack].getLength(side);
       car.currentTrack = mod(car.currentTrack + 1, this.track.length);
     }
     car.distance = dist;
+  }
+
+  applyPhysics(delta) {
+    this.applyPhysicsToCar(delta, this.leftCar, 'left');
+    this.applyPhysicsToCar(delta, this.rightCar, 'right');
+  }
+
+  applyPhysicsToCar(delta, car, side) {
+    const track = this.track[car.currentTrack];
+    physics(delta, car, track, side);
+  }
+
+  updateCars(delta) {
+    this.applyPhysics(delta);
+    this.moveCars(delta);
+    this.positionCars();
   }
 }

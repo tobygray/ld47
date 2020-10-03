@@ -18,6 +18,16 @@ class NewControllerListener {
     });
   }
 
+  destroy() {
+    this.reset();
+    this.newControllerCallback = null;
+    this.keyboardFactory.setNewControllerListener(null);
+    this.keyboardFactory = null;
+    this.gamepadFactory.setNewControllerListener(null);
+    this.gamepadFactory.setRemovedControllerListener(null);
+    this.gamepadFactory = null;
+  }
+
   reset() {
     // Reset any listening state
     this.reported = {};

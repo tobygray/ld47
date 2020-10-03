@@ -5,9 +5,8 @@ const XBOX_LEFT_TRIGGER_BUTTON = 6;
 
 class GamepadController extends ControllerBase {
   constructor(factory, index) {
-    super(`Gamepad-${index}`, 'controller.png');
+    super(factory, `Gamepad-${index}`, 'controller.png');
     this.index = index;
-    this.factory = factory;
 
     const gp = navigator.getGamepads()[this.index];
     this.isXbox = gp.id.includes('Xbox');

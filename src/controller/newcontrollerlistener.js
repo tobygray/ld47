@@ -2,8 +2,9 @@ import KeyboardFactory from './keyboardfactory';
 import GamepadFactory from './gamepadfactory';
 
 class NewControllerListener {
-  constructor(eventHandler, newControllerCallback) {
+  constructor(eventHandler, newControllerCallback, removedControllerCallback) {
     this.newControllerCallback = newControllerCallback;
+    this.removedControllerCallback = removedControllerCallback;
     this.reported = {};
     this.keyboardFactory = new KeyboardFactory(eventHandler.keyboardEventHandler);
     this.keyboardFactory.setNewControllerListener((controller) => {
@@ -45,6 +46,13 @@ class NewControllerListener {
     if (controller.name in this.reported) {
       delete this.reported[controller.name];
     }
+    this.removedControllerCallback(controller);
+  }
+
+  userRequestedRemoveController(controller) {
+    this.removedControllerReported(controller);
+    this.keyboardFactory.reportAgain(controller);
+    this.gamepadEventHandler.reportAgain(controller);
   }
 }
 

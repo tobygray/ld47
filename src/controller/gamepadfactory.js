@@ -1,13 +1,19 @@
 import GamepadController from './gamepad';
 
+const SCAN_INTERVAL_MS = 50;
+
 class GamepadFactory {
-  constructor() {
+  constructor(enablePolling = true) {
     this.controllers = {};
     this.newControllerListener = null;
     this.removedControllerListener = null;
 
     window.addEventListener('gamepadconnected', (event) => { this.gamepadConnectedListener(event); });
     window.addEventListener('gamepaddisconnected', (event) => { this.gamepadDisconnectedListener(event); });
+    this.pollingInterval = null;
+    if (enablePolling) {
+      this.pollingInterval = setInterval(() => { this.scanGamepads(); }, SCAN_INTERVAL_MS);
+    }
   }
 
   setNewControllerListener(listener) {
@@ -50,6 +56,12 @@ class GamepadFactory {
       }
       this.controllers[event.gamepad.index].remove();
     }
+  }
+
+  scanGamepads() {
+    Object.values(this.controllers).forEach((controller) => {
+      controller.scan();
+    });
   }
 }
 

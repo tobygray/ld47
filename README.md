@@ -14,7 +14,7 @@ Run the following commands in a different terminal each:
 1. `npm run watch`
 Alternatively you can use `npm run build` to build a production version of the client Javascript, but
 you must run this manually whenever you update a file.
-2. `SET DEBUG=turbo-waffle:* npm start`.
+2. `SET DEBUG=sketchy-lectrics:* npm start`.
 
 Navigate to http://localhost:3000/
 

@@ -52,6 +52,10 @@ class ControllerBase {
       this.changeListener();
     }
   }
+
+  /* eslint-disable class-methods-use-this */
+  setDangerValue(_newValue) {
+  }
 }
 
 export default ControllerBase;

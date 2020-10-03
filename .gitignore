@@ -105,3 +105,6 @@ dist
 
 # Emacs backups
 *~build_info.json
+
+# vim swap files
+.*.swp

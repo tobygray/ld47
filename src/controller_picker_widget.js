@@ -14,11 +14,11 @@ const style = new PIXI.TextStyle({
 });
 
 class ControllerPicker extends PIXI.Container {
-  constructor(app, raceState) {
+  constructor(app, raceConfig) {
     super();
     this.app = app;
     this.controller_selections = [];
-    this.controllers = raceState.controllers;
+    this.raceConfig = raceConfig;
     this.newControllerListener = new NewControllerListener((controller) => {
       this.handleNewController(controller);
     });
@@ -30,16 +30,17 @@ class ControllerPicker extends PIXI.Container {
   }
 
   handleNewController(controller) {
-    if (this.controllers.length >= MAX_PLAYERS) {
+    const { controllers } = this.raceConfig;
+    if (controllers.length >= MAX_PLAYERS) {
       console.log('Ignoring new controller as at maximum players', controller);
       return;
     }
     console.log('New controller', controller);
-    const idx = this.controllers.length;
+    const idx = controllers.length;
     this.controller_selections.push(
       new ControllerSelection(this.app, this, controller, idx, MAX_PLAYERS),
     );
-    this.controllers.push(controller);
+    this.raceConfig.addController(controller);
   }
 
   destroy() {
@@ -49,8 +50,8 @@ class ControllerPicker extends PIXI.Container {
   }
 }
 
-function createControllerPicker(app, raceState) {
-  const picker = new ControllerPicker(app, raceState);
+function createControllerPicker(app, raceConfig) {
+  const picker = new ControllerPicker(app, raceConfig);
 
   return picker;
 }

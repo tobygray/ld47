@@ -4,6 +4,9 @@ import createTrackPicker from './track_picker_widget';
 import createControllerPicker from './controller_picker_widget';
 import RaceConfig from './race_config';
 
+const NO_TINT = 0xFFFFFF;
+const DISABLED_TINT = 0x999999;
+
 function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback) {
   const raceConfig = new RaceConfig(controllerHandler);
   const container = new PIXI.Container();
@@ -22,14 +25,14 @@ function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback)
   );
   launchButton.anchor.set(1.0, 1.0);
   launchButton.position.set(app.renderer.width, app.renderer.height);
-  launchButton.visible = false;
+  launchButton.tint = DISABLED_TINT;
   container.addChild(launchButton);
 
   raceConfig.setChangeListener(() => {
     const { valid } = raceConfig;
     launchButton.buttonMode = valid;
     launchButton.interactive = valid;
-    launchButton.visible = valid;
+    launchButton.tint = valid ? NO_TINT : DISABLED_TINT;
   });
 
   launchButton.on('pointertap', (ev) => {

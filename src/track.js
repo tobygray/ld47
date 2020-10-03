@@ -26,16 +26,18 @@ export default class Track {
     const track = [];
     let pos = [0, 0];
     let angle = 90;
-    let radius = 0;
-    let size = 0;
     for (const piece of pieces) {
+      let radius = 0;
+      let size = 0;
+      let texture = 'assets/tracks/Pieces/';
       if (piece === 's') {
-        radius = 0;
         size = 87;
+        texture += 'SHO.png';
       } else if (piece === 'ss') {
-        radius = 0;
         size = 78;
+        texture += 'SSHO.png';
       } else {
+        texture += 'R';
         let sign = 0;
         if (piece[0] === 'r') {
           sign = 1;
@@ -55,9 +57,10 @@ export default class Track {
         } else {
           throw new Error('invalid track piece');
         }
+        texture += piece[1] + '.png';
         radius *= sign;
       }
-      const trackPiece = new TrackPiece(radius, size, pos, angle);
+      const trackPiece = new TrackPiece(radius, size, pos, angle, texture);
       angle = trackPiece.endAngle;
       pos = trackPiece.endPos;
       track.push(trackPiece);
@@ -68,9 +71,22 @@ export default class Track {
   makeTrackContainer(track) {
     const container = new PIXI.Container();
     for (const piece of track) {
-      const line = new PIXI.Graphics();
-      line.lineStyle(156, 0x666666, 1).moveTo(...piece.startPos).lineTo(...piece.endPos);
-      container.addChild(line);
+      if (piece.texture in PIXI.utils.TextureCache) {
+        const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[piece.texture]);
+        sprite.pivot.set(0, 78); // midpoint of edge
+        if (piece.radius < 0) {
+          // left
+          sprite.scale.y = -1;
+        }
+        // track sprites start pointing right
+        sprite.angle = mod(piece.startAngle - 90, 360);
+        [sprite.x, sprite.y] = piece.startPos;
+        container.addChild(sprite);
+      } else {
+        const line = new PIXI.Graphics();
+        line.lineStyle(156, 0x666666, 1).moveTo(...piece.startPos).lineTo(...piece.endPos);
+        container.addChild(line);
+      }
     }
     this.container = container;
   }
@@ -83,7 +99,7 @@ export default class Track {
   positionCar(car, side) {
     if (car.fallOut > 0) {
       [car.sprite.x, car.sprite.y] = car.pos;
-      car.sprite.rotation = mod(car.sprite.rotation + 0.1, Math.PI * 2);
+      car.sprite.angle = mod(car.sprite.angle + 5, 360);
       return;
     }
     // at this point we can safely assume the car is on the right piece of track
@@ -91,7 +107,7 @@ export default class Track {
     const pos = trackPiece.findPos(car.distance, side);
     const angle = trackPiece.findAngle(car.distance, side);
     [car.sprite.x, car.sprite.y] = pos;
-    car.sprite.rotation = rad(angle);
+    car.sprite.angle = angle;
     car.pos = pos;
     car.angle = angle;
   }

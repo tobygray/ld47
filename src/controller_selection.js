@@ -21,27 +21,43 @@ class ControllerSelection {
     this.app = app;
     this.container = container;
     this.controller = controller;
-    this.idx = idx;
+    this._maxPlayers = maxPlayers;
 
     this.controllerSprite = new PIXI.Sprite(
       PIXI.utils.TextureCache[controller.icon],
     );
-
-    const xPos = (this.app.renderer.width * (idx + 1)) / (maxPlayers + 1);
-    const yPos = 700;
-    this.controllerSprite.anchor.set(0.5, 0.5);
-    this.controllerSprite.position.set(xPos, yPos);
     this.container.addChild(this.controllerSprite);
 
-    const playerText = new PIXI.Text(`Player ${idx + 1}`, style);
-    playerText.anchor.set(0.5, 0.5);
-    playerText.x = xPos;
-    playerText.y = yPos + this.controllerSprite.height + 10;
-    this.container.addChild(playerText);
+    this._playerText = new PIXI.Text('', style);
+    this.container.addChild(this._playerText);
+
+    this.setIndex(idx);
 
     this.controller.setChangeListener(() => {
       this.controllerSprite.rotation = (Math.PI * this.controller.value) / 2;
     });
+  }
+
+  destroy() {
+    this.controller.setChangeListener(null);
+    this.container.removeChild(this.controllerSprite);
+    this.container.removeChild(this._playerText);
+    this.controllerSprite = null;
+    this._playerText = null;
+  }
+
+  setIndex(idx) {
+    this.idx = idx;
+
+    const xPos = (this.app.renderer.width * (idx + 1)) / (this._maxPlayers + 1);
+    const yPos = 700;
+    this.controllerSprite.anchor.set(0.5, 0.5);
+    this.controllerSprite.position.set(xPos, yPos);
+
+    this._playerText.text = `Player ${idx + 1}`;
+    this._playerText.anchor.set(0.5, 0.5);
+    this._playerText.x = xPos;
+    this._playerText.y = yPos + this.controllerSprite.height + 10;
   }
 }
 

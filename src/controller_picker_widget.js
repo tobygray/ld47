@@ -17,10 +17,13 @@ class ControllerPicker extends PIXI.Container {
   constructor(app, controllerHandler, raceConfig) {
     super();
     this.app = app;
-    this.controller_selections = [];
+    this.controllerSelection = {};
     this.raceConfig = raceConfig;
     this.newControllerListener = new NewControllerListener(controllerHandler, (controller) => {
       this.handleNewController(controller);
+    },
+    (controller) => {
+      this.handleRemovedController(controller);
     });
 
     const instructionText = new PIXI.Text('Press space or a button on a controller to add a player', style);
@@ -37,10 +40,20 @@ class ControllerPicker extends PIXI.Container {
     }
     console.log('New controller', controller);
     const idx = controllers.length;
-    this.controller_selections.push(
-      new ControllerSelection(this.app, this, controller, idx, MAX_PLAYERS),
+    this.controllerSelection[controller.name] = new ControllerSelection(
+      this.app, this, controller, idx, MAX_PLAYERS,
     );
     this.raceConfig.addController(controller);
+  }
+
+  handleRemovedController(controller) {
+    this.raceConfig.removeController(controller);
+    this.controllerSelection[controller.name].destroy();
+
+    delete this.controllerSelection[controller.name];
+    Object.values(this.controllerSelection).forEach((item, idx) => {
+      item.setIndex(idx);
+    });
   }
 
   destroy() {

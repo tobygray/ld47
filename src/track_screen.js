@@ -39,6 +39,8 @@ function setupTackEvent(_app, _raceOverCallback, raceConfig) {
   return screen;
 }
 
-setupTackEvent.resources = [];
+setupTackEvent.resources = [
+  'assets/cars/car1.png',
+];
 
 export default setupTackEvent;

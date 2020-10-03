@@ -42,7 +42,8 @@ class KeyboardFactory {
     }
   }
 
-  static keyUpEvent(_event) {
+  /* eslint-disable class-methods-use-this */
+  keyUpEvent(_event) {
   }
 }
 

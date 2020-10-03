@@ -1,26 +1,26 @@
 import ControllerBase from './controllerbase';
 
 class KeyboardController extends ControllerBase {
-  constructor(factory, key) {
-    super(factory, `Keyboard-${key}`, 'keyboard.png');
-    this.key = key;
+  constructor(factory, code) {
+    super(factory, `Keyboard-${code}`, 'keyboard.png');
+    this.code = code;
 
     this.register();
   }
 
   register() {
     // Register for notifications.
-    this.factory.addHandler(this, this.key);
+    this.factory.addHandler(this, this.code);
   }
 
   remove() {
     super.remove();
 
-    this.factory.removeHandler(this, this.key);
+    this.factory.removeHandler(this, this.code);
   }
 
   keyUpEvent(event) {
-    if (event.key !== this.key) {
+    if (event.code !== this.code) {
       // Not for us so do nothing.
       return;
     }
@@ -28,7 +28,7 @@ class KeyboardController extends ControllerBase {
   }
 
   keyDownEvent(event) {
-    if (event.key !== this.key) {
+    if (event.code !== this.code) {
       // Not for us so do nothing.
       return;
     }

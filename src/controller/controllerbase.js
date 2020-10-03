@@ -1,6 +1,8 @@
 class ControllerBase {
-  constructor(name) {
+  constructor(name, icon) {
     this.name = name;
+    this.changeListener = null;
+    this.icon = `ui/icons/${icon}`;
 
     this.div = document.createElement('div');
     this.div.className = 'controller';
@@ -25,17 +27,13 @@ class ControllerBase {
 
     this.shown = false;
     this.setValue(this.value);
+
+    document.getElementById('controllers').appendChild(this.div);
+    this.shown = true;
   }
 
-  show() {
-    if (!this.shown) {
-      document.getElementById('controllers').appendChild(this.div);
-      this.shown = true;
-    }
-  }
-
-  getValue() {
-    return this.value;
+  setChangeListener(listener) {
+    this.changeListener = listener;
   }
 
   remove() {
@@ -43,11 +41,15 @@ class ControllerBase {
   }
 
   setValue(newValue) {
+    const changed = this.value !== newValue;
     this.value = newValue;
     this.debugDiv.innerHTML = this.value.toFixed(2);
     const handleRange = this.trackDiv.offsetHeight - this.handleDiv.offsetHeight;
     const handlePosition = (1 - this.value) * handleRange;
     this.handleDiv.style.top = `${handlePosition}px`;
+    if (changed && this.changeListener) {
+      this.changeListener();
+    }
   }
 }
 

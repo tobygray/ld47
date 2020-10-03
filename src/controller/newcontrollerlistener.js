@@ -48,6 +48,12 @@ class NewControllerListener {
     }
     this.removedControllerCallback(controller);
   }
+
+  userRequestedRemoveController(controller) {
+    this.removedControllerReported(controller);
+    this.keyboardFactory.reportAgain(controller);
+    this.gamepadEventHandler.reportAgain(controller);
+  }
 }
 
 export default NewControllerListener;

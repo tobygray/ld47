@@ -45,6 +45,12 @@ class KeyboardFactory {
   /* eslint-disable class-methods-use-this */
   keyUpEvent(_event) {
   }
+
+  reportAgain(controller) {
+    if (controller === PLAYER_1_CONTROLLER) {
+      this.keyboardEventHandler.addHandler(this, START_KEY);
+    }
+  }
 }
 
 export default KeyboardFactory;

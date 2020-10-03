@@ -46,6 +46,10 @@ class ControllerPicker extends PIXI.Container {
     this.raceConfig.addController(controller);
   }
 
+  userRequestedRemoveController(controller) {
+    this.newControllerListener.userRequestedRemoveController(controller);
+  }
+
   handleRemovedController(controller) {
     this.raceConfig.removeController(controller);
     this.controllerSelection[controller.name].destroy();

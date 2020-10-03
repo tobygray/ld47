@@ -4,7 +4,7 @@ import createTrackPicker from './track_picker_widget';
 import createControllerPicker from './controller_picker_widget';
 
 function setupRaceConfigScreen(app, transitionToRaceCallback) {
-  const raceState = {
+  const raceConfig = {
     // TODO: make this a proper object with things like track selection.
     controllers: [],
   };
@@ -17,7 +17,7 @@ function setupRaceConfigScreen(app, transitionToRaceCallback) {
   container.addChild(bgImage);
 
   container.addChild(createTrackPicker(app));
-  container.addChild(createControllerPicker(app, raceState));
+  container.addChild(createControllerPicker(app, raceConfig));
 
   const launchButton = new PIXI.Sprite(
     PIXI.utils.TextureCache['ui/icons/launch-race.png'],
@@ -33,7 +33,7 @@ function setupRaceConfigScreen(app, transitionToRaceCallback) {
     console.log(ev);
     app.stage.removeChild(container);
     // TODO: What track and inputs to use
-    transitionToRaceCallback(raceState);
+    transitionToRaceCallback(raceConfig);
   });
 
   return container;

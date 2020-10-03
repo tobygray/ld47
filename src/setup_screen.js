@@ -2,12 +2,10 @@ import * as PIXI from 'pixi.js';
 import TRACK_INFO from './track_info';
 import createTrackPicker from './track_picker_widget';
 import createControllerPicker from './controller_picker_widget';
+import RaceConfig from './race_config';
 
 function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback) {
-  const raceConfig = {
-    // TODO: make this a proper object with things like track selection.
-    controllers: [],
-  };
+  const raceConfig = new RaceConfig();
   const container = new PIXI.Container();
 
   const bgImage = new PIXI.Sprite(
@@ -24,15 +22,20 @@ function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback)
   );
   launchButton.anchor.set(1.0, 1.0);
   launchButton.position.set(app.renderer.width, app.renderer.height);
+  launchButton.visible = false;
   container.addChild(launchButton);
 
-  launchButton.buttonMode = true;
-  launchButton.interactive = true;
+  raceConfig.setChangeListener(() => {
+    const { valid } = raceConfig;
+    launchButton.buttonMode = valid;
+    launchButton.interactive = valid;
+    launchButton.visible = valid;
+  });
 
   launchButton.on('pointertap', (ev) => {
     console.log(ev);
     app.stage.removeChild(container);
-    // TODO: What track and inputs to use
+    raceConfig.setChangeListener(null);
     transitionToRaceCallback(raceConfig);
   });
 

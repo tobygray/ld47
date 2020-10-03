@@ -19,6 +19,8 @@ function getCurrentArray() {
 }
 
 function setCurrentJSON(str) {
+  // Does nothing to prove that it does still deserialise
+  JSON.parse(str);
   getTextElement().val(str);
 }
 
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('New array is: ', arr);
   });
 
-  $('form#editor textarea#json').on('change keyup paste', (evt) => {
+  $('form#editor textarea#json').on('change keyup paste input', (evt) => {
     console.log('Text area changed: ', evt.target.value);
   });
 });

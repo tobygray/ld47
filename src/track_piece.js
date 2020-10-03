@@ -20,8 +20,8 @@ export default class TrackPiece {
       this.rightLength = size;
     } else {
       this.length = (Math.abs(radius) * Math.PI * (22.5 / 180));
-      const leftRadius = radius - 39;
-      const rightRadius = radius + 39;
+      const leftRadius = radius + 39;
+      const rightRadius = radius - 39;
       this.leftLength = (Math.abs(leftRadius) * Math.PI * (22.5 / 180));
       this.rightLength = (Math.abs(rightRadius) * Math.PI * (22.5 / 180));
     }

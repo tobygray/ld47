@@ -11,10 +11,7 @@ class GamepadFactory {
     });
     // Also detect any pre-existing controllers that change as new.
     this.gamepadEventHandler.forAllGamepads((controller) => {
-      controller.setChangeListener(() => {
-        controller.setChangeListener(null);
-        this.newController(controller);
-      });
+      this.reportAgain(controller);
     });
   }
 
@@ -47,6 +44,15 @@ class GamepadFactory {
 
   setRemovedControllerListener(listener) {
     this.removedControllerListener = listener;
+  }
+
+  reportAgain(controller) {
+    if (controller.name.startsWith('Gamepad-')) {
+      controller.setChangeListener(() => {
+        controller.setChangeListener(null);
+        this.newController(controller);
+      });
+    }
   }
 }
 

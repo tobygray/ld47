@@ -23,6 +23,7 @@ function setup(app) {
   function transitionToScoreboard(raceConfig) {
     console.log('Transitioning to scoreboard');
     app.stage.removeChildren();
+    controllerHandler.enablePolling();
     // TODO: the functions we pass in to this setup for the scoreborad need to actually
     //       be closures holding references to the previous setup in order to handle
     //       default settings for the new race.

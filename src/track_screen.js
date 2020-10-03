@@ -9,6 +9,8 @@ class TrackScreen {
     this.raceConfig = raceConfig;
     this.controllers = raceConfig.controllers;
 
+    this.raceConfig.controllerHandler.disablePolling();
+
     this.track = new Track(raceConfig.track.pieces);
     this.container = this.track.container;
     // TODO work out the scaling factors here properly
@@ -26,11 +28,11 @@ class TrackScreen {
   }
 
   gameLoop(delta) {
+    this.raceConfig.controllerHandler.poll();
     // HACK until controller input is integrated
-    this.track.leftCar.speed = this.controllers[0] ? this.controllers[0].value : 1;
-    this.track.rightCar.speed = this.controllers[1] ? this.controllers[1].value : 1;
-    this.track.moveCars(delta);
-    this.track.positionCars();
+    this.track.leftCar.power = this.controllers[0] ? this.controllers[0].value : 0.5;
+    this.track.rightCar.power = this.controllers[1] ? this.controllers[1].value : 0.5;
+    this.track.updateCars(delta);
   }
 }
 
@@ -41,6 +43,10 @@ function setupTackEvent(_app, _raceOverCallback, raceConfig) {
 
 setupTackEvent.resources = [
   'assets/cars/car1.png',
+  'assets/tracks/Pieces/R1.png',
+  'assets/tracks/Pieces/R2.png',
+  'assets/tracks/Pieces/SHO.png',
+  'assets/tracks/Pieces/SSHO.png',
 ];
 
 export default setupTackEvent;

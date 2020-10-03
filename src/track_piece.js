@@ -2,7 +2,7 @@ const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
 const rad = (a) => (a * Math.PI) / 180;
 
 export default class TrackPiece {
-  constructor(radius, size, startPos, startAngle) {
+  constructor(radius, size, startPos, startAngle, texture) {
     // radius = 0 for straight, size is then length
     // radius > 0 for right turn, size ignored
     // radius < 0 for left turn, size ignored
@@ -20,14 +20,15 @@ export default class TrackPiece {
       this.rightLength = size;
     } else {
       this.length = (Math.abs(radius) * Math.PI * (22.5 / 180));
-      const leftRadius = radius + 39;
-      const rightRadius = radius - 39;
-      this.leftLength = (Math.abs(leftRadius) * Math.PI * (22.5 / 180));
-      this.rightLength = (Math.abs(rightRadius) * Math.PI * (22.5 / 180));
+      this.leftRadius = radius + 39;
+      this.rightRadius = radius - 39;
+      this.leftLength = (Math.abs(this.leftRadius) * Math.PI * (22.5 / 180));
+      this.rightLength = (Math.abs(this.rightRadius) * Math.PI * (22.5 / 180));
     }
     this.startVector = null;
     this.endAngle = this.findAngle(this.length);
     this.endPos = this.findPos(this.length);
+    this.texture = texture;
   }
 
   findPos(distance, side = 'middle') {
@@ -89,12 +90,25 @@ export default class TrackPiece {
   }
 
   getLength(side = 'middle') {
-    let { length } = this;
     if (side === 'left') {
-      length = this.leftLength;
-    } else if (side === 'right') {
-      length = this.rightLength;
+      return this.leftLength;
     }
-    return length;
+    if (side === 'right') {
+      return this.rightLength;
+    }
+    return this.length;
+  }
+
+  getRadius(side = 'middle') {
+    if (this.radius === 0) {
+      return 0;
+    }
+    if (side === 'left') {
+      return this.leftRadius;
+    }
+    if (side === 'right') {
+      return this.rightRadius;
+    }
+    return this.radius;
   }
 }

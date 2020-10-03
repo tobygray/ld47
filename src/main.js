@@ -4,8 +4,6 @@ import setupRaceConfigScreen from './setup_screen';
 import setupWelcomeScreen from './welcome_screen';
 import setupTackEvent from './track_screen';
 
-import NewControllerListener from './controller/newcontrollerlistener';
-
 /* eslint-disable no-console */
 console.log('HI');
 
@@ -71,18 +69,4 @@ document.addEventListener('DOMContentLoaded', () => {
   PIXI.Loader.shared
     .add([].concat(...ALL_SCREEN_RESOURCES))
     .load(() => setup(app));
-
-  const controllers = [];
-  const newControllerListener = new NewControllerListener((controller) => {
-    console.log('Got new controller', controller);
-    controllers.push(controller);
-    controller.show();
-  });
-
-  document.getElementById('clear-controllers').onclick = () => {
-    controllers.forEach((controller) => {
-      controller.remove();
-    });
-    newControllerListener.reset();
-  };
 });

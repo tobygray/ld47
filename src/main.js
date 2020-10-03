@@ -55,7 +55,7 @@ function setup(app) {
   // Hack to enable testing without breaking all the merges:
   window.transitionToScoreboard = transitionToScoreboard; // TODO: delete me!
 
-  transitionToActualRace = function () {
+  transitionToActualRace = () => {
     console.log('Trqnsistioning to Race, yes I Cant spell!');
     app.stage.removeChildren();
     const trackScreen = setupTackEvent(app, transitionToScoreboard);
@@ -63,7 +63,7 @@ function setup(app) {
     app.ticker.add((delta) => trackScreen.gameLoop(delta));
   };
 
-  transitionToConfigScreen = function () {
+  transitionToConfigScreen = () => {
     console.log('Transitioning to config screen');
     app.stage.removeChildren();
     const setupScreen = setupRaceConfigScreen(app, transitionToActualRace);

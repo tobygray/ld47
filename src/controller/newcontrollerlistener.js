@@ -2,10 +2,10 @@ import KeyboardFactory from './keyboardfactory';
 import GamepadFactory from './gamepadfactory';
 
 class NewControllerListener {
-  constructor(newControllerCallback) {
+  constructor(eventHandler, newControllerCallback) {
     this.newControllerCallback = newControllerCallback;
     this.reported = {};
-    this.keyboardFactory = new KeyboardFactory();
+    this.keyboardFactory = new KeyboardFactory(eventHandler.keyboardEventHandler);
     this.keyboardFactory.setNewControllerListener((controller) => {
       this.newControllerReported(controller);
     });

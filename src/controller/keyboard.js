@@ -6,8 +6,12 @@ class KeyboardController extends ControllerBase {
     this.key = key;
     this.factory = factory;
 
+    this.register();
+  }
+
+  register() {
     // Register for notifications.
-    this.factory.addHandler(this, key);
+    this.factory.addHandler(this, this.key);
   }
 
   remove() {

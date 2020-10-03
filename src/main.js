@@ -4,6 +4,7 @@ import setupRaceConfigScreen from './setup_screen';
 import setupWelcomeScreen from './welcome_screen';
 import setupTackEvent from './track_screen';
 import setupScoreboardScreen from './scoreboard_screen';
+import ControllerHandler from './controller/handler';
 
 const ALL_SCREEN_RESOURCES = [
   setupWelcomeScreen.resources,
@@ -37,6 +38,8 @@ function setup(app) {
   app.renderer.autoResize = true;
   app.renderer.resize(1920, 1080);
 
+  const controllerHandler = new ControllerHandler();
+
   // Cyclical depndency problem
   let transitionToConfigScreen;
   let transitionToActualRace;
@@ -67,7 +70,7 @@ function setup(app) {
   transitionToConfigScreen = () => {
     console.log('Transitioning to config screen');
     app.stage.removeChildren();
-    const setupScreen = setupRaceConfigScreen(app, transitionToActualRace);
+    const setupScreen = setupRaceConfigScreen(app, controllerHandler, transitionToActualRace);
     app.stage.addChild(setupScreen);
   };
 

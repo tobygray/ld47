@@ -2,37 +2,35 @@ import KeyboardController from './keyboard';
 
 const START_KEY = ' ';
 const ENABLE_DEBUG_KEY = 'd';
+let PLAYER_1_CONTROLLER;
 
 class KeyboardFactory {
-  constructor() {
-    this.listeners = {};
+  constructor(keyboardEventHandler) {
+    this.keyboardEventHandler = keyboardEventHandler;
     this.newControllerListener = null;
 
-    window.addEventListener('keydown', (event) => { this.keyDownListener(event); }, true);
-    window.addEventListener('keyup', (event) => { this.keyUpListener(event); }, true);
+    this.keyboardEventHandler.addHandler(this, START_KEY);
+    this.keyboardEventHandler.addHandler(this, ENABLE_DEBUG_KEY);
   }
 
   setNewControllerListener(listener) {
     this.newControllerListener = listener;
   }
 
-  addHandler(listener, key) {
-    this.listeners[key] = listener;
+  destroy() {
+    this.keyboardEventHandler.removeHandler(this, START_KEY);
+    this.keyboardEventHandler.removeHandler(this, ENABLE_DEBUG_KEY);
   }
 
-  removeHandler(listener, key) {
-    if (this.listeners[key] === listener) {
-      delete this.listeners[key];
-    }
-  }
-
-  keyDownListener(event) {
-    let consume = true;
-    if (event.key in this.listeners) {
-      this.listeners[event.key].keyDownEvent(event);
-    } else if (event.key === START_KEY) {
+  keyDownEvent(event) {
+    if (event.key === START_KEY) {
       if (this.newControllerListener) {
-        this.newControllerListener(this.createController(START_KEY));
+        if (!PLAYER_1_CONTROLLER) {
+          PLAYER_1_CONTROLLER = new KeyboardController(this.keyboardEventHandler, event.key);
+        } else {
+          PLAYER_1_CONTROLLER.register();
+        }
+        this.newControllerListener(PLAYER_1_CONTROLLER);
       }
     } else if (event.key === ENABLE_DEBUG_KEY) {
       const controllers = document.getElementById('controllers');
@@ -41,22 +39,11 @@ class KeyboardFactory {
       } else {
         controllers.style.visibility = 'visible';
       }
-    } else {
-      consume = false;
-    }
-    if (consume) {
-      event.preventDefault();
     }
   }
 
-  keyUpListener(event) {
-    if (event.key in this.listeners) {
-      this.listeners[event.key].keyUpEvent(event);
-    }
-  }
-
-  createController(key) {
-    return new KeyboardController(this, key);
+  /* eslint-disable class-methods-use-this */
+  keyUpEvent(_event) {
   }
 }
 

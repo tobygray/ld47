@@ -18,22 +18,24 @@ const style = new PIXI.TextStyle({
   lineJoin: 'round',
 });
 
-function postResultsToServer(results, textControl) {
+function postResultsToServer(resultsArray, textControls) {
   fetch('/results/driver', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: results.toJson(),
+    body: JSON.stringify(resultsArray.map((i) => i.toFlatData())),
   })
     .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
-      textControl.text += `
+    .then((dataArray) => {
+      console.log('Success:', dataArray);
+      dataArray.forEach((data, index) => {
+        textControls[index].text += `
 
-      World Lap: ${data.lapRank}/${data.lapCount}
-      World Race Time: ${data.totalRank}/${data.totalCount}
-      World Crash Rank: ${data.crashRank}/${data.crashCount}`;
+    World Lap: ${data.lapRank}/${data.lapCount}
+    World Race Time: ${data.totalRank}/${data.totalCount}
+    World Crash Rank: ${data.crashRank}/${data.crashCount}`;
+      });
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -72,8 +74,7 @@ function setupScoreboardScreen(app, raceResults,
   playerTwoScoreText.x = app.renderer.width / 2;
   playerTwoScoreText.y = 275;
 
-  postResultsToServer(raceResults.driverResults[0], playerOneScoreText);
-  postResultsToServer(raceResults.driverResults[1], playerTwoScoreText);
+  postResultsToServer(raceResults.driverResults, [playerOneScoreText, playerTwoScoreText]);
 
   container.addChild(playerOneScoreText);
 

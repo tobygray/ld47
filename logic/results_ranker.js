@@ -5,35 +5,51 @@ class ResultsRanker {
     this._crashCounts = [];
   }
 
-  addResults(driverResult) {
-    // Deal with laptimes
-    const { lapTimes } = driverResult;
-    this._lapTimes.push(...lapTimes);
+  addResults(driverResults) {
+    // First add all the values from the results.
+    driverResults.forEach((driverResult) => {
+      // Deal with laptimes
+      const { lapTimes } = driverResult;
+      this._lapTimes.push(...lapTimes);
+
+      // Deal with total time.
+      const { totalTime } = driverResult;
+      this._totalTimes.push(totalTime);
+
+      // Deal with the crash count.
+      const { crashCount } = driverResult;
+      this._crashCounts.push(crashCount);
+    });
+
+    // Next sort all the arrays of data again.
     this._lapTimes.sort((a, b) => a - b);
-    const lapRank = this._lapTimes.indexOf(Math.min(...lapTimes));
-
-    // Deal with total time.
-    const { totalTime } = driverResult;
-    this._totalTimes.push(totalTime);
     this._totalTimes.sort((a, b) => a - b);
-    const totalRank = this._totalTimes.indexOf(totalTime);
-
-    // Deal with the crash count.
-    const { crashCount } = driverResult;
-    this._crashCounts.push(crashCount);
     // Sort in reverse numerical order as more crashes is better!
     this._crashCounts.sort((a, b) => b - a);
-    const crashRank = this._crashCounts.indexOf(crashCount);
 
-    // Return the results.
-    return {
-      lapRank: lapRank + 1,
-      lapCount: this._lapTimes.length,
-      totalRank: totalRank + 1,
-      totalCount: this._totalTimes.length,
-      crashRank: crashRank + 1,
-      crashCount: this._crashCounts.length,
-    };
+    return driverResults.map((driverResult) => {
+      // Deal with laptimes
+      const { lapTimes } = driverResult;
+      const lapRank = this._lapTimes.indexOf(Math.min(...lapTimes));
+
+      // Deal with total time.
+      const { totalTime } = driverResult;
+      const totalRank = this._totalTimes.indexOf(totalTime);
+
+      // Deal with the crash count.
+      const { crashCount } = driverResult;
+      const crashRank = this._crashCounts.indexOf(crashCount);
+
+      // Return the results.
+      return {
+        lapRank: lapRank + 1,
+        lapCount: this._lapTimes.length,
+        totalRank: totalRank + 1,
+        totalCount: this._totalTimes.length,
+        crashRank: crashRank + 1,
+        crashCount: this._crashCounts.length,
+      };
+    });
   }
 }
 

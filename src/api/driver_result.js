@@ -68,7 +68,7 @@ class DriverResult {
     this._crashCount += 1;
   }
 
-  toJson() {
+  toFlatData() {
     const data = {
       index: this._index,
       player_name: this._name,
@@ -76,15 +76,11 @@ class DriverResult {
       lap_times: this._lapTimes,
       track_name: this._trackName,
     };
-    return JSON.stringify(data);
+    return data;
   }
 
-  static fromJson(jsonData) {
+  static fromFlatData(data) {
     /* eslint-disable no-underscore-dangle */
-    let data = jsonData;
-    if (typeof data === 'string' || data instanceof String) {
-      data = JSON.parse(jsonData);
-    }
     const ret = new DriverResult(data.index);
     ret.name = data.player_name;
     ret._trackName = data.track_name;

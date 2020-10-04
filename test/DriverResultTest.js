@@ -82,7 +82,7 @@ describe('can serialize and deserialize', () => {
     clock.restore();
   });
 
-  let jsonData = '';
+  let data = {};
   it('can serialize', () => {
     const driverResult = new DriverResult(expectedIndex, expectedTrackName);
     driverResult.name = expectedName;
@@ -95,28 +95,16 @@ describe('can serialize and deserialize', () => {
       driverResult.startLap();
     });
 
-    jsonData = driverResult.toJson();
-    assert.notStrictEqual(jsonData, '');
+    data = driverResult.toFlatData();
+    assert.notDeepStrictEqual(data, {});
   });
   it('it deserializes', () => {
-    const driverResult = DriverResult.fromJson(jsonData);
+    const driverResult = DriverResult.fromFlatData(data);
     assert.strictEqual(driverResult.index, expectedIndex);
     assert.strictEqual(driverResult.name, expectedName);
     assert.strictEqual(driverResult.crashCount, expectedCrashCount);
     assert.deepStrictEqual(driverResult.lapCount, expectedLapTimes.length);
     assert.deepStrictEqual(driverResult.lapTimes, expectedLapTimes);
     assert.deepStrictEqual(driverResult.trackName, expectedTrackName);
-  });
-});
-
-describe('can deserialize already parsed json', () => {
-  const expectedIndex = 896;
-  const driverResult = new DriverResult(expectedIndex);
-  it('can handle pre-parsed json', () => {
-    const jsonData = driverResult.toJson();
-    const data = JSON.parse(jsonData);
-
-    const newDriverResult = DriverResult.fromJson(data);
-    assert.strictEqual(newDriverResult.index, expectedIndex);
   });
 });

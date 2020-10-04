@@ -19,7 +19,7 @@ export default class RaceResults {
     this.startTime = 0;
     this.endTime = undefined;
     this.endRace = raceOverCallback;
-    this.lightsContainer = createRaceLights(3, raceConfig.track.lightsPosition);
+    this.lightsContainer = createRaceLights(0.75, raceConfig.track.lightsPosition);
     this.musicPath = raceConfig.track.music;
   }
 

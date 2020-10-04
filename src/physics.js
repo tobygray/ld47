@@ -19,6 +19,25 @@ const DANGER_THRESHOLD = 0.5;
 // Maxium additional angle added by tail slide
 const MAX_TAIL_ANGLE = 45;
 
+export function getMaxSpeed(track, side) {
+  const radius = track.getRadius(side);
+  if (radius === 0) {
+    return 99999999;
+  }
+  return Math.sqrt((MAX_SIDE_FORCE * Math.abs(radius)) / CAR_MASS);
+}
+
+// note: this ignores the additional friction on corners right now
+export function getBrakingDistance(currentSpeed, targetSpeed) {
+  const accel = (CO_MOVING_FRICTION * DOWNFORCE) / CAR_MASS;
+  return (targetSpeed * targetSpeed - currentSpeed * currentSpeed) / (2 * accel);
+}
+
+export function getStablePower(car) {
+  const forceLoss = (car.speed / MAX_SPEED) * MAX_TORQUE;
+  return (forceLoss + car.currentFriction) / MAX_TORQUE;
+}
+
 export default function physics(delta, car, track, side, raceState) {
   if (car.fallOut > 0) {
     car.fallOut -= delta;
@@ -72,6 +91,7 @@ export default function physics(delta, car, track, side, raceState) {
   } else {
     frictionForce = (circularForce + DOWNFORCE) * CO_MOVING_FRICTION;
   }
+  car.currentFriction = frictionForce;
 
   let netForce = engineForce - frictionForce;
   if (car.speed === 0 && netForce < 0) {

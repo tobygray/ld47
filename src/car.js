@@ -20,6 +20,7 @@ export default class Car {
     this.dangerLevel = 0;
     this.targetAngle = 0;
     this.tailAngle = 0;
+    this.currentFriction = 0;
 
     // unrotated car is pointing up
     const tex = PIXI.utils.TextureCache[`assets/cars/car${this.playerIndex + 1}.png`];

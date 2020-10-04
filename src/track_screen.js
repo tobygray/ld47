@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import Track from './track';
 import RaceResults from './race_results';
 import createRaceLights from './race_start_lights';
+import { getBrakingDistance, getStablePower } from './physics';
 import TimerDisplay from './race_timer';
 
 class TrackScreen {
@@ -27,11 +28,52 @@ class TrackScreen {
     this.timer.container.scale.set(0.5, 0.5);
   }
 
+  ai(car, delta) {
+    let trackIdx = car.currentTrack;
+    let track = this.track.track[trackIdx];
+    const { side } = car;
+    let maxSpeed = track.getMaxSafeSpeed(side);
+    // add the car's speed to work out if we need to start braking this tick
+    let distance = track.getLength(side) - car.distance + delta * car.speed;
+    // arbitrary lookahead of 10 track segments - might be edge cases where this isn't enough
+    for (let i = 0; i < 10; i += 1) {
+      trackIdx = (trackIdx + 1) % this.track.track.length;
+      track = this.track.track[trackIdx];
+      const speed = track.getMaxSafeSpeed(side);
+      if (speed < maxSpeed) {
+        // will need to slow down at some point
+        const brakingDistance = getBrakingDistance(car.speed, speed);
+        if (brakingDistance < distance) {
+          // need to start slowing down now
+          maxSpeed = speed;
+        }
+      }
+      distance += track.getLength(side);
+    }
+
+    let power;
+    if (car.speed > maxSpeed) {
+      // need to brake
+      power = 0;
+    } else if (car.speed < 0.95 * maxSpeed) {
+      // need to accelerate
+      power = 1;
+    } else {
+      // stay at constant speed
+      power = getStablePower(car);
+    }
+    return power;
+  }
+
   gameLoop(delta) {
     this.timer.updateValue(this.raceState.elapsedTime());
     this.raceConfig.controllerHandler.poll();
-    this.track.carA.power = this.controllers[0] ? this.controllers[0].value : 0.7;
-    this.track.carB.power = this.controllers[1] ? this.controllers[1].value : 0.7;
+    this.track.carA.power = this.controllers[0]
+      ? this.controllers[0].value
+      : this.ai(this.track.carA, delta);
+    this.track.carB.power = this.controllers[1]
+      ? this.controllers[1].value
+      : this.ai(this.track.carB, delta);
     if (this.controllers[0]) {
       this.controllers[0].setDangerValue(this.track.carA.dangerLevel);
     }

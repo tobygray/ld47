@@ -1,16 +1,18 @@
 import createRaceLights from './race_start_lights';
+import DriverResult from './api/driver_result';
 
 const sound = require('pixi-sound').default;
 
 const LAP_TARGET = 3;
 
 export default class RaceResults {
-  constructor(raceOverCallback) {
+  constructor(raceConfig, raceOverCallback) {
     // During the race this is absolute time stamps.
     // After the race we go through and calculate actual lap times.
-    this.laptimes = [[], []];
-    this.lapcounts = [0, 0];
-    this.crashcounts = [0, 0];
+    this.driverResults = [new DriverResult(0), new DriverResult(1)];
+    raceConfig.players.forEach((player, index) => {
+      this.driverResults[index].name = player.name;
+    });
     this.startTime = 0;
     this.endTime = undefined;
     this.endRace = raceOverCallback;
@@ -38,14 +40,14 @@ export default class RaceResults {
         car.enabled = true;
       });
       this.startTime = Date.now();
+      this.driverResults.forEach((result) => { result.startTime = this.startTime; });
     };
   }
 
   onCarMovedPiece(car) {
     if (car.currentTrack === 0) {
       // Just started a new lap
-      this.laptimes[car.playerIndex].push(Date.now());
-      this.lapcounts[car.playerIndex] += 1; // We could just compute this from laptimes array length
+      this.driverResults[car.playerIndex].startLap();
       console.log('Car completed a lap: ', car);
     }
 
@@ -55,32 +57,16 @@ export default class RaceResults {
   /* eslint-disable class-methods-use-this */
   onCarFallOut(car) {
     console.log('Car fell out:', car);
-    this.crashcounts[car.playerIndex] += 1;
+    this.driverResults[car.playerIndex].crashed();
   }
 
   // TODO: subclass this an then let other people implement other rules...
   shouldEndRace() {
-    return !this.lapcounts.every((count) => count < LAP_TARGET);
-  }
-
-  computeRealLaptimes() {
-    // At the end of a race our laptimes array is a collection of times when we crossed
-    // the line. This re-computes those to be the times of each actual lap!
-    this.laptimes = this.laptimes.map((times) => {
-      const arr = [];
-      let lastTime = this.startTime;
-      times.forEach((t) => {
-        arr.push(t - lastTime);
-        lastTime = t;
-      });
-      return arr;
-    });
+    return !this.driverResults.every((result) => result.lapCount < LAP_TARGET);
   }
 
   checkEndConditions() {
     if (this.shouldEndRace()) {
-      this.computeRealLaptimes();
-      console.log(this.laptimes);
       // TODO: let 2nd place finish?
       // TODO: pause before calling this so people can see end before insta hitting results screen?
       this.endRace();

@@ -33,16 +33,16 @@ function setupScoreboardScreen(app, raceResults,
 
   // TODO: If number of laps gets to big change to output to be the fastest
   const playerOneScoreText = new PIXI.Text(`
-  Player one
-    Cap Count: ${raceResults.lapcounts[0]}
-    Crashcounts: ${raceResults.crashcounts[0]}
-    Lap Times: ${raceResults.laptimes[0].map((v) => v / 1000).join('s - ')}s
+  ${raceResults.driverResults[0].name}
+    Lap Count: ${raceResults.driverResults[0].lapCount}
+    Crash Count: ${raceResults.driverResults[0].crashCount}
+    Lap Times: ${raceResults.driverResults[0].lapTimes.map((v) => v / 1000).join('s - ')}s
   `, style);
   const playerTwoScoreText = new PIXI.Text(`
-  Player two
-    Cap Count: ${raceResults.lapcounts[1]}
-    Crashcounts: ${raceResults.crashcounts[1]}
-    Lap Times: ${raceResults.laptimes[1].map((v) => v / 1000).join('s - ')}s
+  ${raceResults.driverResults[1].name}
+    Lap Count: ${raceResults.driverResults[1].lapCount}
+    Crash Count: ${raceResults.driverResults[1].crashCount}
+    Lap Times: ${raceResults.driverResults[1].lapTimes.map((v) => v / 1000).join('s - ')}s
   `, style);
   playerOneScoreText.x = 50;
   playerOneScoreText.y = 275;

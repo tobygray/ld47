@@ -51,7 +51,7 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
     screen.gameLoop(delta);
   }
 
-  const raceState = new RaceResults(() => {
+  const raceState = new RaceResults(raceConfig, () => {
     // Our race result object needs a callback to end the race when it sees fit.
     // Our callback needs to remove the ticker *and* call the original callback we
     // were provided with.

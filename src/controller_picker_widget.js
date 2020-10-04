@@ -110,6 +110,10 @@ class ControllerPicker extends PIXI.Container {
 
   destroy() {
     super.destroy();
+    Object.values(this.controllerSelection).forEach((item) => {
+      item.destroy();
+    });
+    this.controllerSelection = {};
     this.newControllerListener.destroy();
     this.newControllerListener = null;
   }

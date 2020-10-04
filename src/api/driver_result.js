@@ -43,7 +43,7 @@ class DriverResult {
   }
 
   crashed() {
-    this._crashCount = 1;
+    this._crashCount += 1;
   }
 }
 

@@ -8,6 +8,8 @@ const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
 const idiv = (a, b) => Math.trunc(a / b);
 const rad = (a) => (a * Math.PI) / 180;
 
+const CAR_LENGTH = 100;
+
 export default class Track {
   constructor(pieces) {
     this.makeTrack(pieces);
@@ -119,7 +121,17 @@ export default class Track {
     // at this point we can safely assume the car is on the right piece of track
     const trackPiece = this.track[car.currentTrack];
     const pos = trackPiece.findPos(car.distance, car.side);
-    const angle = trackPiece.findAngle(car.distance, car.side);
+
+    let rearDist = car.distance - CAR_LENGTH;
+    let rearIdx = car.currentTrack;
+    while (rearDist < 0) {
+      rearIdx = mod(rearIdx - 1, this.track.length);
+      rearDist += this.track[rearIdx].getLength(car.side);
+    }
+    const rearPos = this.track[rearIdx].findPos(rearDist, car.side);
+    const rearX = pos[0] - rearPos[0];
+    const rearY = pos[1] - rearPos[1];
+    const angle = mod((Math.atan2(rearY, rearX) * 180) / Math.PI + 90, 360) + car.tailAngle;
     [car.sprite.x, car.sprite.y] = pos;
     car.sprite.angle = angle;
     // avoid clipping under the next bit of track
@@ -148,8 +160,8 @@ export default class Track {
 
     if (car.fallOut > 0) {
       // car is going to carry on at its present direction + speed
-      car.pos[0] += car.speed * Math.sin(rad(car.angle));
-      car.pos[1] -= car.speed * Math.cos(rad(car.angle));
+      car.pos[0] += delta * car.speed * Math.sin(rad(car.angle));
+      car.pos[1] -= delta * car.speed * Math.cos(rad(car.angle));
       return;
     }
     let dist = car.distance + delta * car.speed;
@@ -163,6 +175,10 @@ export default class Track {
       }
     }
     car.distance = dist;
+
+    let angleDelta = car.targetAngle - car.tailAngle;
+    angleDelta *= (car.speed * delta) / (2 * CAR_LENGTH);
+    car.tailAngle += angleDelta;
   }
 
   applyPhysics(delta, raceState) {

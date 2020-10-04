@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import * as ProgressBar from 'progressbar.js';
 
 PIXI.utils.sayHello('WebGL');
 
@@ -8,7 +9,12 @@ const WORLD_RATIO = WORLD_WIDTH / WORLD_HEIGHT;
 
 let lastWindowSize = [0, 0];
 
+let progressBar;
+
 function loadProgressHandler(loader, resource) {
+  progressBar.animate(loader.progress / 100);
+  document.getElementById('pgtxt').innerHTML = `${loader.progress}%<br />${resource.url}`;
+
   // NOTE: resource.data lets you access the file's raw binary data
 
   // Display the file `url` currently being loaded
@@ -63,6 +69,12 @@ function setup(app, callback) {
 }
 
 function createViewElementInDom(resources, callback) {
+  progressBar = new ProgressBar.Circle('#progress', {
+    color: '#FCB03C',
+    duration: 1000,
+    easing: 'easeInOut',
+  });
+
   const app = new PIXI.Application({
     width: 256, // default: 800
     height: 256, // default: 600
@@ -73,10 +85,18 @@ function createViewElementInDom(resources, callback) {
 
   PIXI.Loader.shared.onProgress.add(loadProgressHandler);
 
+  function cleanupProgressBar() {
+    function removeElement() {
+      document.getElementById('progress').remove();
+      setup(app, callback);
+    }
+    progressBar.animate(1, {}, removeElement);
+  }
+
   // Load stuff for UI
   PIXI.Loader.shared
     .add(resources)
-    .load(() => setup(app, callback));
+    .load(cleanupProgressBar);
 }
 
 export default createViewElementInDom;

@@ -3,7 +3,9 @@ import * as PIXI from 'pixi.js';
 PIXI.sound = require('pixi-sound').default;
 
 export default class Car {
-  constructor() {
+  constructor(index) {
+    this.playerIndex = index;
+
     this.speed = 0;
     this.power = 0;
     this.distance = 0;
@@ -16,7 +18,7 @@ export default class Car {
     this.dangerLevel = 0;
 
     // unrotated car is pointing up
-    const tex = PIXI.utils.TextureCache['assets/cars/car1.png'];
+    const tex = PIXI.utils.TextureCache[`assets/cars/car${this.playerIndex + 1}.png`];
     this.sprite = new PIXI.Sprite(tex);
     // target car width is 58 for scale
     const scale = tex.width / 58;

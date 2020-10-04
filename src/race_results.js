@@ -1,3 +1,5 @@
+import createRaceLights from './race_start_lights';
+
 const sound = require('pixi-sound').default;
 
 const LAP_TARGET = 3;
@@ -14,12 +16,16 @@ export default class RaceResults {
     this.endRace = raceOverCallback;
   }
 
-  start() {
+  start(app, container) {
     sound.play('assets/audio/sfx/321go.mp3', {
       complete: () => {
         this.enableCars();
       },
     });
+
+    /* TODO: use duration from sound to sync better */
+    const lightsContainer = createRaceLights(3, app);
+    container.addChild(lightsContainer);
   }
 
   initCars(carArray) {
@@ -49,6 +55,7 @@ export default class RaceResults {
   /* eslint-disable class-methods-use-this */
   onCarFallOut(car) {
     console.log('Car fell out:', car);
+    this.crashcounts[car.playerIndex] += 1;
   }
 
   // TODO: subclass this an then let other people implement other rules...

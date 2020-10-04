@@ -27,5 +27,8 @@ export default class Car {
     // this.sprite.pivot.y = this.sprite.height / 10;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.1;
+
+    // Audio sample for engine noise
+    //const sound = PIXI
   }
 }

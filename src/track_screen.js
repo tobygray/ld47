@@ -1,4 +1,6 @@
-// import * as PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js';
+// import * as PIXI_sound from 'pixi-sound';
+import 'pixi-sound';
 
 import Track from './track';
 
@@ -25,6 +27,8 @@ class TrackScreen {
     // );
     // bgImage.position.set(0, 0);
     // container.addChild(bgImage);
+    console.log(PIXI.resources);
+    console.log(PIXI.sound);
   }
 
   gameLoop(delta) {
@@ -52,6 +56,9 @@ setupTackEvent.resources = [
   'assets/tracks/Pieces/R2.png',
   'assets/tracks/Pieces/SHO.png',
   'assets/tracks/Pieces/SSHO.png',
+  // Audio samples for race sfx
+  'assets/audio/sfx/idle_engine.mp3',
+  'assets/audio/sfx/321go.mp3',
 ];
 
 export default setupTackEvent;

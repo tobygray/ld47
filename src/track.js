@@ -38,6 +38,9 @@ export default class Track {
       } else if (piece === 'ss') {
         size = 78;
         texture += 'SSHO.png';
+      } else if (piece === 's4') {
+        size = 350;
+        texture += 'STR.png';
       } else {
         texture += 'R';
         let sign = 0;

@@ -51,16 +51,17 @@ describe('Check lap recording', () => {
     driverResult.startLap();
     assert.strictEqual(driverResult.lapCount, 1);
     assert.deepStrictEqual(driverResult.lapTimes, [100]);
-    assert.strictEqual(driverResult.totalTime, 100);
+    assert.strictEqual(driverResult.totalTime, Infinity);
 
     clock.tick(150);
     driverResult.startLap();
     assert.strictEqual(driverResult.lapCount, 2);
     assert.deepStrictEqual(driverResult.lapTimes, [100, 150]);
-    assert.strictEqual(driverResult.totalTime, 250);
+    assert.strictEqual(driverResult.totalTime, Infinity);
 
     clock.tick(75);
     driverResult.startLap();
+    driverResult.finished();
     assert.strictEqual(driverResult.lapCount, 3);
     assert.deepStrictEqual(driverResult.lapTimes, [100, 150, 75]);
     assert.strictEqual(driverResult.totalTime, 325);
@@ -106,5 +107,33 @@ describe('can serialize and deserialize', () => {
     assert.deepStrictEqual(driverResult.lapCount, expectedLapTimes.length);
     assert.deepStrictEqual(driverResult.lapTimes, expectedLapTimes);
     assert.deepStrictEqual(driverResult.trackName, expectedTrackName);
+  });
+});
+
+describe('check DNF status', () => {
+  const driverResult = new DriverResult();
+
+  // Use a fake clock to create fake time data.
+  let clock;
+  beforeEach(() => {
+    clock = sinon.useFakeTimers();
+  });
+  afterEach(() => {
+    clock.restore();
+  });
+
+  it('does not have a total time if unfinished', () => {
+    [120, 130, 140].forEach((delay) => {
+      clock.tick(delay);
+      driverResult.startLap();
+    });
+
+    assert.strictEqual(driverResult.totalTime, Infinity);
+  });
+
+  it('does has a total time if finished', () => {
+    driverResult.finished();
+
+    assert.strictEqual(driverResult.totalTime, 390);
   });
 });

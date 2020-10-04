@@ -27,6 +27,7 @@ function createDriverResult(crashCount, times) {
   for (let i = 0; i < crashCount; i += 1) {
     result.crashed();
   }
+  result.finished();
   return result;
 }
 

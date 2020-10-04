@@ -9,6 +9,7 @@ class KeyboardController extends ControllerBase {
   }
 
   register() {
+    super.register();
     // Register for notifications.
     this.factory.addHandler(this, this.code);
   }

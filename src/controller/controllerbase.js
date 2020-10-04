@@ -13,6 +13,10 @@ class ControllerBase {
   }
 
   /* eslint-disable class-methods-use-this */
+  register() {
+  }
+
+  /* eslint-disable class-methods-use-this */
   remove() {
   }
 

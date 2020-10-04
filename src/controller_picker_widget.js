@@ -24,7 +24,8 @@ class ControllerPicker extends PIXI.Container {
     },
     (controller) => {
       this.handleRemovedController(controller);
-    });
+    },
+    raceConfig.controllers);
 
     if (controllerHandler.touchEventHandler) {
       const addTouchSprite = new PIXI.Sprite(
@@ -78,6 +79,14 @@ class ControllerPicker extends PIXI.Container {
     instructionText.anchor.set(0.5, 0.5);
     instructionText.position.set(this.app.renderer.width / 2, 600);
     this.addChild(instructionText);
+
+    // Add any pre-existing controllers.
+    raceConfig.controllers.forEach((controller, idx) => {
+      console.log('Adding controller from previous config', controller);
+      this.controllerSelection[controller.name] = new ControllerSelection(
+        this.app, this, controller, idx, MAX_PLAYERS,
+      );
+    });
   }
 
   handleNewController(controller) {

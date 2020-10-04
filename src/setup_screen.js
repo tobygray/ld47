@@ -64,6 +64,7 @@ setupRaceConfigScreen.resources = [
   'ui/icons/launch-race.png',
   ...TRACK_INFO.map((track) => track.preview_file),
   ...TRACK_INFO.filter((track) => track.background).map((track) => track.background),
+  ...TRACK_INFO.filter((track) => track.music).map((track) => track.music),
 ];
 
 export default setupRaceConfigScreen;

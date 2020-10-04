@@ -1,7 +1,13 @@
 import * as PIXI from 'pixi.js';
 import Track from './track';
 
-const TRACK_DATA = ['s', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'r1', 'r1', 'r1', 'r1', 'r1', 'r1', 'r1', 'r1', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'l1', 'l1', 'l1', 'l1', 'l1', 'l1', 'l1', 'l1', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'l4', 'l4', 'l4', 'l4', 'l4', 'l4', 'l4', 'l4', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'l1', 'l1', 'l1', 'l1', 'l1', 'l1', 'l1', 's', 's', 'l2', 'ss', 'ss', 'ss', 'ss', 'ss'];
+const TRACK_DATA = [
+  's', 's', 's', 's', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
+  's', 'r4', 'r4', 'r4', 'r4',
+  's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
+  's', 'r4', 'r4', 'r4', 'r4',
+  's', 's', 's', 's', 's', 's', 's', 's', 's',
+];
 
 const CREDITS = [
   'assets/credits/alan.png',
@@ -25,8 +31,8 @@ function setupWelcomeScreen(app, completionFunction) {
   // TODO work out the scaling factors here properly - this is the same hack as editor and race
   track.container.scale.x = 0.5;
   track.container.scale.y = 0.5;
-  track.container.x = 300;
-  track.container.y = 400;
+  track.container.x = app.renderer.width / 2;
+  track.container.y = app.renderer.height / 8;
 
   const menuLoop = (() => {
     const creditSprites = CREDITS.map((imgPath) => {
@@ -44,8 +50,8 @@ function setupWelcomeScreen(app, completionFunction) {
     let activeCredit;
     function menuLoopImpl(delta) {
       // Run cars real nice and slow?
-      track.carA.power = 0.75;
-      track.carB.power = 0.5;
+      track.carA.power = 0.468;
+      track.carB.power = 0.451;
 
       track.updateCars(delta);
       // Every 20 segments we change the credit

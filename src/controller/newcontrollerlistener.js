@@ -22,7 +22,8 @@ class NewControllerListener {
       this.removedControllerReported(controller);
     });
     if (alreadyReported) {
-      alreadyReported.forEach((controller) => {
+      alreadyReported.forEach((player) => {
+        const { controller } = player;
         this.reported[controller.name] = controller;
         controller.register();
       });

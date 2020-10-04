@@ -8,8 +8,16 @@ class MouseEventHandler {
     this.mouseController = new MouseController(this);
     this._downPos = null;
     this._moveListener = (event) => { this.onMouseMove(event); };
-    window.addEventListener('mousedown', (event) => { this.onMouseDown(event); });
-    window.addEventListener('mouseup', (event) => { this.onMouseUp(event); });
+    window.addEventListener(
+      'mousedown',
+      (event) => { this.onMouseDown(event); },
+      { passive: true },
+    );
+    window.addEventListener(
+      'mouseup',
+      (event) => { this.onMouseUp(event); },
+      { passive: true },
+    );
   }
 
   onMouseDown(event) {

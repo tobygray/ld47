@@ -2,7 +2,7 @@ class RaceConfig {
   constructor(controllerHandler) {
     this.controllerHandler = controllerHandler;
     this._track = null;
-    this._controllers = [];
+    this._players = [];
     this._changeListener = null;
   }
 
@@ -19,24 +19,31 @@ class RaceConfig {
     return this._track;
   }
 
-  addController(controller) {
-    this._controllers.push(controller);
+  addPlayer(player) {
+    this._players.push(player);
     this._updated();
   }
 
-  removeController(controller) {
-    this._controllers = this._controllers.filter(
-      (item) => item !== controller,
+  removePlayer(player) {
+    this._players = this._players.filter(
+      (item) => item !== player,
     );
     this._updated();
   }
 
-  get controllers() {
-    return [...this._controllers];
+  removeController(controller) {
+    this._players = this._players.filter(
+      (item) => item.controller !== controller,
+    );
+    this._updated();
+  }
+
+  get players() {
+    return [...this._players];
   }
 
   get valid() {
-    return (this._controllers.length > 0) && this._track;
+    return (this._players.length > 0) && this._track;
   }
 
   _updated() {

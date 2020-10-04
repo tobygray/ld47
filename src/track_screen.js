@@ -17,10 +17,10 @@ class TrackScreen {
     this.track = new Track(raceConfig.track.pieces);
     this.container = this.track.container;
     // TODO work out the scaling factors here properly
-    this.container.scale.x = 0.5;
-    this.container.scale.y = 0.5;
-    this.container.x = 600;
-    this.container.y = 400;
+    this.container.scale.x = raceConfig.track.scale;
+    this.container.scale.y = raceConfig.track.scale;
+    this.container.x = raceConfig.track.x;
+    this.container.y = raceConfig.track.y;
 
     this.raceState = raceState;
 

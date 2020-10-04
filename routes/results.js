@@ -8,22 +8,13 @@ const resultsRankerMap = {};
 
 /* GET home page. */
 router.post('/driver', (req, res, _next) => {
-  const driverResult = DriverResult.fromJson(req.body);
-  console.log('Got driver result', driverResult);
-  if (!(driverResult.trackName in resultsRankerMap)) {
+  const driverResults = req.body.map((s) => DriverResult.fromFlatData(s));
+  const { trackName } = driverResults[0];
+  if (!(trackName in resultsRankerMap)) {
     // First results for lap.
-    resultsRankerMap[driverResult.trackName] = new ResultsRanker();
+    resultsRankerMap[trackName] = new ResultsRanker();
   }
-  const ranks = resultsRankerMap[driverResult.trackName].addResults(driverResult);
-  const response = {
-    message: 'thank you',
-    lapRank: ranks.lapRank,
-    lapCount: ranks.lapCount,
-    totalRank: ranks.totalRank,
-    totalCount: ranks.totalCount,
-    crashRank: ranks.crashRank,
-    crashCount: ranks.crashCount,
-  };
+  const response = resultsRankerMap[trackName].addResults(driverResults);
   res.json(response);
 });
 

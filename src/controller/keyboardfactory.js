@@ -6,8 +6,6 @@ const START_KEYS = {
   ArrowUp: null,
 };
 
-const ENABLE_DEBUG_KEY = 'KeyD';
-
 class KeyboardFactory {
   constructor(keyboardEventHandler) {
     this.keyboardEventHandler = keyboardEventHandler;
@@ -16,7 +14,6 @@ class KeyboardFactory {
     Object.keys(START_KEYS).forEach((code) => {
       this.keyboardEventHandler.addHandler(this, code);
     });
-    this.keyboardEventHandler.addHandler(this, ENABLE_DEBUG_KEY);
   }
 
   setNewControllerListener(listener) {
@@ -27,7 +24,6 @@ class KeyboardFactory {
     Object.keys(START_KEYS).forEach((code) => {
       this.keyboardEventHandler.removeHandler(this, code);
     });
-    this.keyboardEventHandler.removeHandler(this, ENABLE_DEBUG_KEY);
   }
 
   keyDownEvent(event) {
@@ -39,13 +35,6 @@ class KeyboardFactory {
           START_KEYS[event.code].register();
         }
         this.newControllerListener(START_KEYS[event.code]);
-      }
-    } else if (event.code === ENABLE_DEBUG_KEY) {
-      const controllers = document.getElementById('controllers');
-      if (controllers.style.visibility === 'visible') {
-        controllers.style.visibility = 'hidden';
-      } else {
-        controllers.style.visibility = 'visible';
       }
     }
   }

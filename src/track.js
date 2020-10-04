@@ -32,7 +32,7 @@ export default class Track {
       let size = 0;
       let texture = 'assets/tracks/Pieces/';
       if (piece === 's') {
-        size = 87;
+        size = 87.5;
         texture += 'SHO.png';
       } else if (piece === 'ss') {
         size = 78;

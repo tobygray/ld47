@@ -47,6 +47,7 @@ export default class TimerDisplay {
       return;
     }
 
+    // https://stackoverflow.com/a/19700358
     const milliseconds = timeMs % 1000;
     let seconds = Math.floor((timeMs / 1000) % 60);
     let minutes = Math.floor((timeMs / (1000 * 60)) % 60);

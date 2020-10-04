@@ -6,7 +6,7 @@ const LIGHTS_ORDERED = [
   'assets/lights/light-g.png',
 ];
 
-export default function startRaceLights(timeSec, position) {
+export default function startRaceLights(timeScale, position) {
   const container = new PIXI.Container();
   container.zIndex = 99999; // There, i fixed it
   const lightSprites = LIGHTS_ORDERED.map((imgPath, i) => {
@@ -22,12 +22,12 @@ export default function startRaceLights(timeSec, position) {
       setTimeout(() => {
         lightSprites.forEach((x) => { x.visible = false; });
         sprite.visible = true;
-      }, 1000 * i);
+      }, 1000 * i * timeScale);
     }
     container.addChild(sprite);
     setTimeout(() => {
       container.removeChildren();
-    }, 4000);
+    }, 4000 * timeScale);
 
     return sprite;
   });

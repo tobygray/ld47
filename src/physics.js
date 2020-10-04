@@ -15,7 +15,7 @@ const MAX_SIDE_FORCE = 2;
 // How close to losing grip that danger starts to happen (as a proportion of MAX_SIDE_FAULT)
 const DANGER_THERSHOLD = 0.5;
 
-export default function physics(delta, car, track, side) {
+export default function physics(delta, car, track, side, raceState) {
   if (car.fallOut > 0) {
     car.fallOut -= delta;
     if (car.fallOut <= 0) {
@@ -42,6 +42,9 @@ export default function physics(delta, car, track, side) {
     car.fallOut = 60;
     // High danger when you're flying through the air.
     car.dangerLevel = 1.0;
+    if (raceState) {
+      raceState.onCarFallOut(car);
+    }
     return;
   }
   if (circularForce > (MAX_SIDE_FORCE * DANGER_THERSHOLD)) {

@@ -12,7 +12,7 @@ const TRACK_INFO = [
   {
     name: 'LOOPER TWO',
     preview_file: 'assets/tracks/2/preview.png',
-    pieces: ['ss', 'ss', 'ss', 'ss', 'ss', 'ss', 'ss', 'ss', 's', 's', 's', 's', 'r4', 'r3', 'r2', 'r1', 's', 's', 'l2', 'l2', 'l1', 'l1', 'l1', 'l1', 'ss', 'ss', 's', 's', 's', 's', 's', 's', 'l2', 'l2', 'l2', 'ss', 's', 's', 's', 'l1', 'l1', 'l1', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'l2', 'l2', 'ss', 'r1', 'r1', 's', 's', 's', 's', 'l1', 'l1', 'l1', 'l1', 's', 'ss', 's', 's', 's', 's', 's', 's', 'r3', 'r2', 'r2', 'r1', 'r1', 'ss', 'ss', 'ss', 'r2', 'r1', 'r1', 'ss', 'ss', 'ss', 'ss', 'ss', 'ss', 'r1', 'r1', 'r1', 'r1', 's', 'ss', 's'],
+    pieces: ['ss', 'ss', 'ss', 'ss', 'ss', 'ss', 'ss', 'ss', 's', 's', 's', 's', 'r4', 'r3', 'r2', 'r1', 's', 's', 'l2', 'l2', 'l1', 'l1', 'l1', 'l1', 'ss', 'ss', 's', 's', 's', 's', 's', 's', 'l2', 'l2', 'l2', 'ss', 's', 's', 's', 'l1', 'l1', 'l1', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'l2', 'l2', 'ss', 'r1', 'r1', 's', 's', 's', 's', 'l1', 'l1', 'l1', 'l1', 's', 'ss', 's', 's', 's', 's', 's', 's', 'r3', 'r2', 'r2', 'r1', 'r1', 'ss', 'ss', 'ss', 'r2', 'r1', 'r1', 'ss', 'ss', 'ss', 'ss', 'ss', 'ss', 'r1', 'r1', 'r1', 'r1', 's', 's', 's'],
   },
   {
     name: 'LOOPTY TREE',

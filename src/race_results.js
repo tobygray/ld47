@@ -20,6 +20,11 @@ export default class RaceResults {
     this.checkEndConditions();
   }
 
+  /* eslint-disable class-methods-use-this */
+  onCarFallOut(car) {
+    console.log('Car fell out:', car);
+  }
+
   // TODO: subclass this an then let other people implement other rules...
   shouldEndRace() {
     return !this.lapcounts.every((count) => count < LAP_TARGET);

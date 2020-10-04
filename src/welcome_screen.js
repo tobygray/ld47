@@ -44,13 +44,13 @@ function setupWelcomeScreen(app, completionFunction) {
     let activeCredit;
     function menuLoopImpl(delta) {
       // Run cars real nice and slow?
-      track.leftCar.power = 0.75;
-      track.rightCar.power = 0.5;
+      track.carA.power = 0.75;
+      track.carB.power = 0.5;
 
       track.updateCars(delta);
       // Every 20 segments we change the credit
-      if (track.rightCar.totalTrack > currentPos && track.rightCar.totalTrack % 20 === 0) {
-        currentPos = track.rightCar.totalTrack;
+      if (track.carB.totalTrack > currentPos && track.carB.totalTrack % 20 === 0) {
+        currentPos = track.carB.totalTrack;
       } else {
         return;
       }

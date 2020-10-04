@@ -3,8 +3,9 @@ import * as PIXI from 'pixi.js';
 PIXI.sound = require('pixi-sound').default;
 
 export default class Car {
-  constructor(index) {
+  constructor(index, side) {
     this.playerIndex = index;
+    this.side = side;
 
     this.speed = 0;
     this.power = 0;

@@ -2,11 +2,11 @@ import * as PIXI from 'pixi.js';
 import Track from './track';
 
 const TRACK_DATA = [
-  's', 's', 's', 's', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
+  's4', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
   's', 'r4', 'r4', 'r4', 'r4',
-  's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
+  's4', 's4', 's4', 's4', 'r4', 'r4', 'r4', 'r4',
   's', 'r4', 'r4', 'r4', 'r4',
-  's', 's', 's', 's', 's', 's', 's', 's', 's',
+  's4', 's4', 's',
 ];
 
 const CREDITS = [

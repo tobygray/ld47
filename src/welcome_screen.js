@@ -76,17 +76,25 @@ function setupWelcomeScreen(app, completionFunction) {
 
   container.addChild(playButton);
 
-  window.addEventListener('click', function playClickEvent(ev) {
+  function playClickTouchEvent(ev) {
     console.log(ev);
     app.stage.removeChild(container);
     app.ticker.remove(menuLoop);
-    window.removeEventListener('click', playClickEvent);
+    window.removeEventListener('click', playClickTouchEvent);
+    window.removeEventListener('touchend', playClickTouchEvent);
     completionFunction();
-  });
+  }
+  window.addEventListener('click', playClickTouchEvent);
+  window.addEventListener('touchend', playClickTouchEvent);
   // Only go full screen on the first user click.
   document.onclick = () => {
     document.body.requestFullscreen();
     document.onclick = null;
+  };
+  // Only go full screen on the first user tap.
+  document.ontouchend = () => {
+    document.body.requestFullscreen();
+    document.ontouchend = null;
   };
   // But always go full screen on double click.
   document.ondblclick = () => {

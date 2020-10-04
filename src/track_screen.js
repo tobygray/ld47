@@ -58,7 +58,7 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
   screen = new TrackScreen(app, raceConfig, raceState);
   app.ticker.add(ticker);
 
-  raceState.initCars([screen.track.leftCar, screen.track.rightCar]);
+  raceState.initCars([screen.track.carA, screen.track.carB]);
   raceState.start();
 
   return screen.container;

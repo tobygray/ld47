@@ -1,8 +1,6 @@
 import Track from './track';
 import RaceResults from './race_results';
 
-const sound = require('pixi-sound').default;
-
 class TrackScreen {
   constructor(app, raceConfig, raceState) {
     this.app = app;
@@ -59,7 +57,10 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
   });
   screen = new TrackScreen(app, raceConfig, raceState);
   app.ticker.add(ticker);
-  sound.play('assets/audio/sfx/321go.mp3');
+
+  raceState.initCars([screen.track.carA, screen.track.carB]);
+  raceState.start();
+
   return screen.container;
 }
 

@@ -7,6 +7,7 @@ export default class Car {
     this.playerIndex = index;
     this.side = side;
 
+    this.enabled = true; // For use before and after races
     this.speed = 0;
     this.power = 0;
     this.distance = 0;

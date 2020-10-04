@@ -5,10 +5,12 @@ class DriverResult {
     this._lapTimes = [];
     this._crashCount = 0;
     this._startTime = 0;
+    this._lapStartTime = 0;
   }
 
   set startTime(startTime) {
     this._startTime = startTime;
+    this._lapStartTime = startTime;
   }
 
   set name(name) {
@@ -35,7 +37,9 @@ class DriverResult {
   }
 
   startLap() {
-    this._lapTimes.push(Date.now() - this._startTime);
+    const now = Date.now();
+    this._lapTimes.push(now - this._lapStartTime);
+    this._lapStartTime = now;
   }
 
   crashed() {

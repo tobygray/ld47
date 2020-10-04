@@ -13,9 +13,9 @@ export default class Track {
     this.makeTrack(pieces);
     this.makeTrackContainer(this.track);
 
-    this.leftCar = new Car();
+    this.leftCar = new Car(0);
     this.container.addChild(this.leftCar.sprite);
-    this.rightCar = new Car();
+    this.rightCar = new Car(1);
     this.container.addChild(this.rightCar.sprite);
   }
 
@@ -113,12 +113,12 @@ export default class Track {
     car.angle = angle;
   }
 
-  moveCars(delta) {
-    this.moveCar(delta, this.leftCar, 'left');
-    this.moveCar(delta, this.rightCar, 'right');
+  moveCars(delta, raceState) {
+    this.moveCar(delta, this.leftCar, 'left', raceState);
+    this.moveCar(delta, this.rightCar, 'right', raceState);
   }
 
-  moveCar(delta, car, side) {
+  moveCar(delta, car, side, raceState) {
     if (car.fallOut > 0) {
       // car is going to carry on at its present direction + speed
       car.pos[0] += car.speed * Math.sin(rad(car.angle));
@@ -131,6 +131,9 @@ export default class Track {
       car.totalTrack += 1;
       car.currentTrack = mod(car.totalTrack, this.track.length);
       car.currentLap = idiv(car.totalTrack, this.track.length);
+      if (raceState) {
+        raceState.onCarMovedPiece(car);
+      }
     }
     car.distance = dist;
   }
@@ -154,9 +157,9 @@ export default class Track {
     this.rightCar.engineSound.volume = 0.5 + (this.rightCar.power / 2);
   }
 
-  updateCars(delta) {
+  updateCars(delta, raceState) {
     this.applyPhysics(delta);
-    this.moveCars(delta);
+    this.moveCars(delta, raceState);
     this.positionCars();
     this.updateEngineSounds();
   }

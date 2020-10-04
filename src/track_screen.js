@@ -19,7 +19,7 @@ class TrackScreen {
     // TODO work out the scaling factors here properly
     this.container.scale.x = 0.5;
     this.container.scale.y = 0.5;
-    this.container.x = 300;
+    this.container.x = 600;
     this.container.y = 400;
 
     this.raceState = raceState;

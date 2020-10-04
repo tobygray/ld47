@@ -41,6 +41,10 @@ class DriverResult {
     return [...this._lapTimes];
   }
 
+  get totalTime() {
+    return this._lapTimes.reduce((a, b) => a + b, 0);
+  }
+
   get crashCount() {
     return this._crashCount;
   }

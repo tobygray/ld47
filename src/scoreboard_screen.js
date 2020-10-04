@@ -18,7 +18,7 @@ const style = new PIXI.TextStyle({
   lineJoin: 'round',
 });
 
-function postResultsToServer(results) {
+function postResultsToServer(results, textControl) {
   fetch('/results/driver', {
     method: 'POST',
     headers: {
@@ -29,6 +29,11 @@ function postResultsToServer(results) {
     .then((response) => response.json())
     .then((data) => {
       console.log('Success:', data);
+      textControl.text += `
+
+      World Lap: ${data.lapRank}/${data.lapCount}
+      World Race Time: ${data.totalRank}/${data.totalCount}
+      World Crash Rank: ${data.crashRank}/${data.crashCount}`;
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -41,9 +46,6 @@ function setupScoreboardScreen(app, raceResults,
   // TODO: post scores to server.
   // TODO: render scores from server.
   const container = new PIXI.Container();
-
-  postResultsToServer(raceResults.driverResults[0]);
-  postResultsToServer(raceResults.driverResults[1]);
 
   const richText = new PIXI.Text('Rich text with a lot of options and across multiple lines', style);
   richText.x = 50;
@@ -69,6 +71,9 @@ function setupScoreboardScreen(app, raceResults,
 
   playerTwoScoreText.x = app.renderer.width / 2;
   playerTwoScoreText.y = 275;
+
+  postResultsToServer(raceResults.driverResults[0], playerOneScoreText);
+  postResultsToServer(raceResults.driverResults[1], playerTwoScoreText);
 
   container.addChild(playerOneScoreText);
 

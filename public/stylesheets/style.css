@@ -20,6 +20,7 @@ a {
 }
 
 .progress > svg {
-  height: 50%;
+  height: 80vh;
+  width: 80vw;
   display: block;
 }

@@ -40,6 +40,11 @@ class DriverResult {
     return this._crashCount;
   }
 
+  get currentLapElapsed() {
+    const now = Date.now();
+    return now - this._lapStartTime;
+  }
+
   startLap() {
     const now = Date.now();
     this._lapTimes.push(now - this._lapStartTime);

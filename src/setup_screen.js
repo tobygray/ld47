@@ -31,12 +31,15 @@ function setupRaceConfigScreen(app, controllerHandler, raceConfig, transitionToR
   launchButton.tint = DISABLED_TINT;
   container.addChild(launchButton);
 
-  raceConfig.setChangeListener(() => {
+  const validityChecker = () => {
     const { valid } = raceConfig;
     launchButton.buttonMode = valid;
     launchButton.interactive = valid;
     launchButton.tint = valid ? NO_TINT : DISABLED_TINT;
-  });
+  };
+  raceConfig.setChangeListener(validityChecker);
+  // Current state might be valid if inherited from a previous race.
+  validityChecker();
 
   launchButton.on('pointertap', (ev) => {
     console.log(ev);

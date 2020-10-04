@@ -12,7 +12,7 @@ class KeyboardFactory {
     this.newControllerListener = null;
 
     Object.keys(START_KEYS).forEach((code) => {
-      this.keyboardEventHandler.addHandler(this, code);
+      this.keyboardEventHandler.addFactoryHandler(this, code);
     });
   }
 
@@ -22,7 +22,7 @@ class KeyboardFactory {
 
   destroy() {
     Object.keys(START_KEYS).forEach((code) => {
-      this.keyboardEventHandler.removeHandler(this, code);
+      this.keyboardEventHandler.removeFactoryHandler(this, code);
     });
   }
 

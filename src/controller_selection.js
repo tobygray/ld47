@@ -66,10 +66,10 @@ class ControllerSelection {
   destroy() {
     this.controller.setChangeListener(null);
     this.container.removeChild(this.controllerSprite);
-    this.container.removeChild(this._playerText);
+    this.container.removeChild(this._playerNameInput);
     this.container.removeChild(this._deleteSprite);
     this.controllerSprite = null;
-    this._playerText = null;
+    this._playerNameInput = null;
   }
 
   setIndex(idx) {

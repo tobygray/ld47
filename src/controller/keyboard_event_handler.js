@@ -1,8 +1,16 @@
 class KeyboardEventHandler {
   constructor() {
     this.listeners = {};
-    window.addEventListener('keydown', (event) => { this.keyDownListener(event); }, true);
-    window.addEventListener('keyup', (event) => { this.keyUpListener(event); }, true);
+    window.addEventListener(
+      'keydown',
+      (event) => { this.keyDownListener(event); },
+      { passive: true },
+    );
+    window.addEventListener(
+      'keyup',
+      (event) => { this.keyUpListener(event); },
+      { passive: true },
+    );
   }
 
   addHandler(listener, code) {
@@ -16,16 +24,20 @@ class KeyboardEventHandler {
   }
 
   keyDownListener(event) {
+    if (document.activeElement.tagName === 'INPUT') {
+      return;
+    }
     if (event.code in this.listeners) {
       this.listeners[event.code].keyDownEvent(event);
-      event.preventDefault();
     }
   }
 
   keyUpListener(event) {
+    if (document.activeElement.tagName === 'INPUT') {
+      return;
+    }
     if (event.code in this.listeners) {
       this.listeners[event.code].keyUpEvent(event);
-      event.preventDefault();
     }
   }
 }

@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import NewControllerListener from './controller/newcontrollerlistener';
 import ControllerSelection from './controller_selection';
+import Player from './player';
 
 const MAX_PLAYERS = 2;
 
@@ -25,7 +26,7 @@ class ControllerPicker extends PIXI.Container {
     (controller) => {
       this.handleRemovedController(controller);
     },
-    raceConfig.controllers);
+    raceConfig.players);
 
     if (controllerHandler.touchEventHandler) {
       const addTouchSprite = new PIXI.Sprite(
@@ -81,26 +82,28 @@ class ControllerPicker extends PIXI.Container {
     this.addChild(instructionText);
 
     // Add any pre-existing controllers.
-    raceConfig.controllers.forEach((controller, idx) => {
-      console.log('Adding controller from previous config', controller);
-      this.controllerSelection[controller.name] = new ControllerSelection(
-        this.app, this, controller, idx, MAX_PLAYERS,
+    raceConfig.players.forEach((player, idx) => {
+      console.log('Adding player from previous config', player);
+      this.controllerSelection[player.controller.name] = new ControllerSelection(
+        this.app, this, player, idx, MAX_PLAYERS,
       );
     });
   }
 
   handleNewController(controller) {
-    const { controllers } = this.raceConfig;
-    if (controllers.length >= MAX_PLAYERS) {
+    const { players } = this.raceConfig;
+    if (players.length >= MAX_PLAYERS) {
       console.log('Ignoring new controller as at maximum players', controller);
       return;
     }
     console.log('New controller', controller);
-    const idx = controllers.length;
+    const idx = players.length;
+    const playerName = window.localStorage.getItem(`player-${idx}`);
+    const player = new Player(playerName, controller);
     this.controllerSelection[controller.name] = new ControllerSelection(
-      this.app, this, controller, idx, MAX_PLAYERS,
+      this.app, this, player, idx, MAX_PLAYERS,
     );
-    this.raceConfig.addController(controller);
+    this.raceConfig.addPlayer(player);
   }
 
   userRequestedRemoveController(controller) {
@@ -118,6 +121,8 @@ class ControllerPicker extends PIXI.Container {
   }
 
   destroy() {
+    this._persistPlayerNames();
+
     super.destroy();
     Object.values(this.controllerSelection).forEach((item) => {
       item.destroy();
@@ -125,6 +130,14 @@ class ControllerPicker extends PIXI.Container {
     this.controllerSelection = {};
     this.newControllerListener.destroy();
     this.newControllerListener = null;
+  }
+
+  _persistPlayerNames() {
+    this.raceConfig.players.forEach((player, index) => {
+      if (player.name) {
+        window.localStorage.setItem(`player-${index}`, player.name);
+      }
+    });
   }
 }
 

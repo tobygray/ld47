@@ -8,7 +8,7 @@ class TrackScreen {
   constructor(app, raceConfig, raceState) {
     this.app = app;
     this.raceConfig = raceConfig;
-    this.controllers = raceConfig.controllers;
+    this.controllers = raceConfig.players.map((value) => value.controller);
 
     this.raceConfig.controllerHandler.disablePolling();
 

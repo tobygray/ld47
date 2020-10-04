@@ -6,14 +6,18 @@ const CO_STATIC_FRICTION = 0.9;
 const DOWNFORCE = 1;
 // adjusting this affects how slowly the car responds to a net force
 const CAR_MASS = 1;
+// adjusting this affects the maximum acceleration
 const MAX_TORQUE = 2;
 // not the actual top speed - the point at which the motor can't produce any torque
 // but leads to the top speed, along with the friction
 const MAX_SPEED = 66;
 // side force limit before falling out of track
-const MAX_SIDE_FORCE = 2;
-// How close to losing grip that danger starts to happen (as a proportion of MAX_SIDE_FAULT)
-const DANGER_THERSHOLD = 0.5;
+const MAX_SIDE_FORCE = 4;
+const MAX_SIDE_FORCE_SQRT = Math.sqrt(MAX_SIDE_FORCE);
+// How close to losing grip that danger starts to happen (as a proportion of MAX_SIDE_FORCE)
+const DANGER_THRESHOLD = 0.5;
+// Maxium additional angle added by tail slide
+const MAX_TAIL_ANGLE = 45;
 
 export default function physics(delta, car, track, side, raceState) {
   if (car.fallOut > 0) {
@@ -26,9 +30,10 @@ export default function physics(delta, car, track, side, raceState) {
   }
   let engineForce = car.power * MAX_TORQUE;
   // electric motors have a linear torque/speed graph
-  const forceMax = ((MAX_SPEED - car.speed) / MAX_SPEED) * MAX_TORQUE;
-  if (engineForce > forceMax) {
-    engineForce = forceMax;
+  const forceLoss = (car.speed / MAX_SPEED) * MAX_TORQUE;
+  engineForce -= forceLoss;
+  if (engineForce < 0) {
+    engineForce = 0;
   }
 
   const radius = track.getRadius(side);
@@ -47,12 +52,18 @@ export default function physics(delta, car, track, side, raceState) {
     }
     return;
   }
-  if (circularForce > (MAX_SIDE_FORCE * DANGER_THERSHOLD)) {
+  const circularForceSqrt = Math.sqrt(circularForce);
+  if (circularForceSqrt > (MAX_SIDE_FORCE_SQRT * DANGER_THRESHOLD)) {
     car.dangerLevel = (
-      ((circularForce / MAX_SIDE_FORCE) - DANGER_THERSHOLD) / (1 - DANGER_THERSHOLD)
+      ((circularForceSqrt / MAX_SIDE_FORCE_SQRT) - DANGER_THRESHOLD) / (1 - DANGER_THRESHOLD)
     );
   } else {
     car.dangerLevel = 0.0;
+  }
+
+  car.targetAngle = MAX_TAIL_ANGLE * car.dangerLevel;
+  if (radius < 0) {
+    car.targetAngle *= -1;
   }
 
   let frictionForce;

@@ -32,8 +32,8 @@ class TrackScreen {
 
   gameLoop(delta) {
     this.raceConfig.controllerHandler.poll();
-    this.track.carA.power = this.controllers[0] ? this.controllers[0].value : 0.5;
-    this.track.carB.power = this.controllers[1] ? this.controllers[1].value : 0.5;
+    this.track.carA.power = this.controllers[0] ? this.controllers[0].value : 0.7;
+    this.track.carB.power = this.controllers[1] ? this.controllers[1].value : 0.7;
     if (this.controllers[0]) {
       this.controllers[0].setDangerValue(this.track.carA.dangerLevel);
     }

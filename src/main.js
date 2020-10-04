@@ -35,7 +35,10 @@ function setup(app) {
     //       be closures holding references to the previous setup in order to handle
     //       default settings for the new race.
     const scoreboardScreen = setupScoreboardScreen(
-      app, raceResults, transitionToConfigScreen, () => transitionToActualRace(raceConfig),
+      app,
+      raceResults,
+      () => transitionToConfigScreen(raceConfig),
+      () => transitionToActualRace(raceConfig),
     );
     app.stage.addChild(scoreboardScreen);
   }
@@ -47,10 +50,11 @@ function setup(app) {
     app.stage.addChild(trackScreen);
   };
 
-  transitionToConfigScreen = () => {
+  transitionToConfigScreen = (raceConfig = null) => {
     console.log('Transitioning to config screen');
     resetScreenAndSound();
-    const setupScreen = setupRaceConfigScreen(app, controllerHandler, transitionToActualRace);
+    const setupScreen = setupRaceConfigScreen(app, controllerHandler, raceConfig,
+      transitionToActualRace);
     app.stage.addChild(setupScreen);
   };
 

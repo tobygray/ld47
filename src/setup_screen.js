@@ -7,8 +7,10 @@ import RaceConfig from './race_config';
 const NO_TINT = 0xFFFFFF;
 const DISABLED_TINT = 0x999999;
 
-function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback) {
-  const raceConfig = new RaceConfig(controllerHandler);
+function setupRaceConfigScreen(app, controllerHandler, raceConfig, transitionToRaceCallback) {
+  if (!raceConfig) {
+    raceConfig = new RaceConfig(controllerHandler);
+  }
   const container = new PIXI.Container();
 
   const bgImage = new PIXI.Sprite(

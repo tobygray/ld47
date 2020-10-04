@@ -55,6 +55,7 @@ class DriverResult {
       index: this._index,
       player_name: this._name,
       crash_count: this._crashCount,
+      lap_times: this._lapTimes,
     };
     return JSON.stringify(data);
   }
@@ -65,6 +66,7 @@ class DriverResult {
     const ret = new DriverResult(data.index);
     ret.name = data.player_name;
     ret._crashCount = data.crash_count;
+    ret._lapTimes = data.lap_times;
     return ret;
   }
 }

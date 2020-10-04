@@ -65,6 +65,16 @@ describe('can serialize and deserialize', () => {
   const expectedIndex = 123;
   const expectedName = 'Nigel';
   const expectedCrashCount = 7;
+  const expectedLapTimes = [123, 987, 23, 43];
+  // Use a fake clock to create fake time data.
+  let clock;
+  beforeEach(() => {
+    clock = sinon.useFakeTimers();
+  });
+  afterEach(() => {
+    clock.restore();
+  });
+
   let jsonData = '';
   it('can serialize', () => {
     const driverResult = new DriverResult(expectedIndex);
@@ -72,6 +82,11 @@ describe('can serialize and deserialize', () => {
     for (let i = 0; i < expectedCrashCount; i += 1) {
       driverResult.crashed();
     }
+    driverResult.startTime = Date.now();
+    expectedLapTimes.forEach((delay) => {
+      clock.tick(delay);
+      driverResult.startLap();
+    });
 
     jsonData = driverResult.toJson();
     assert.notStrictEqual(jsonData, '');
@@ -81,5 +96,7 @@ describe('can serialize and deserialize', () => {
     assert.strictEqual(driverResult.index, expectedIndex);
     assert.strictEqual(driverResult.name, expectedName);
     assert.strictEqual(driverResult.crashCount, expectedCrashCount);
+    assert.deepStrictEqual(driverResult.lapCount, expectedLapTimes.length);
+    assert.deepStrictEqual(driverResult.lapTimes, expectedLapTimes);
   });
 });

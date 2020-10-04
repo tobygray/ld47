@@ -55,7 +55,7 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
     // Our callback needs to remove the ticker *and* call the original callback we
     // were provided with.
     app.ticker.remove(ticker);
-    raceOverCallback();
+    raceOverCallback(raceConfig, raceState);
   });
   screen = new TrackScreen(app, raceConfig, raceState);
   app.ticker.add(ticker);

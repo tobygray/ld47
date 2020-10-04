@@ -2,7 +2,7 @@ import createViewElementInDom from './viewer';
 
 import setupRaceConfigScreen from './setup_screen';
 import setupWelcomeScreen from './welcome_screen';
-import setupTackEvent from './track_screen';
+import setupTrackEvent from './track_screen';
 import setupScoreboardScreen from './scoreboard_screen';
 import ControllerHandler from './controller/handler';
 
@@ -11,7 +11,7 @@ const sound = require('pixi-sound').default;
 const ALL_SCREEN_RESOURCES = [
   setupWelcomeScreen.resources,
   setupRaceConfigScreen.resources,
-  setupTackEvent.resources,
+  setupTrackEvent.resources,
   setupScoreboardScreen.resources,
 ];
 
@@ -27,7 +27,7 @@ function setup(app) {
     sound.stopAll();
   }
 
-  function transitionToScoreboard(raceConfig) {
+  function transitionToScoreboard(raceConfig, raceResults) {
     console.log('Transitioning to scoreboard');
     resetScreenAndSound();
     controllerHandler.enablePolling();
@@ -35,7 +35,7 @@ function setup(app) {
     //       be closures holding references to the previous setup in order to handle
     //       default settings for the new race.
     const scoreboardScreen = setupScoreboardScreen(
-      app, transitionToConfigScreen, () => transitionToActualRace(raceConfig),
+      app, raceResults, transitionToConfigScreen, () => transitionToActualRace(raceConfig),
     );
     app.stage.addChild(scoreboardScreen);
   }
@@ -43,7 +43,7 @@ function setup(app) {
   transitionToActualRace = (raceConfig) => {
     console.log('Trqnsistioning to Race, yes I Cant spell!');
     resetScreenAndSound();
-    const trackScreen = setupTackEvent(app, transitionToScoreboard, raceConfig);
+    const trackScreen = setupTrackEvent(app, transitionToScoreboard, raceConfig);
     app.stage.addChild(trackScreen);
   };
 

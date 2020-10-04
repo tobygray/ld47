@@ -1,4 +1,4 @@
-import ControllerBase from './controllerbase';
+import ControllerBase from './controller_base';
 
 function generateVibratePattern(lengthMs, intensity) {
   // Use a duty cycle over the length of the specified period.

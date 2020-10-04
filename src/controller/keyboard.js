@@ -1,4 +1,4 @@
-import ControllerBase from './controllerbase';
+import ControllerBase from './controller_base';
 
 class KeyboardController extends ControllerBase {
   constructor(factory, code) {

@@ -2,8 +2,24 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: black;
+  color: white;
 }
 
 a {
   color: #00B7FF;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 90vh;
+  z-index: 999;
+}
+
+.progress > svg {
+  height: 50%;
+  display: block;
 }

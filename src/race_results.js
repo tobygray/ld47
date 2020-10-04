@@ -75,7 +75,6 @@ export default class RaceResults {
     if (car.currentTrack === 0) {
       // Just started a new lap
       this.driverResults[car.playerIndex].startLap();
-      console.log('Car completed a lap: ', car);
     }
 
     this.checkEndConditions();
@@ -83,7 +82,6 @@ export default class RaceResults {
 
   /* eslint-disable class-methods-use-this */
   onCarFallOut(car) {
-    console.log('Car fell out:', car);
     this.driverResults[car.playerIndex].crashed();
   }
 

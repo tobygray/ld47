@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const { default: DriverResult } = require('../src/api/driver_result.js');
+const { DriverResult } = require('../src/api/driver_result.js');
 
 describe('Check crash count', () => {
   const driverResult = new DriverResult();
@@ -98,5 +98,17 @@ describe('can serialize and deserialize', () => {
     assert.strictEqual(driverResult.crashCount, expectedCrashCount);
     assert.deepStrictEqual(driverResult.lapCount, expectedLapTimes.length);
     assert.deepStrictEqual(driverResult.lapTimes, expectedLapTimes);
+  });
+});
+
+describe('can deserialize already parsed json', () => {
+  const expectedIndex = 896;
+  const driverResult = new DriverResult(expectedIndex);
+  it('can handle pre-parsed json', () => {
+    const jsonData = driverResult.toJson();
+    const data = JSON.parse(jsonData);
+
+    const newDriverResult = DriverResult.fromJson(data);
+    assert.strictEqual(newDriverResult.index, expectedIndex);
   });
 });

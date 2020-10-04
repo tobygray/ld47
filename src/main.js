@@ -6,6 +6,8 @@ import setupTackEvent from './track_screen';
 import setupScoreboardScreen from './scoreboard_screen';
 import ControllerHandler from './controller/handler';
 
+const sound = require('pixi-sound').default;
+
 const ALL_SCREEN_RESOURCES = [
   setupWelcomeScreen.resources,
   setupRaceConfigScreen.resources,
@@ -20,9 +22,14 @@ function setup(app) {
   let transitionToConfigScreen;
   let transitionToActualRace;
 
+  function resetScreenAndSound() {
+    app.stage.removeChildren();
+    sound.stopAll();
+  }
+
   function transitionToScoreboard(raceConfig) {
     console.log('Transitioning to scoreboard');
-    app.stage.removeChildren();
+    resetScreenAndSound();
     controllerHandler.enablePolling();
     // TODO: the functions we pass in to this setup for the scoreborad need to actually
     //       be closures holding references to the previous setup in order to handle
@@ -35,7 +42,7 @@ function setup(app) {
 
   transitionToActualRace = (raceConfig) => {
     console.log('Trqnsistioning to Race, yes I Cant spell!');
-    app.stage.removeChildren();
+    resetScreenAndSound();
     const trackScreen = setupTackEvent(app, transitionToScoreboard, raceConfig);
     app.stage.addChild(trackScreen.container);
     app.ticker.add((delta) => trackScreen.gameLoop(delta));
@@ -46,7 +53,7 @@ function setup(app) {
 
   transitionToConfigScreen = () => {
     console.log('Transitioning to config screen');
-    app.stage.removeChildren();
+    resetScreenAndSound();
     const setupScreen = setupRaceConfigScreen(app, controllerHandler, transitionToActualRace);
     app.stage.addChild(setupScreen);
   };

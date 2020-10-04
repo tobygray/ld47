@@ -1,6 +1,6 @@
-// import * as PIXI from 'pixi.js';
-
 import Track from './track';
+
+const sound = require('pixi-sound').default;
 
 class TrackScreen {
   constructor(app, raceOverCallback, raceConfig) {
@@ -43,6 +43,7 @@ class TrackScreen {
 
 function setupTackEvent(_app, _raceOverCallback, raceConfig) {
   const screen = new TrackScreen(_app, _raceOverCallback, raceConfig);
+  sound.play('assets/audio/sfx/321go.mp3');
   return screen;
 }
 
@@ -52,6 +53,9 @@ setupTackEvent.resources = [
   'assets/tracks/Pieces/R2.png',
   'assets/tracks/Pieces/SHO.png',
   'assets/tracks/Pieces/SSHO.png',
+  // Audio samples for race sfx
+  'assets/audio/sfx/idle_engine.mp3',
+  'assets/audio/sfx/321go.mp3',
 ];
 
 export default setupTackEvent;

@@ -1,11 +1,11 @@
 import Track from './track';
+import RaceResults from './race_results';
 
 const sound = require('pixi-sound').default;
 
 class TrackScreen {
-  constructor(app, raceOverCallback, raceConfig) {
+  constructor(app, raceConfig, raceState) {
     this.app = app;
-    this.raceOverCallback = raceOverCallback;
     this.raceConfig = raceConfig;
     this.controllers = raceConfig.controllers;
 
@@ -18,6 +18,8 @@ class TrackScreen {
     this.container.scale.y = 0.5;
     this.container.x = 300;
     this.container.y = 400;
+
+    this.raceState = raceState;
 
     // TODO: Writ actual code to render track here
     // const bgImage = new PIXI.Sprite(
@@ -37,18 +39,21 @@ class TrackScreen {
     if (this.controllers[1]) {
       this.controllers[1].setDangerValue(this.track.rightCar.dangerLevel);
     }
-    this.track.updateCars(delta);
+    this.track.updateCars(delta, this.raceState);
   }
 }
 
-function setupTackEvent(_app, _raceOverCallback, raceConfig) {
-  const screen = new TrackScreen(_app, _raceOverCallback, raceConfig);
+function setupTackEvent(app, raceOverCallback, raceConfig) {
+  const raceState = new RaceResults(raceOverCallback);
+  const screen = new TrackScreen(app, raceConfig, raceState);
   sound.play('assets/audio/sfx/321go.mp3');
   return screen;
 }
 
 setupTackEvent.resources = [
   'assets/cars/car1.png',
+  'assets/cars/car2.png',
+
   'assets/tracks/Pieces/R1.png',
   'assets/tracks/Pieces/R2.png',
   'assets/tracks/Pieces/SHO.png',

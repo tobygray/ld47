@@ -29,6 +29,6 @@ export default class Car {
     this.sprite.anchor.y = 0.1;
 
     // Audio sample for engine noise
-    //const sound = PIXI
+    // const sound = PIXI
   }
 }

@@ -1,8 +1,7 @@
 import * as PIXI from 'pixi.js';
-// import * as PIXI_sound from 'pixi-sound';
-import 'pixi-sound';
-
 import Track from './track';
+
+PIXI.sound = require('pixi-sound').default;
 
 class TrackScreen {
   constructor(app, raceOverCallback, raceConfig) {
@@ -27,8 +26,8 @@ class TrackScreen {
     // );
     // bgImage.position.set(0, 0);
     // container.addChild(bgImage);
-    console.log(PIXI.resources);
-    console.log(PIXI.sound);
+
+    PIXI.sound.play('assets/audio/sfx/idle_engine.mp3', { loop: true });
   }
 
   gameLoop(delta) {

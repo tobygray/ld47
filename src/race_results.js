@@ -55,6 +55,17 @@ export default class RaceResults {
     return Date.now() - this.startTime;
   }
 
+  currentLap(playerIndex) {
+    if (this.startTime) {
+      return this.driverResults[playerIndex].currentLapElapsed;
+    }
+    return 0;
+  }
+
+  bestLap(playerIndex) {
+    return this.driverResults[playerIndex].bestLap;
+  }
+
   onCarMovedPiece(car) {
     if (car.currentTrack === 0) {
       // Just started a new lap

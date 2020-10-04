@@ -22,13 +22,37 @@ class TrackScreen {
     this.container.y = 400;
 
     this.raceState = raceState;
-    this.timer = new TimerDisplay();
-    this.timer.container.position.set(app.renderer.width / 2, 10);
-    this.timer.container.scale.set(0.5, 0.5);
+
+    this.elapsedTimer = new TimerDisplay();
+    this.elapsedTimer.container.position.set((app.renderer.width / 2) - 150, 10);
+    this.elapsedTimer.container.scale.set(0.25, 0.25);
+
+    this.carATimer = new TimerDisplay();
+    this.carATimer.container.position.set(10, app.renderer.height / 4);
+    this.carATimer.container.scale.set(0.25, 0.25);
+
+    this.carAbest = new TimerDisplay();
+    this.carAbest.container.position.set(10, (app.renderer.height / 4) + 60);
+    this.carAbest.container.scale.set(0.25, 0.25);
+
+    this.carBTimer = new TimerDisplay();
+    this.carBTimer.container.position.set(app.renderer.width - 150, app.renderer.height / 4);
+    this.carBTimer.container.scale.set(0.25, 0.25);
+
+    this.carBbest = new TimerDisplay();
+    this.carBbest.container.position.set(app.renderer.width - 150, (app.renderer.height / 4) + 60);
+    this.carBbest.container.scale.set(0.25, 0.25);
   }
 
   gameLoop(delta) {
-    this.timer.updateValue(this.raceState.elapsedTime());
+    this.elapsedTimer.updateValue(this.raceState.elapsedTime());
+    this.carATimer.updateValue(this.raceState.currentLap(0));
+    this.carBTimer.updateValue(this.raceState.currentLap(1));
+
+    // TODO: trigger this in the completed laps code instead
+    this.carAbest.updateValue(this.raceState.bestLap(0));
+    this.carBbest.updateValue(this.raceState.bestLap(1));
+
     this.raceConfig.controllerHandler.poll();
     this.track.carA.power = this.controllers[0] ? this.controllers[0].value : 0.7;
     this.track.carB.power = this.controllers[1] ? this.controllers[1].value : 0.7;
@@ -69,7 +93,11 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
   const container = new PIXI.Container();
   container.addChild(bgImage);
   container.addChild(screen.container);
-  container.addChild(screen.timer.container);
+  container.addChild(screen.elapsedTimer.container);
+  container.addChild(screen.carATimer.container);
+  container.addChild(screen.carAbest.container);
+  container.addChild(screen.carBTimer.container);
+  container.addChild(screen.carBbest.container);
 
   return container;
 }

@@ -30,15 +30,12 @@ export default class TimerDisplay {
   }
 
   static makeSpriteArray(s) {
-    console.log('rendering string - ', s);
     let offset = 0;
     // "00:12:34.01" => [sprite, sprite, sprite]
     return s.split('').map((ch) => [TimerDisplay.charToSpriteName(ch), ch]).map(([imgName, _ch]) => {
-      console.log(imgName);
       const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[imgName]);
       sprite.anchor.set(0, 0);
       sprite.position.set(offset, 0);
-      console.log('Sprite at: ', offset, 0);
       offset += sprite.width;
 
       return sprite;
@@ -46,7 +43,10 @@ export default class TimerDisplay {
   }
 
   updateValue(timeMs) {
-    console.log('Render timer ', timeMs);
+    if (timeMs === Infinity) {
+      return;
+    }
+
     const milliseconds = timeMs % 1000;
     let seconds = Math.floor((timeMs / 1000) % 60);
     let minutes = Math.floor((timeMs / (1000 * 60)) % 60);

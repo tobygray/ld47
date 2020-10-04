@@ -1,13 +1,14 @@
 // adjusting the balance of these affects starting moving and keeping moving, respectively
 const CO_MOVING_FRICTION = 0.6;
 const CO_STATIC_FRICTION = 0.9;
+const CO_SIDE_FRICTION = 0.3;
 // adjusting this affects the non-rotational component of friction, i.e. how much we slow down on
 // a straight line
 const DOWNFORCE = 1;
 // adjusting this affects how slowly the car responds to a net force
 const CAR_MASS = 1;
 // adjusting this affects the maximum acceleration
-const MAX_TORQUE = 2;
+const MAX_TORQUE = 2.5;
 // not the actual top speed - the point at which the motor can't produce any torque
 // but leads to the top speed, along with the friction
 const MAX_SPEED = 66;
@@ -89,7 +90,7 @@ export default function physics(delta, car, track, side, raceState) {
   if (car.speed === 0) {
     frictionForce = DOWNFORCE * CO_STATIC_FRICTION;
   } else {
-    frictionForce = (circularForce + DOWNFORCE) * CO_MOVING_FRICTION;
+    frictionForce = circularForce * CO_SIDE_FRICTION + DOWNFORCE * CO_MOVING_FRICTION;
   }
   car.currentFriction = frictionForce;
 

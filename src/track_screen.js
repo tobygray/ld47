@@ -1,5 +1,6 @@
 import Track from './track';
 import RaceResults from './race_results';
+import createRaceLights from './race_start_lights';
 
 class TrackScreen {
   constructor(app, raceConfig, raceState) {
@@ -59,7 +60,7 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
   app.ticker.add(ticker);
 
   raceState.initCars([screen.track.carA, screen.track.carB]);
-  raceState.start();
+  raceState.start(app, screen.container);
 
   return screen.container;
 }
@@ -77,6 +78,7 @@ setupTackEvent.resources = [
   // Audio samples for race sfx
   'assets/audio/sfx/idle_engine.mp3',
   'assets/audio/sfx/321go.mp3',
+  ...createRaceLights.resources,
 ];
 
 export default setupTackEvent;

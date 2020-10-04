@@ -27,6 +27,7 @@ export default class Track {
     const track = [];
     let pos = [0, 0];
     let angle = 90;
+    let zIndex = 0;
     for (const piece of pieces) {
       let radius = 0;
       let size = 0;
@@ -61,10 +62,11 @@ export default class Track {
         texture += piece[1] + '.png';
         radius *= sign;
       }
-      const trackPiece = new TrackPiece(radius, size, pos, angle, texture);
+      const trackPiece = new TrackPiece(radius, size, pos, angle, texture, zIndex);
       angle = trackPiece.endAngle;
       pos = trackPiece.endPos;
       track.push(trackPiece);
+      zIndex += 1;
     }
     this.track = track;
   }
@@ -82,13 +84,16 @@ export default class Track {
         // track sprites start pointing right
         sprite.angle = mod(piece.startAngle - 90, 360);
         [sprite.x, sprite.y] = piece.startPos;
+        sprite.zIndex = piece.zIndex;
         container.addChild(sprite);
       } else {
         const line = new PIXI.Graphics();
         line.lineStyle(156, 0x666666, 1).moveTo(...piece.startPos).lineTo(...piece.endPos);
+        line.zIndex = piece.zIndex;
         container.addChild(line);
       }
     }
+    container.sortableChildren = true;
     this.container = container;
   }
 
@@ -101,6 +106,11 @@ export default class Track {
     if (car.fallOut > 0) {
       [car.sprite.x, car.sprite.y] = car.pos;
       car.sprite.angle = mod(car.sprite.angle + 5, 360);
+      // arbitrary large value - stops crashing cars sliding under track
+      // if guard on setting zindex avoids triggering spurious sorts
+      if (car.sprite.zIndex !== 400) {
+        car.sprite.zIndex = 400;
+      }
       return;
     }
     // at this point we can safely assume the car is on the right piece of track
@@ -109,6 +119,16 @@ export default class Track {
     const angle = trackPiece.findAngle(car.distance, side);
     [car.sprite.x, car.sprite.y] = pos;
     car.sprite.angle = angle;
+    // avoid clipping under the next bit of track
+    let newZIndex = trackPiece.zIndex + 4;
+    if (newZIndex < 6) {
+      // first two track pieces
+      // set the Z index above the end of the track
+      newZIndex += this.track.length;
+    }
+    if (car.sprite.zIndex !== newZIndex) {
+      car.sprite.zIndex = newZIndex;
+    }
     car.pos = pos;
     car.angle = angle;
   }

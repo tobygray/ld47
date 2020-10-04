@@ -1,3 +1,5 @@
+import { getMaxSpeed } from './physics';
+
 const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
 const rad = (a) => (a * Math.PI) / 180;
 
@@ -30,6 +32,8 @@ export default class TrackPiece {
     this.endPos = this.findPos(this.length);
     this.texture = texture;
     this.zIndex = zIndex;
+    this.maxSafeSpeedLeft = getMaxSpeed(this, 'left');
+    this.maxSafeSpeedRight = getMaxSpeed(this, 'right');
   }
 
   findPos(distance, side = 'middle') {
@@ -111,5 +115,12 @@ export default class TrackPiece {
       return this.rightRadius;
     }
     return this.radius;
+  }
+
+  getMaxSafeSpeed(side) {
+    if (side === 'right') {
+      return this.maxSafeSpeedRight;
+    }
+    return this.maxSafeSpeedLeft;
   }
 }

@@ -31,6 +31,7 @@ function setupScoreboardScreen(app, raceResults,
 
   container.addChild(richText);
 
+  // TODO: If number of laps gets to big change to output to be the fastest
   const playerOneScoreText = new PIXI.Text(`
   Player one
     Cap Count: ${raceResults.lapcounts[0]}

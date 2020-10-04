@@ -26,7 +26,7 @@ class ControllerPicker extends PIXI.Container {
       this.handleRemovedController(controller);
     });
 
-    const instructionText = new PIXI.Text('Press space or a button on a controller to add a player', style);
+    const instructionText = new PIXI.Text('Press space, up, w or a button on a controller to add a player', style);
     instructionText.anchor.set(0.5, 0.5);
     instructionText.position.set(this.app.renderer.width / 2, 600);
     this.addChild(instructionText);

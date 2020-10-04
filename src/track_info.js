@@ -2,6 +2,7 @@ const TRACK_INFO = [
   {
     name: 'LOOPY ONE',
     preview_file: 'assets/tracks/1/preview.png',
+    background: 'assets/tracks/1/bg.png',
     pieces: [
       's', 's', 's', 's',
       'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2',

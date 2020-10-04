@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+
 import Track from './track';
 import RaceResults from './race_results';
 import createRaceLights from './race_start_lights';
@@ -62,7 +64,15 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
   raceState.initCars([screen.track.carA, screen.track.carB]);
   raceState.start(app, screen.container);
 
-  return screen.container;
+  const bgImage = new PIXI.Sprite(PIXI.utils.TextureCache[raceConfig.track.background]);
+  bgImage.position.set(0, 0);
+  bgImage.anchor.set(0, 0);
+
+  const container = new PIXI.Container();
+  container.addChild(bgImage);
+  container.addChild(screen.container);
+
+  return container;
 }
 
 setupTackEvent.resources = [

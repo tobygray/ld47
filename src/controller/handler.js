@@ -6,6 +6,18 @@ class ControllerHandler {
     this.keyboardEventHandler = new KeyboardEventHandler();
     this.gamepadEventHandler = new GamepadEventHandler();
   }
+
+  enablePolling() {
+    this.gamepadEventHandler.enablePolling();
+  }
+
+  disablePolling() {
+    this.gamepadEventHandler.disablePolling();
+  }
+
+  poll() {
+    this.gamepadEventHandler.scanGamepads();
+  }
 }
 
 export default ControllerHandler;

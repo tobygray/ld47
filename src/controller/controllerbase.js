@@ -1,5 +1,6 @@
 class ControllerBase {
-  constructor(name, icon) {
+  constructor(factory, name, icon) {
+    this.factory = factory;
     this.name = name;
     this.changeListener = null;
     this.icon = `ui/icons/${icon}`;
@@ -50,6 +51,10 @@ class ControllerBase {
     if (changed && this.changeListener) {
       this.changeListener();
     }
+  }
+
+  /* eslint-disable class-methods-use-this */
+  setDangerValue(_newValue) {
   }
 }
 

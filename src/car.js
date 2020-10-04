@@ -11,6 +11,7 @@ export default class Car {
     this.fallOut = 0;
     this.pos = [0, 0];
     this.angle = 0;
+    this.dangerLevel = 0;
 
     // unrotated car is pointing up
     const tex = PIXI.utils.TextureCache['assets/cars/car1.png'];

@@ -1,6 +1,7 @@
 class DriverResult {
-  constructor(index) {
+  constructor(index, trackName) {
     this._index = index;
+    this._trackName = trackName;
     this._name = null;
     this._lapTimes = [];
     this._crashCount = 0;
@@ -22,6 +23,10 @@ class DriverResult {
       return this._name;
     }
     return `Player ${this._index + 1}`;
+  }
+
+  get trackName() {
+    return this._trackName;
   }
 
   get index() {
@@ -65,6 +70,7 @@ class DriverResult {
       player_name: this._name,
       crash_count: this._crashCount,
       lap_times: this._lapTimes,
+      track_name: this._trackName,
     };
     return JSON.stringify(data);
   }
@@ -77,6 +83,7 @@ class DriverResult {
     }
     const ret = new DriverResult(data.index);
     ret.name = data.player_name;
+    ret._trackName = data.track_name;
     ret._crashCount = data.crash_count;
     ret._lapTimes = data.lap_times;
     return ret;

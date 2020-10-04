@@ -16,14 +16,17 @@ describe('Check crash count', () => {
 });
 
 describe('Check name behaviour', () => {
-  const driverResult = new DriverResult(47);
+  const expectedTrackName = 'Kitten Town';
+  const driverResult = new DriverResult(47, expectedTrackName);
   it('has a default name', () => {
     assert.strictEqual(driverResult.name, 'Player 48');
+    assert.strictEqual(driverResult.trackName, expectedTrackName);
   });
   it('can have name set', () => {
     const newName = 'Bob';
     driverResult.name = newName;
     assert.strictEqual(driverResult.name, newName);
+    assert.strictEqual(driverResult.trackName, expectedTrackName);
   });
 });
 
@@ -66,6 +69,7 @@ describe('can serialize and deserialize', () => {
   const expectedName = 'Nigel';
   const expectedCrashCount = 7;
   const expectedLapTimes = [123, 987, 23, 43];
+  const expectedTrackName = 'Grand Laguna Beach';
   // Use a fake clock to create fake time data.
   let clock;
   beforeEach(() => {
@@ -77,7 +81,7 @@ describe('can serialize and deserialize', () => {
 
   let jsonData = '';
   it('can serialize', () => {
-    const driverResult = new DriverResult(expectedIndex);
+    const driverResult = new DriverResult(expectedIndex, expectedTrackName);
     driverResult.name = expectedName;
     for (let i = 0; i < expectedCrashCount; i += 1) {
       driverResult.crashed();
@@ -98,6 +102,7 @@ describe('can serialize and deserialize', () => {
     assert.strictEqual(driverResult.crashCount, expectedCrashCount);
     assert.deepStrictEqual(driverResult.lapCount, expectedLapTimes.length);
     assert.deepStrictEqual(driverResult.lapTimes, expectedLapTimes);
+    assert.deepStrictEqual(driverResult.trackName, expectedTrackName);
   });
 });
 

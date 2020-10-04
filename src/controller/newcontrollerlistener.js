@@ -3,9 +3,12 @@ import GamepadFactory from './gamepadfactory';
 
 class NewControllerListener {
   constructor(eventHandler, newControllerCallback, removedControllerCallback) {
+    this.eventHandler = eventHandler;
     this.newControllerCallback = newControllerCallback;
     this.removedControllerCallback = removedControllerCallback;
     this.reported = {};
+    this.offerMouseListener = null;
+    this.offerTouchListener = null;
     this.keyboardFactory = new KeyboardFactory(eventHandler.keyboardEventHandler);
     this.keyboardFactory.setNewControllerListener((controller) => {
       this.newControllerReported(controller);
@@ -21,6 +24,8 @@ class NewControllerListener {
 
   destroy() {
     this.reset();
+    this.setOfferMouseListener(null);
+    this.setOfferTouchListener(null);
     this.newControllerCallback = null;
     this.keyboardFactory.destroy();
     this.keyboardFactory = null;
@@ -53,6 +58,36 @@ class NewControllerListener {
     this.removedControllerReported(controller);
     this.keyboardFactory.reportAgain(controller);
     this.gamepadEventHandler.reportAgain(controller);
+    if (this.eventHandler.mouseEventHandler) {
+      if (controller === this.eventHandler.mouseEventHandler.mouseController) {
+        if (this.offerMouseListener) {
+          this.offerMouseListener();
+        }
+      }
+    }
+    if (this.eventHandler.touchEventHandler) {
+      if (controller === this.eventHandler.touchEventHandler.touchController) {
+        if (this.offerTouchListener) {
+          this.offerTouchListener();
+        }
+      }
+    }
+  }
+
+  reportMouse() {
+    this.newControllerReported(this.eventHandler.mouseEventHandler.mouseController);
+  }
+
+  reportTouch() {
+    this.newControllerReported(this.eventHandler.touchEventHandler.touchController);
+  }
+
+  setOfferMouseListener(listener) {
+    this.offerMouseListener = listener;
+  }
+
+  setOfferTouchListener(listener) {
+    this.offerTouchListener = listener;
   }
 }
 

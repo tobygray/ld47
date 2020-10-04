@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import NewControllerListener from './controller/newcontrollerlistener';
 import ControllerSelection from './controller_selection';
 
-const MAX_PLAYERS = 4;
+const MAX_PLAYERS = 2;
 
 const style = new PIXI.TextStyle({
   fontFamily: 'Arial',
@@ -26,7 +26,55 @@ class ControllerPicker extends PIXI.Container {
       this.handleRemovedController(controller);
     });
 
-    const instructionText = new PIXI.Text('Press space or a button on a controller to add a player', style);
+    if (controllerHandler.touchEventHandler) {
+      const addTouchSprite = new PIXI.Sprite(
+        PIXI.utils.TextureCache['ui/icons/add-touch.png'],
+      );
+
+      addTouchSprite.anchor.set(1, 0.5);
+      addTouchSprite.position.set(
+        app.renderer.width,
+        700,
+      );
+
+      addTouchSprite.buttonMode = true;
+      addTouchSprite.interactive = true;
+
+      addTouchSprite.on('tap', (_evt) => {
+        this.newControllerListener.reportTouch();
+        addTouchSprite.visible = false;
+      });
+      this.newControllerListener.setOfferTouchListener(() => {
+        addTouchSprite.visible = true;
+      });
+      this.addChild(addTouchSprite);
+    }
+
+    if (controllerHandler.mouseEventHandler) {
+      const addMouseSprite = new PIXI.Sprite(
+        PIXI.utils.TextureCache['ui/icons/add-mouse.png'],
+      );
+
+      addMouseSprite.anchor.set(0.5, 1);
+      addMouseSprite.position.set(
+        app.renderer.width / 2,
+        app.renderer.height,
+      );
+
+      addMouseSprite.buttonMode = true;
+      addMouseSprite.interactive = true;
+
+      addMouseSprite.on('click', (_evt) => {
+        this.newControllerListener.reportMouse();
+        addMouseSprite.visible = false;
+      });
+      this.newControllerListener.setOfferMouseListener(() => {
+        addMouseSprite.visible = true;
+      });
+      this.addChild(addMouseSprite);
+    }
+
+    const instructionText = new PIXI.Text('Press space, up, w or a button on a controller to add a player', style);
     instructionText.anchor.set(0.5, 0.5);
     instructionText.position.set(this.app.renderer.width / 2, 600);
     this.addChild(instructionText);

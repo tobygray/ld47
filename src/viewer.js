@@ -6,6 +6,8 @@ const WORLD_WIDTH = 1920;
 const WORLD_HEIGHT = 1080;
 const WORLD_RATIO = WORLD_WIDTH / WORLD_HEIGHT;
 
+let lastWindowSize = [0, 0];
+
 function loadProgressHandler(loader, resource) {
   // NOTE: resource.data lets you access the file's raw binary data
 
@@ -44,8 +46,19 @@ function setup(app, callback) {
     app.renderer.view.style.height = newHeight + 'px';
   };
   window.onresize = resize;
-  resize();
 
+  const mobileBrowser = /android|ipod|iphone/i.test(navigator.userAgent);
+  if (mobileBrowser) {
+    setInterval(() => {
+      if ((lastWindowSize[0] !== window.innerWidth) || (lastWindowSize[1] !== window.innerHeight)) {
+        console.log('Applying mobile resize hack to work around navigation bar confusion');
+        lastWindowSize = [window.innerWidth, window.innerHeight];
+        resize();
+      }
+    }, 100);
+  } else {
+    resize();
+  }
   callback(app);
 }
 

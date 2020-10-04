@@ -145,9 +145,16 @@ export default class Track {
     physics(delta, car, track, side);
   }
 
+  updateEngineSounds() {
+    // This should really be power, but for keyboard inputs speed makes a nicer effect!
+    this.leftCar.engineSound.speed = 1 + (this.leftCar.speed * 5);
+    this.rightCar.engineSound.speed = 1 + (this.rightCar.speed * 5);
+  }
+
   updateCars(delta) {
     this.applyPhysics(delta);
     this.moveCars(delta);
     this.positionCars();
+    this.updateEngineSounds();
   }
 }

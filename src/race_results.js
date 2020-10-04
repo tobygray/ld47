@@ -41,7 +41,18 @@ export default class RaceResults {
       });
       this.startTime = Date.now();
       this.driverResults.forEach((result) => { result.startTime = this.startTime; });
+      this.enableCars = undefined; // one shot
     };
+  }
+
+  elapsedTime() {
+    if (this.startTime === 0) {
+      return 0;
+    }
+    if (this.endTime) {
+      return this.endTime - this.startTime;
+    }
+    return Date.now() - this.startTime;
   }
 
   onCarMovedPiece(car) {

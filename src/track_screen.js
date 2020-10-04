@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import Track from './track';
 import RaceResults from './race_results';
 import createRaceLights from './race_start_lights';
+import TimerDisplay from './race_timer';
 
 class TrackScreen {
   constructor(app, raceConfig, raceState) {
@@ -21,16 +22,13 @@ class TrackScreen {
     this.container.y = 400;
 
     this.raceState = raceState;
-
-    // TODO: Writ actual code to render track here
-    // const bgImage = new PIXI.Sprite(
-    //   PIXI.utils.TextureCache['ui/race-setup-background.png'],
-    // );
-    // bgImage.position.set(0, 0);
-    // container.addChild(bgImage);
+    this.timer = new TimerDisplay();
+    this.timer.container.position.set(app.renderer.width / 2, 10);
+    this.timer.container.scale.set(0.5, 0.5);
   }
 
   gameLoop(delta) {
+    this.timer.updateValue(this.raceState.elapsedTime());
     this.raceConfig.controllerHandler.poll();
     this.track.carA.power = this.controllers[0] ? this.controllers[0].value : 0.7;
     this.track.carB.power = this.controllers[1] ? this.controllers[1].value : 0.7;
@@ -71,6 +69,7 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
   const container = new PIXI.Container();
   container.addChild(bgImage);
   container.addChild(screen.container);
+  container.addChild(screen.timer.container);
 
   return container;
 }
@@ -90,6 +89,7 @@ setupTackEvent.resources = [
   'assets/audio/sfx/idle_engine.mp3',
   'assets/audio/sfx/321go.mp3',
   ...createRaceLights.resources,
+  ...TimerDisplay.getImages(),
 ];
 
 export default setupTackEvent;

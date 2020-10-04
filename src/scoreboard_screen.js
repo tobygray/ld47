@@ -18,7 +18,7 @@ const style = new PIXI.TextStyle({
   lineJoin: 'round',
 });
 
-function setupScoreboardScreen(app, _raceResults,
+function setupScoreboardScreen(app, raceResults,
   transitionToConfigScreen, transitionToActualRace) {
   // TODO: receive scores from the previous state.
   // TODO: post scores to server.
@@ -30,6 +30,29 @@ function setupScoreboardScreen(app, _raceResults,
   richText.y = 220;
 
   container.addChild(richText);
+
+  // TODO: If number of laps gets to big change to output to be the fastest
+  const playerOneScoreText = new PIXI.Text(`
+  Player one
+    Cap Count: ${raceResults.lapcounts[0]}
+    Crashcounts: ${raceResults.crashcounts[0]}
+    Lap Times: ${raceResults.laptimes[0].map((v) => v / 1000).join('s - ')}s
+  `, style);
+  const playerTwoScoreText = new PIXI.Text(`
+  Player two
+    Cap Count: ${raceResults.lapcounts[1]}
+    Crashcounts: ${raceResults.crashcounts[1]}
+    Lap Times: ${raceResults.laptimes[1].map((v) => v / 1000).join('s - ')}s
+  `, style);
+  playerOneScoreText.x = 50;
+  playerOneScoreText.y = 275;
+
+  playerTwoScoreText.x = app.renderer.width / 2;
+  playerTwoScoreText.y = 275;
+
+  container.addChild(playerOneScoreText);
+
+  container.addChild(playerTwoScoreText);
 
   const returnToSettingsButton = new PIXI.Sprite(
     PIXI.utils.TextureCache['ui/icons/back-to-setting.png'],

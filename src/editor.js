@@ -44,25 +44,19 @@ function redrawTrack(pieces, app) {
 }
 
 function setup(app) {
-  console.log('editor live with app: ', app);
-  console.log('editor running');
   $('form#editor input').on('click', (evt) => {
     // Input buttons just change the text area and hook off that
-    console.log('Click on: ', evt.target.value);
     let arr = getCurrentArray();
-    console.log('Current array is: ', arr);
     if (evt.target.value !== '<--') {
       arr = arr.concat(evt.target.value);
     } else {
       arr.pop();
     }
     setCurrentArray(arr);
-    console.log('New array is: ', arr);
     redrawTrack(arr, app);
   });
 
-  $('form#editor textarea#json').on('change keyup paste input', (evt) => {
-    console.log('Text area changed: ', evt.target.value);
+  $('form#editor textarea#json').on('change keyup paste input', (_evt) => {
     redrawTrack(getCurrentArray(), app);
   });
 }

@@ -20,7 +20,6 @@ export default function startRaceLights(timeSec, position) {
     } else {
       sprite.visible = false;
       setTimeout(() => {
-        console.log('Changing active light: ', i);
         lightSprites.forEach((x) => { x.visible = false; });
         sprite.visible = true;
       }, 1000 * i);

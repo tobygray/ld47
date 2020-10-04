@@ -13,15 +13,10 @@ let progressBar;
 
 function loadProgressHandler(loader, resource) {
   progressBar.animate(loader.progress / 100);
-  document.getElementById('pgtxt').innerHTML = `${loader.progress}%<br />${resource.url}`;
+  document.getElementById('pgtxt').innerHTML = `${Math.round(loader.progress)}%<br />${resource.url}`;
 
   // NOTE: resource.data lets you access the file's raw binary data
-
-  // Display the file `url` currently being loaded
   console.log('loading: ' + resource.url);
-
-  // Display the percentage of files currently loaded
-  console.log('progress: ' + loader.progress + '%');
 }
 
 function setup(app, callback) {
@@ -57,7 +52,6 @@ function setup(app, callback) {
   if (mobileBrowser) {
     setInterval(() => {
       if ((lastWindowSize[0] !== window.innerWidth) || (lastWindowSize[1] !== window.innerHeight)) {
-        console.log('Applying mobile resize hack to work around navigation bar confusion');
         lastWindowSize = [window.innerWidth, window.innerHeight];
         resize();
       }

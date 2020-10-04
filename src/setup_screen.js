@@ -41,8 +41,7 @@ function setupRaceConfigScreen(app, controllerHandler, raceConfig, transitionToR
   // Current state might be valid if inherited from a previous race.
   validityChecker();
 
-  launchButton.on('pointertap', (ev) => {
-    console.log(ev);
+  launchButton.on('pointertap', (_ev) => {
     app.stage.removeChild(container);
     controllerPicker.destroy();
     raceConfig.setChangeListener(null);

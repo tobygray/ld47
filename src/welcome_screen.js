@@ -82,8 +82,7 @@ function setupWelcomeScreen(app, completionFunction) {
 
   container.addChild(playButton);
 
-  function playClickTouchEvent(ev) {
-    console.log(ev);
+  function playClickTouchEvent(_ev) {
     app.stage.removeChild(container);
     app.ticker.remove(menuLoop);
     window.removeEventListener('click', playClickTouchEvent);

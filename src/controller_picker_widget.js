@@ -2,7 +2,7 @@ import * as PIXI from 'pixi.js';
 import NewControllerListener from './controller/newcontrollerlistener';
 import ControllerSelection from './controller_selection';
 
-const MAX_PLAYERS = 4;
+const MAX_PLAYERS = 2;
 
 const style = new PIXI.TextStyle({
   fontFamily: 'Arial',

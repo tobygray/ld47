@@ -7,6 +7,7 @@ class DriverResult {
     this._crashCount = 0;
     this._startTime = 0;
     this._lapStartTime = 0;
+    this._dnf = true;
   }
 
   set startTime(startTime) {
@@ -42,6 +43,9 @@ class DriverResult {
   }
 
   get totalTime() {
+    if (this._dnf) {
+      return Infinity;
+    }
     return this._lapTimes.reduce((a, b) => a + b, 0);
   }
 
@@ -56,6 +60,10 @@ class DriverResult {
 
   get bestLap() {
     return Math.min(...this._lapTimes);
+  }
+
+  finished() {
+    this._dnf = false;
   }
 
   startLap() {
@@ -75,6 +83,7 @@ class DriverResult {
       crash_count: this._crashCount,
       lap_times: this._lapTimes,
       track_name: this._trackName,
+      dnf: this._dnf,
     };
     return data;
   }
@@ -86,6 +95,7 @@ class DriverResult {
     ret._trackName = data.track_name;
     ret._crashCount = data.crash_count;
     ret._lapTimes = data.lap_times;
+    ret._dnf = data.dnf;
     return ret;
   }
 }

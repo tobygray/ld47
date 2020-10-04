@@ -96,6 +96,13 @@ export default class RaceResults {
     if (this.shouldEndRace()) {
       // TODO: let 2nd place finish?
       // TODO: pause before calling this so people can see end before insta hitting results screen?
+
+      // Set any driver who hit the lap count as having finished the race.
+      this.driverResults.forEach((result) => {
+        if (result.lapCount >= LAP_TARGET) {
+          result.finished();
+        }
+      });
       this.endRace();
     }
   }

@@ -1,4 +1,4 @@
-import ControllerBase from './controllerbase';
+import ControllerBase from './controller_base';
 
 class MouseController extends ControllerBase {
   constructor(handler) {

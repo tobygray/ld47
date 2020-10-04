@@ -1,4 +1,4 @@
-import ControllerBase from './controllerbase';
+import ControllerBase from './controller_base';
 
 const DEAD_ZONE = 0.09;
 const XBOX_LEFT_TRIGGER_BUTTON = 6;

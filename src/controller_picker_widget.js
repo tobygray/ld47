@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import NewControllerListener from './controller/newcontrollerlistener';
+import NewControllerListener from './controller/new_controller_listener';
 import ControllerSelection from './controller_selection';
 import Player from './player';
 

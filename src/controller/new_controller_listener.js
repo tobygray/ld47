@@ -1,5 +1,5 @@
-import KeyboardFactory from './keyboardfactory';
-import GamepadFactory from './gamepadfactory';
+import KeyboardFactory from './keyboard_factory';
+import GamepadFactory from './gamepad_factory';
 
 class NewControllerListener {
   constructor(eventHandler, newControllerCallback, removedControllerCallback,

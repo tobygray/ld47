@@ -9,7 +9,10 @@ export default class RaceResults {
   constructor(raceConfig, raceOverCallback) {
     // During the race this is absolute time stamps.
     // After the race we go through and calculate actual lap times.
-    this.driverResults = [new DriverResult(0), new DriverResult(1)];
+    this.driverResults = [
+      new DriverResult(0, raceConfig.track.name),
+      new DriverResult(1, raceConfig.track.name),
+    ];
     raceConfig.players.forEach((player, index) => {
       this.driverResults[index].name = player.name;
     });

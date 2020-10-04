@@ -24,6 +24,10 @@ class DriverResult {
     return `Player ${this._index + 1}`;
   }
 
+  get index() {
+    return this._index;
+  }
+
   get lapCount() {
     return this._lapTimes.length;
   }
@@ -44,6 +48,26 @@ class DriverResult {
 
   crashed() {
     this._crashCount += 1;
+  }
+
+  toJson() {
+    const data = {
+      index: this._index,
+      player_name: this._name,
+      crash_count: this._crashCount,
+      lap_times: this._lapTimes,
+    };
+    return JSON.stringify(data);
+  }
+
+  static fromJson(jsonData) {
+    /* eslint-disable no-underscore-dangle */
+    const data = JSON.parse(jsonData);
+    const ret = new DriverResult(data.index);
+    ret.name = data.player_name;
+    ret._crashCount = data.crash_count;
+    ret._lapTimes = data.lap_times;
+    return ret;
   }
 }
 

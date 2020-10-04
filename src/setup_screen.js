@@ -60,6 +60,7 @@ setupRaceConfigScreen.resources = [
   'ui/icons/touch.png',
   'ui/icons/launch-race.png',
   ...TRACK_INFO.map((track) => track.preview_file),
+  ...TRACK_INFO.filter((track) => track.background).map((track) => track.background),
 ];
 
 export default setupRaceConfigScreen;

@@ -45,6 +45,10 @@ class DriverResult {
     return now - this._lapStartTime;
   }
 
+  get bestLap() {
+    return Math.min(...this._lapTimes);
+  }
+
   startLap() {
     const now = Date.now();
     this._lapTimes.push(now - this._lapStartTime);

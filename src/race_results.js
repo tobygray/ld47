@@ -62,6 +62,10 @@ export default class RaceResults {
     return 0;
   }
 
+  bestLap(playerIndex) {
+    return this.driverResults[playerIndex].bestLap;
+  }
+
   onCarMovedPiece(car) {
     if (car.currentTrack === 0) {
       // Just started a new lap

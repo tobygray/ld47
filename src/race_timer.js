@@ -43,6 +43,10 @@ export default class TimerDisplay {
   }
 
   updateValue(timeMs) {
+    if (timeMs === Infinity) {
+      return;
+    }
+
     const milliseconds = timeMs % 1000;
     let seconds = Math.floor((timeMs / 1000) % 60);
     let minutes = Math.floor((timeMs / (1000 * 60)) % 60);

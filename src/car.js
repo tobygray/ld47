@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-PIXI.sound = require('pixi-sound').default;
+const sound = require('pixi-sound').default;
 
 export default class Car {
   constructor(index, side) {
@@ -35,6 +35,6 @@ export default class Car {
     this.sprite.anchor.y = 0.1;
 
     // Audio sample for engine noise
-    this.engineSound = PIXI.sound.play('assets/audio/sfx/idle_engine.mp3', { loop: true });
+    this.engineSound = sound.play('assets/audio/sfx/idle_engine.mp3', { loop: true });
   }
 }

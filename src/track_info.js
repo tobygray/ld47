@@ -13,6 +13,7 @@ const TRACK_INFO = [
     x: 700,
     y: 250,
     lightsPosition: [350, 350],
+    music: 'assets/audio/music/sketchybeats.mp3',
   },
   {
     name: 'LOOPER TWO',

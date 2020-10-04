@@ -20,12 +20,14 @@ export default class RaceResults {
     this.endTime = undefined;
     this.endRace = raceOverCallback;
     this.lightsContainer = createRaceLights(3, raceConfig.track.lightsPosition);
+    this.musicPath = raceConfig.track.music;
   }
 
   start(app, container) {
     sound.play('assets/audio/sfx/321go.mp3', {
       complete: () => {
         this.enableCars();
+        sound.play(this.musicPath, { loop: true, volume: 0.5 });
       },
     });
 

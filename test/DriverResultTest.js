@@ -1,4 +1,5 @@
 const assert = require('assert');
+const sinon = require('sinon');
 const { default: DriverResult } = require('../src/api/driver_result.js');
 
 describe('Check crash count', () => {
@@ -28,9 +29,35 @@ describe('Check name behaviour', () => {
 
 describe('Check lap recording', () => {
   const driverResult = new DriverResult();
+  // Use a fake clock to create fake time data.
+  let clock;
+  beforeEach(() => {
+    clock = sinon.useFakeTimers();
+  });
+  afterEach(() => {
+    clock.restore();
+  });
+
   it('starts with no laps', () => {
     assert.strictEqual(driverResult.lapCount, 0);
     assert.deepStrictEqual(driverResult.lapTimes, []);
+  });
+  it('can create one lap', () => {
+    driverResult.startTime = Date.now();
+    clock.tick(100);
+    driverResult.startLap();
+    assert.strictEqual(driverResult.lapCount, 1);
+    assert.deepStrictEqual(driverResult.lapTimes, [100]);
+
+    clock.tick(150);
+    driverResult.startLap();
+    assert.strictEqual(driverResult.lapCount, 2);
+    assert.deepStrictEqual(driverResult.lapTimes, [100, 150]);
+
+    clock.tick(75);
+    driverResult.startLap();
+    assert.strictEqual(driverResult.lapCount, 3);
+    assert.deepStrictEqual(driverResult.lapTimes, [100, 150, 75]);
   });
 });
 

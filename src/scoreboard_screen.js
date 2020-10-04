@@ -18,7 +18,8 @@ const style = new PIXI.TextStyle({
   lineJoin: 'round',
 });
 
-function setupScoreboardScreen(app, transitionToConfigScreen, transitionToActualRace) {
+function setupScoreboardScreen(app, _raceResults,
+  transitionToConfigScreen, transitionToActualRace) {
   // TODO: receive scores from the previous state.
   // TODO: post scores to server.
   // TODO: render scores from server.

@@ -44,10 +44,23 @@ class TrackScreen {
 }
 
 function setupTackEvent(app, raceOverCallback, raceConfig) {
-  const raceState = new RaceResults(raceOverCallback);
-  const screen = new TrackScreen(app, raceConfig, raceState);
+  let screen;
+
+  function ticker(delta) {
+    screen.gameLoop(delta);
+  }
+
+  const raceState = new RaceResults(() => {
+    // Our race result object needs a callback to end the race when it sees fit.
+    // Our callback needs to remove the ticker *and* call the original callback we
+    // were provided with.
+    app.ticker.remove(ticker);
+    raceOverCallback(raceConfig, raceState);
+  });
+  screen = new TrackScreen(app, raceConfig, raceState);
+  app.ticker.add(ticker);
   sound.play('assets/audio/sfx/321go.mp3');
-  return screen;
+  return screen.container;
 }
 
 setupTackEvent.resources = [

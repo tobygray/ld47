@@ -18,7 +18,8 @@ function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback)
   container.addChild(bgImage);
 
   container.addChild(createTrackPicker(app, raceConfig));
-  container.addChild(createControllerPicker(app, controllerHandler, raceConfig));
+  const controllerPicker = createControllerPicker(app, controllerHandler, raceConfig);
+  container.addChild(controllerPicker);
 
   const launchButton = new PIXI.Sprite(
     PIXI.utils.TextureCache['ui/icons/launch-race.png'],
@@ -38,6 +39,7 @@ function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback)
   launchButton.on('pointertap', (ev) => {
     console.log(ev);
     app.stage.removeChild(container);
+    controllerPicker.destroy();
     raceConfig.setChangeListener(null);
     transitionToRaceCallback(raceConfig);
   });

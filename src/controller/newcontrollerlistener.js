@@ -23,14 +23,21 @@ class NewControllerListener {
   }
 
   destroy() {
-    this.reset();
+    this.keyboardFactory.setNewControllerListener(null);
+    this.gamepadEventHandler.setNewControllerListener(null);
+    this.gamepadEventHandler.setRemovedControllerListener(null);
     this.setOfferMouseListener(null);
     this.setOfferTouchListener(null);
+    this.reset();
     this.newControllerCallback = null;
-    this.keyboardFactory.destroy();
-    this.keyboardFactory = null;
-    this.gamepadFactory.destroy();
-    this.gamepadFactory = null;
+    if (this.keyboardFactory) {
+      this.keyboardFactory.destroy();
+      this.keyboardFactory = null;
+    }
+    if (this.gamepadFactory) {
+      this.gamepadFactory.destroy();
+      this.gamepadFactory = null;
+    }
   }
 
   reset() {

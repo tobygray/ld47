@@ -12,6 +12,7 @@ const TRACK_INFO = [
     scale: 0.8,
     x: 700,
     y: 250,
+    lightsPosition: [350, 350],
   },
   {
     name: 'LOOPER TWO',
@@ -20,6 +21,7 @@ const TRACK_INFO = [
     scale: 0.5,
     x: 400,
     y: 400,
+    lightsPosition: [850, 350],
   },
   {
     name: 'LOOPTY TREE',
@@ -28,6 +30,7 @@ const TRACK_INFO = [
     scale: 0.5,
     x: 700,
     y: 250,
+    lightsPosition: [350, 350],
   },
 ];
 

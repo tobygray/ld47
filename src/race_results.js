@@ -19,6 +19,7 @@ export default class RaceResults {
     this.startTime = 0;
     this.endTime = undefined;
     this.endRace = raceOverCallback;
+    this.lightsContainer = createRaceLights(3, raceConfig.track.lightsPosition);
   }
 
   start(app, container) {
@@ -29,8 +30,7 @@ export default class RaceResults {
     });
 
     /* TODO: use duration from sound to sync better */
-    const lightsContainer = createRaceLights(3, app);
-    container.addChild(lightsContainer);
+    container.addChild(this.lightsContainer);
   }
 
   initCars(carArray) {

@@ -20,13 +20,12 @@ class ControllerPicker extends PIXI.Container {
     this.app = app;
     this.controllerSelection = {};
     this.raceConfig = raceConfig;
-    this.newControllerListener = new NewControllerListener(controllerHandler, (controller) => {
-      this.handleNewController(controller);
-    },
-    (controller) => {
-      this.handleRemovedController(controller);
-    },
-    raceConfig.players);
+    this.newControllerListener = new NewControllerListener(controllerHandler,
+      (controller) => this.handleNewController(controller),
+      (controller) => {
+        this.handleRemovedController(controller);
+      },
+      raceConfig.players);
 
     if (controllerHandler.touchEventHandler) {
       const addTouchSprite = new PIXI.Sprite(
@@ -43,8 +42,9 @@ class ControllerPicker extends PIXI.Container {
       addTouchSprite.interactive = true;
 
       addTouchSprite.on('tap', (_evt) => {
-        this.newControllerListener.reportTouch();
-        addTouchSprite.visible = false;
+        if (this.newControllerListener.reportTouch()) {
+          addTouchSprite.visible = false;
+        }
       });
       this.newControllerListener.setOfferTouchListener(() => {
         addTouchSprite.visible = true;
@@ -67,8 +67,9 @@ class ControllerPicker extends PIXI.Container {
       addMouseSprite.interactive = true;
 
       addMouseSprite.on('click', (_evt) => {
-        this.newControllerListener.reportMouse();
-        addMouseSprite.visible = false;
+        if (this.newControllerListener.reportMouse()) {
+          addMouseSprite.visible = false;
+        }
       });
       this.newControllerListener.setOfferMouseListener(() => {
         addMouseSprite.visible = true;
@@ -94,7 +95,7 @@ class ControllerPicker extends PIXI.Container {
     const { players } = this.raceConfig;
     if (players.length >= MAX_PLAYERS) {
       console.log('Ignoring new controller as at maximum players', controller);
-      return;
+      return false;
     }
     console.log('New controller', controller);
     const idx = players.length;
@@ -104,6 +105,7 @@ class ControllerPicker extends PIXI.Container {
       this.app, this, player, idx, MAX_PLAYERS,
     );
     this.raceConfig.addPlayer(player);
+    return true;
   }
 
   userRequestedRemoveController(controller) {

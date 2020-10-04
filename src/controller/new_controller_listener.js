@@ -54,12 +54,17 @@ class NewControllerListener {
   }
 
   newControllerReported(controller) {
+    let success = false;
     if (!(controller.name in this.reported)) {
-      this.newControllerCallback(controller);
-      this.reported[controller.name] = controller;
-    } else {
+      success = this.newControllerCallback(controller);
+      if (success) {
+        this.reported[controller.name] = controller;
+      }
+    }
+    if (!success) {
       controller.remove();
     }
+    return success;
   }
 
   removedControllerReported(controller) {
@@ -90,11 +95,11 @@ class NewControllerListener {
   }
 
   reportMouse() {
-    this.newControllerReported(this.eventHandler.mouseEventHandler.mouseController);
+    return this.newControllerReported(this.eventHandler.mouseEventHandler.mouseController);
   }
 
   reportTouch() {
-    this.newControllerReported(this.eventHandler.touchEventHandler.touchController);
+    return this.newControllerReported(this.eventHandler.touchEventHandler.touchController);
   }
 
   setOfferMouseListener(listener) {

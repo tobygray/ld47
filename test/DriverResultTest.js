@@ -51,16 +51,19 @@ describe('Check lap recording', () => {
     driverResult.startLap();
     assert.strictEqual(driverResult.lapCount, 1);
     assert.deepStrictEqual(driverResult.lapTimes, [100]);
+    assert.strictEqual(driverResult.totalTime, 100);
 
     clock.tick(150);
     driverResult.startLap();
     assert.strictEqual(driverResult.lapCount, 2);
     assert.deepStrictEqual(driverResult.lapTimes, [100, 150]);
+    assert.strictEqual(driverResult.totalTime, 250);
 
     clock.tick(75);
     driverResult.startLap();
     assert.strictEqual(driverResult.lapCount, 3);
     assert.deepStrictEqual(driverResult.lapTimes, [100, 150, 75]);
+    assert.strictEqual(driverResult.totalTime, 325);
   });
 });
 

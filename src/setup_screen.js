@@ -48,6 +48,8 @@ function setupRaceConfigScreen(app, controllerHandler, transitionToRaceCallback)
 setupRaceConfigScreen.resources = [
   'ui/race-setup-background.png',
   'ui/icons/close-cross.png',
+  'ui/icons/add-mouse.png',
+  'ui/icons/add-touch.png',
   'ui/icons/keyboard.png',
   'ui/icons/mouse.png',
   'ui/icons/controller.png',

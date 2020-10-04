@@ -1,3 +1,5 @@
+const sound = require('pixi-sound').default;
+
 const LAP_TARGET = 3;
 
 export default class RaceResults {
@@ -8,6 +10,28 @@ export default class RaceResults {
     this.startTime = 0;
     this.endTime = undefined;
     this.endRace = raceOverCallback;
+  }
+
+  start() {
+    sound.play('assets/audio/sfx/321go.mp3', {
+      complete: () => {
+        console.log('321 sound done, enabling cars');
+        this.enableCars();
+      },
+    });
+  }
+
+  initCars(carArray) {
+    console.log('In init cars', carArray);
+    carArray.forEach((car) => {
+      car.enabled = false;
+    });
+
+    this.enableCars = () => {
+      carArray.forEach((car) => {
+        car.enabled = true;
+      });
+    };
   }
 
   onCarMovedPiece(car) {

@@ -119,6 +119,9 @@ export default class Track {
   }
 
   moveCar(delta, car, side, raceState) {
+    if (!car.enabled) {
+      return;
+    }
     if (car.fallOut > 0) {
       // car is going to carry on at its present direction + speed
       car.pos[0] += car.speed * Math.sin(rad(car.angle));
@@ -144,6 +147,9 @@ export default class Track {
   }
 
   applyPhysicsToCar(delta, car, side) {
+    if (!car.enabled) {
+      return;
+    }
     const track = this.track[car.currentTrack];
     physics(delta, car, track, side);
   }

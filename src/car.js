@@ -6,6 +6,7 @@ export default class Car {
   constructor(index) {
     this.playerIndex = index;
 
+    this.enabled = true; // For use before and after races
     this.speed = 0;
     this.power = 0;
     this.distance = 0;

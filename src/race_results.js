@@ -1,7 +1,7 @@
 import createRaceLights from './race_start_lights';
-import DriverResult from './api/driver_result';
 
 const sound = require('pixi-sound').default;
+const { DriverResult } = require('./api/driver_result.js');
 
 const LAP_TARGET = 3;
 

@@ -23,7 +23,3 @@ Navigate to http://localhost:3000/
 You can run tests with `npm run tests`.
 
 You can run eslint with `npm run lint` and you can ask it to auto-fix some issues with `npm run lint-fix`.
-
-## Acknowledgements
-
-Favicon is Creative Commons licensed from https://www.favicon.cc/?action=icon&file_id=815379

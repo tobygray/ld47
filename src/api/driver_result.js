@@ -62,7 +62,10 @@ class DriverResult {
 
   static fromJson(jsonData) {
     /* eslint-disable no-underscore-dangle */
-    const data = JSON.parse(jsonData);
+    let data = jsonData;
+    if (typeof data === 'string' || data instanceof String) {
+      data = JSON.parse(jsonData);
+    }
     const ret = new DriverResult(data.index);
     ret.name = data.player_name;
     ret._crashCount = data.crash_count;
@@ -71,4 +74,4 @@ class DriverResult {
   }
 }
 
-export default DriverResult;
+module.exports = { DriverResult };

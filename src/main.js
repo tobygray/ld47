@@ -44,11 +44,7 @@ function setup(app) {
     console.log('Trqnsistioning to Race, yes I Cant spell!');
     resetScreenAndSound();
     const trackScreen = setupTackEvent(app, transitionToScoreboard, raceConfig);
-    app.stage.addChild(trackScreen.container);
-    app.ticker.add((delta) => trackScreen.gameLoop(delta));
-
-    // Hack to enable testing without breaking all the merges:
-    window.transitionToScoreboard = () => transitionToScoreboard(raceConfig); // TODO: delete me!
+    app.stage.addChild(trackScreen);
   };
 
   transitionToConfigScreen = () => {

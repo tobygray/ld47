@@ -46,8 +46,9 @@ class TrackScreen {
 function setupTackEvent(app, raceOverCallback, raceConfig) {
   const raceState = new RaceResults(raceOverCallback);
   const screen = new TrackScreen(app, raceConfig, raceState);
+  app.ticker.add((delta) => screen.gameLoop(delta));
   sound.play('assets/audio/sfx/321go.mp3');
-  return screen;
+  return screen.container;
 }
 
 setupTackEvent.resources = [

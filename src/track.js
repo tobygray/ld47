@@ -249,6 +249,26 @@ export default class Track {
   }
 
   updateEngineSounds() {
+    if (!this.carA.engineSound || !this.carB.engineSound) {
+      /*
+      Working around a weird bug:
+
+      if we call stopAll() on every transition then the scoreboard screen sometimes
+      ends up with oddly fast music.
+
+      This bug occured because the last tick that updated an engine sound playback
+      speed was still running after we'd called stopAll() and after we'd started
+      the new music track. Given that we'd already tried to cancel the timer before
+      we reached that point though this points to an index into a sample buffer
+      getting re-used after it had been realloacted to the new sample.
+
+      To fix that we changed we remove the car engine sound objects early and if we
+      get another callback fire after we thought we'd stopped then we check if they're
+      defined. If they're not defined we ignore it quietly because we're probably on
+      cleanup detail now anyway and that sidesetps the bug. (I HOPE!!!).
+      */
+      return;
+    }
     // This should really be power, but for keyboard inputs speed makes a nicer effect!
     this.carA.engineSound.speed = 1 + (this.carA.speed / 5);
     this.carB.engineSound.speed = 1 + (this.carB.speed / 5);

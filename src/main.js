@@ -60,5 +60,5 @@ function setup(app) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  createViewElementInDom([].concat(...ALL_SCREEN_RESOURCES), setup);
+  createViewElementInDom([...new Set([].concat(...ALL_SCREEN_RESOURCES))], setup);
 });

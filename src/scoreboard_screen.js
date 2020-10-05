@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js';
 
+const sound = require('pixi-sound').default;
+
 const style = new PIXI.TextStyle({
   fontFamily: 'Arial',
   fontSize: 48,
@@ -109,6 +111,8 @@ function setupScoreboardScreen(app, raceResults,
     console.log('Wants settings: ', ev);
     transitionToActualRace();
   });
+
+  sound.play('assets/audio/music/sketchybeats.mp3', { loop: true, volume: 0.5 });
 
   return container;
 }

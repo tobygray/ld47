@@ -127,6 +127,7 @@ export default class Car {
 
         if (s.alpha <= 0.05) {
           s.visible = false;
+          s.scale.set(1, 1);
           s.alpha = 0;
         }
       }

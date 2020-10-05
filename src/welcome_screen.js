@@ -49,7 +49,7 @@ function setupWelcomeScreen(app, completionFunction) {
       const sprite = new PIXI.Sprite(
         PIXI.utils.TextureCache[imgPath],
       );
-      sprite.position.set(app.renderer.width / 2, (app.renderer.height * 2) / 3);
+      sprite.position.set(app.renderer.width / 2, (app.renderer.height * 8) / 9);
       sprite.anchor.set(0.5, 0.5);
       sprite.visible = false;
       container.addChild(sprite);
@@ -93,7 +93,7 @@ function setupWelcomeScreen(app, completionFunction) {
     PIXI.utils.TextureCache['ui/icons/play.png'],
   );
   playButton.anchor.set(0.5, 0.5);
-  playButton.position.set(app.renderer.width / 2, app.renderer.height / 2);
+  playButton.position.set(app.renderer.width / 2, (app.renderer.height * 3) / 5);
 
   container.addChild(playButton);
 

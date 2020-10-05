@@ -63,6 +63,7 @@ export default class Car {
       // smoke.scale.set(0.8 + Math.random() * 0.3);
       smoke.visible = false;
       smoke.alpha = 0; // Hide by default
+      smoke.tint = Math.random() * 0xFFFFFF;
       this.allSmoke.push(smoke);
       this.smoke.addChild(smoke);
     }
@@ -95,10 +96,13 @@ export default class Car {
   updateSmoke() {
     const scaleMult = 1.1;
     const aphaMult = 0.9;
+    const posMult = 10;
     this.allSmoke.forEach((s) => {
       if (s.visible) {
         s.scale.set(s.scale.x * scaleMult, s.scale.y * scaleMult);
         s.alpha *= aphaMult;
+        s.position.set(s.position.x + ((Math.random() - 0.5) * posMult),
+          s.position.y + ((Math.random() - 0.5) * posMult));
 
         if (s.alpha <= 0.1) {
           s.visible = false;

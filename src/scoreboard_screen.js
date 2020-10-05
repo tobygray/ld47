@@ -62,13 +62,13 @@ function setupScoreboardScreen(app, raceResults,
   ${raceResults.driverResults[0].name}
     Lap Count: ${raceResults.driverResults[0].lapCount}
     Crash Count: ${raceResults.driverResults[0].crashCount}
-    Lap Times: ${raceResults.driverResults[0].lapTimes.map((v) => v / 1000).join('s - ')}s
+    Fastest Lap: ${raceResults.driverResults[0].lapTimes.sort((a, b) => a - b)[0] / 1000}s
   `, style);
   const playerTwoScoreText = new PIXI.Text(`
   ${raceResults.driverResults[1].name}
     Lap Count: ${raceResults.driverResults[1].lapCount}
     Crash Count: ${raceResults.driverResults[1].crashCount}
-    Lap Times: ${raceResults.driverResults[1].lapTimes.map((v) => v / 1000).join('s - ')}s
+    Fastest Lap: ${raceResults.driverResults[1].lapTimes.sort((a, b) => b - a)[1] / 1000}s
   `, style);
   playerOneScoreText.x = 50;
   playerOneScoreText.y = 275;

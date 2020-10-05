@@ -169,6 +169,7 @@ setupTackEvent.resources = [
   // Audio samples for race sfx
   'assets/audio/sfx/idle_engine.mp3',
   'assets/audio/sfx/321go.mp3',
+  'assets/audio/sfx/kaboom.mp3',
   ...createRaceLights.resources,
   ...TimerDisplay.getImages(),
 ];

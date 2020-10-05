@@ -5,9 +5,9 @@ const sound = require('pixi-sound').default;
 
 const TRACK_DATA = [
   's4', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
-  's', 'r4', 'r4', 'r4', 'r4',
+  'r4', 'r4', 'r4', 'r4',
   's4', 's4', 's4', 's4', 'r4', 'r4', 'r4', 'r4',
-  's', 'r4', 'r4', 'r4', 'r4',
+  'r4', 'r4', 'r4', 'r4',
   's4', 's4', 's',
 ];
 
@@ -35,7 +35,7 @@ function setupWelcomeScreen(app, completionFunction) {
   track.container.scale.x = 0.5;
   track.container.scale.y = 0.5;
   track.container.x = app.renderer.width / 2;
-  track.container.y = app.renderer.height / 8;
+  track.container.y = app.renderer.height / 6;
 
   function rainbowFart() {
     return Math.random() * 0xFFFFFF;

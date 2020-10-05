@@ -62,6 +62,8 @@ setupRaceConfigScreen.resources = [
   'ui/icons/add-touch.png',
   'ui/icons/keyboard.png',
   'ui/icons/mouse.png',
+  'ui/icons/throttle.png',
+  'ui/icons/throttle-handle.png',
   'ui/icons/controller.png',
   'ui/icons/touch.png',
   'ui/icons/launch-race.png',

@@ -4,7 +4,7 @@ import MouseEventHandler from './mouse_event_handler';
 import TouchEventHandler from './touch_event_handler';
 
 class ControllerHandler {
-  constructor() {
+  constructor(app) {
     this.keyboardEventHandler = new KeyboardEventHandler();
     this.gamepadEventHandler = new GamepadEventHandler();
     if (TouchEventHandler.supported()) {
@@ -13,7 +13,7 @@ class ControllerHandler {
       this.touchEventHandler = null;
     }
     if (MouseEventHandler.supported()) {
-      this.mouseEventHandler = new MouseEventHandler();
+      this.mouseEventHandler = new MouseEventHandler(app);
     } else {
       this.mouseEventHandler = null;
     }
@@ -29,6 +29,12 @@ class ControllerHandler {
 
   poll() {
     this.gamepadEventHandler.scanGamepads();
+  }
+
+  reAdd() {
+    if (this.mouseEventHandler) {
+      this.mouseEventHandler.reAdd();
+    }
   }
 }
 

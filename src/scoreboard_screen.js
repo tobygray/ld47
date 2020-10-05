@@ -52,12 +52,6 @@ function setupScoreboardScreen(app, raceResults,
   // TODO: render scores from server.
   const container = new PIXI.Container();
 
-  const richText = new PIXI.Text('Rich text with a lot of options and across multiple lines', style);
-  richText.x = 50;
-  richText.y = 220;
-
-  container.addChild(richText);
-
   // TODO: If number of laps gets to big change to output to be the fastest
   const pOneFastLapTime = raceResults.driverResults[0].lapTimes.sort((a, b) => a - b)[0];
   const pTwoFastLapTime = raceResults.driverResults[1].lapTimes.sort((a, b) => a - b)[0];

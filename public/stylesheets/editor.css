@@ -8,6 +8,7 @@
   border-style: ridge;
   background-color: grey;
   opacity: 0.5;
+  scale: 0.5;
 } 
 
 canvas {

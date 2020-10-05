@@ -95,10 +95,13 @@ export default class Car {
   updateSmoke() {
     const scaleMult = 1.1;
     const aphaMult = 0.9;
+    const posMult = 10;
     this.allSmoke.forEach((s) => {
       if (s.visible) {
         s.scale.set(s.scale.x * scaleMult, s.scale.y * scaleMult);
         s.alpha *= aphaMult;
+        s.position.set(s.position.x + ((Math.random() - 0.5) * posMult),
+          s.position.y + ((Math.random() - 0.5) * posMult));
 
         if (s.alpha <= 0.1) {
           s.visible = false;

@@ -54,20 +54,20 @@ export default class Track {
         size = 87.5;
         if (track.length === 0) {
           // 's' piece in position 0 is special - it's the start track piece!
-          texture += 'SHO0.png';
+          texture += 'S0';
         } else {
-          texture += 'SHO.png';
+          texture += 'S1';
         }
       } else if (piece === 'ss') {
         size = 78;
-        texture += 'SSHO.png';
+        texture += 'SS';
       } else if (piece === 's4') {
         size = 350;
-        texture += 'STR.png';
+        texture += 'S4';
       } else if (piece === 'c1') {
         size = 175;
         radius = 373;
-        texture += 'C.png';
+        texture += 'C';
         cross = 1;
       } else if (piece === 'c2') {
         size = 175;
@@ -95,7 +95,7 @@ export default class Track {
         } else {
           throw new Error('invalid track piece');
         }
-        texture += piece[1] + '.png';
+        texture += piece[1];
         radius *= sign;
       }
       const trackPiece = new TrackPiece(radius, size, pos, angle, texture, zIndex, cross);
@@ -111,24 +111,23 @@ export default class Track {
     const container = new PIXI.Container();
     for (const piece of track) {
       if (piece.texture !== null) {
-        if (piece.texture in PIXI.utils.TextureCache) {
-          const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[piece.texture]);
-          sprite.pivot.set(0, 78); // midpoint of edge
-          if (piece.radius < 0) {
-            // left
-            sprite.scale.y = -1;
-          }
-          // track sprites start pointing right
-          sprite.angle = mod(piece.startAngle - 90, 360);
-          [sprite.x, sprite.y] = piece.startPos;
-          sprite.zIndex = piece.zIndex;
-          container.addChild(sprite);
-        } else {
-          const line = new PIXI.Graphics();
-          line.lineStyle(156, 0x666666, 1).moveTo(...piece.startPos).lineTo(...piece.endPos);
-          line.zIndex = piece.zIndex;
-          container.addChild(line);
+        const texBase = piece.texture + '-base.png';
+        const texLines = piece.texture + '-lines.png';
+        const spriteBase = new PIXI.Sprite(PIXI.utils.TextureCache[texBase]);
+        const spriteLines = new PIXI.Sprite(PIXI.utils.TextureCache[texLines]);
+        const group = new PIXI.Container();
+        group.addChild(spriteBase);
+        group.addChild(spriteLines);
+        group.pivot.set(0, 78); // midpoint of edge
+        if (piece.radius < 0) {
+          // left
+          group.scale.y = -1;
         }
+        // track groups start pointing right
+        group.angle = mod(piece.startAngle - 90, 360);
+        [group.x, group.y] = piece.startPos;
+        group.zIndex = piece.zIndex;
+        container.addChild(group);
       }
     }
     container.sortableChildren = true;

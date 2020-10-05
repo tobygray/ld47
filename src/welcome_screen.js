@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 import Track from './track';
 
+const sound = require('pixi-sound').default;
+
 const TRACK_DATA = [
   's4', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
   's', 'r4', 'r4', 'r4', 'r4',
@@ -106,12 +108,15 @@ function setupWelcomeScreen(app, completionFunction) {
     document.body.requestFullscreen();
   };
 
+  sound.play('assets/audio/music/sketchybeats.mp3', { loop: true, volume: 0.5 });
+
   return container;
 }
 
 setupWelcomeScreen.resources = [
   'ui/icons/play.png',
   'ui/menu-background.png',
+  'assets/audio/music/sketchybeats.mp3',
   ...CREDITS,
 ];
 

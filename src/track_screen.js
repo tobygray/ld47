@@ -117,6 +117,14 @@ class TrackScreen {
 function setupTackEvent(app, raceOverCallback, raceConfig) {
   let screen;
 
+  if (raceConfig.controllerHandler.mouseEventHandler) {
+    // Enable mouse throttle if at least one player controller.
+    const { mouseController } = raceConfig.controllerHandler.mouseEventHandler;
+    if (raceConfig.players.some((player) => player.controller === mouseController)) {
+      raceConfig.controllerHandler.mouseEventHandler.showHandle = true;
+    }
+  }
+
   function ticker(delta) {
     screen.gameLoop(delta);
   }
@@ -130,6 +138,11 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
     cars[0].engineSound = undefined;
     cars[1].engineSound = undefined;
     app.ticker.remove(ticker);
+
+    if (raceConfig.controllerHandler.mouseEventHandler) {
+      // Disable mouse throttle.
+      raceConfig.controllerHandler.mouseEventHandler.showHandle = false;
+    }
     raceOverCallback(raceConfig, raceState);
   });
   screen = new TrackScreen(app, raceConfig, raceState);

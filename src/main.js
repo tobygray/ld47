@@ -16,7 +16,8 @@ const ALL_SCREEN_RESOURCES = [
 ];
 
 function setup(app) {
-  const controllerHandler = new ControllerHandler();
+  app.stage.sortableChildren = true;
+  const controllerHandler = new ControllerHandler(app);
 
   // Cyclical depndency problem
   let transitionToConfigScreen;
@@ -24,6 +25,7 @@ function setup(app) {
 
   function resetScreenAndSound() {
     app.stage.removeChildren();
+    controllerHandler.reAdd();
     sound.speedAll = 1;
     sound.stopAll();
   }

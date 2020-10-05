@@ -1,46 +1,62 @@
 import MouseController from './mouse';
+import ThrottleHandle from './throttle_handle';
 
-// Attempt a pseuod-DPI scale by picking at least 100 pixels, but favour 10% of the screen height.
-const PIXEL_RANGE = Math.max(100, window.screen.height / 10);
+// Attempt a pseuod-DPI scale by picking at least some pixels, but favour % of the screen height.
+const PIXEL_RANGE = Math.max(200, window.screen.height / 5);
 
 class MouseEventHandler {
-  constructor() {
+  constructor(app) {
+    this.app = app;
     this.mouseController = new MouseController(this);
     this._downPos = null;
     this._moveListener = (event) => { this.onMouseMove(event); };
-    window.addEventListener(
+    this.showHandle = false;
+    app.renderer.plugins.interaction.on(
       'mousedown',
       (event) => { this.onMouseDown(event); },
       { passive: true },
     );
-    window.addEventListener(
+    app.renderer.plugins.interaction.on(
       'mouseup',
       (event) => { this.onMouseUp(event); },
       { passive: true },
     );
+
+    this._handle = new ThrottleHandle(app, PIXEL_RANGE);
   }
 
   onMouseDown(event) {
-    this.mouseController.setValue(0.0);
-    this._downPos = event.screenY;
-    window.addEventListener('mousemove', this._moveListener);
+    this.mouseController.setValue(1.0);
+    this._downPos = event.data.global.y + PIXEL_RANGE;
+    this.app.renderer.plugins.interaction.on('mousemove', this._moveListener);
+    if (this.showHandle) {
+      this._handle.visible = true;
+      this._handle.setPosition(event.data.global.x, event.data.global.y);
+      this._handle.setValue(1.0);
+    }
   }
 
   onMouseMove(event) {
     if (!this._downPos) {
       return;
     }
-    const deltaPixels = this._downPos - event.screenY;
+    const deltaPixels = this._downPos - event.data.global.y;
     let newValue = deltaPixels / PIXEL_RANGE;
     newValue = Math.max(0.0, newValue);
     newValue = Math.min(1.0, newValue);
     this.mouseController.setValue(newValue);
+    this._handle.setValue(newValue);
   }
 
   onMouseUp(_event) {
     this.mouseController.setValue(0.0);
-    window.removeEventListener('mousemove', this._moveListener);
+    this.app.renderer.plugins.interaction.off('mousemove', this._moveListener);
     this._downPos = null;
+    this._handle.visible = false;
+  }
+
+  reAdd() {
+    this._handle.reAdd();
   }
 
   static supported() {

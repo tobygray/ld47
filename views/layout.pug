@@ -6,6 +6,9 @@ html
   head
     title= title + "-" + buildString
     link(rel='stylesheet', href='/stylesheets/style.css')
+    block styles
     block scripts
   body
+    div(class="progress" id="progress")
+      p(id="pgtxt")
     block content

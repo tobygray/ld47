@@ -4,7 +4,9 @@ const TRACK_INFO = [
     preview_file: 'assets/tracks/1/preview.png',
     background: 'assets/tracks/1/bg.png',
     pieces: [
-      's4', 's4',
+      // s is the only supported start piece
+      's', 's', 's', 's',
+      's4',
       'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2',
       's4', 's4',
       'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2', 'r2',
@@ -27,7 +29,7 @@ const TRACK_INFO = [
   {
     name: 'LOOPTY TREE',
     preview_file: 'assets/tracks/3/preview.png',
-    pieces: ['s4', 'r3', 'r3', 'r2', 'r2', 'r2', 'r2', 'r2', 'r3', 'r3', 'r4', 's', 's', 'l2', 'l2', 'l2', 'l2', 'l2', 'l2', 'l3', 'l3', 'l3', 'l3', 's4', 's4', 's4', 's4', 's', 's', 'l3', 'l3', 'l3', 'l3', 's4', 's', 'l2', 'l2', 'l2', 'l1', 'l1', 'l2', 'l2', 'l2', 'l2', 'r3', 'r2', 'r2', 'r2', 'r2', 's4', 's4', 'r4', 'ss', 's4', 'r3', 'r2', 'r2', 'r2', 'r2', 'r3', 'r4', 's', 'ss'],
+    pieces: ['s', 's', 's', 's', 'r3', 'r3', 'r2', 'r2', 'r2', 'r2', 'r2', 'r3', 'r3', 'r4', 's', 's', 'l2', 'l2', 'l2', 'l2', 'l2', 'l2', 'l3', 'l3', 'l3', 'l3', 's4', 's4', 's4', 's4', 's', 's', 'l3', 'l3', 'l3', 'l3', 's4', 's', 'l2', 'l2', 'l2', 'l1', 'l1', 'l2', 'l2', 'l2', 'l2', 'r3', 'r2', 'r2', 'r2', 'r2', 's4', 's4', 'r4', 'ss', 's4', 'r3', 'r2', 'r2', 'r2', 'r2', 'r3', 'r4', 's', 'ss'],
     scale: 0.5,
     x: 700,
     y: 250,

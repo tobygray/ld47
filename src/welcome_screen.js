@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
 import Track from './track';
 
+const sound = require('pixi-sound').default;
+
 const TRACK_DATA = [
   's4', 's', 's', 's', 'r4', 'r4', 'r4', 'r4',
   's', 'r4', 'r4', 'r4', 'r4',
@@ -10,6 +12,7 @@ const TRACK_DATA = [
 ];
 
 const CREDITS = [
+  'assets/credits/with.png',
   'assets/credits/alan.png',
   'assets/credits/dan.png',
   'assets/credits/jem.png',
@@ -34,6 +37,13 @@ function setupWelcomeScreen(app, completionFunction) {
   track.container.x = app.renderer.width / 2;
   track.container.y = app.renderer.height / 8;
 
+  function rainbowFart() {
+    return Math.random() * 0xFFFFFF;
+  }
+
+  track.carA.generateTint = rainbowFart;
+  track.carB.generateTint = rainbowFart;
+
   const menuLoop = (() => {
     const creditSprites = CREDITS.map((imgPath) => {
       const sprite = new PIXI.Sprite(
@@ -47,7 +57,11 @@ function setupWelcomeScreen(app, completionFunction) {
     });
 
     let currentPos = 0;
-    let activeCredit;
+
+    // Start with "with" visible
+    let activeCredit = creditSprites[currentPos];
+    activeCredit.visible = true;
+
     function menuLoopImpl(delta) {
       // Run cars real nice and slow?
       track.carA.power = 0.468;
@@ -64,7 +78,8 @@ function setupWelcomeScreen(app, completionFunction) {
       if (activeCredit) {
         activeCredit.visible = false;
       }
-      activeCredit = creditSprites[Math.trunc(Math.random() * CREDITS.length)];
+      // Pick a random one but don't show with again
+      activeCredit = creditSprites[1 + Math.trunc(Math.random() * (CREDITS.length - 1))];
       activeCredit.visible = true;
     }
 
@@ -106,12 +121,15 @@ function setupWelcomeScreen(app, completionFunction) {
     document.body.requestFullscreen();
   };
 
+  sound.play('assets/audio/music/sketchybeats.mp3', { loop: true, volume: 0.5, speed: 1 });
+
   return container;
 }
 
 setupWelcomeScreen.resources = [
   'ui/icons/play.png',
   'ui/menu-background.png',
+  'assets/audio/music/sketchybeats.mp3',
   ...CREDITS,
 ];
 

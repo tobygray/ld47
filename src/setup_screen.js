@@ -4,6 +4,8 @@ import createTrackPicker from './track_picker_widget';
 import createControllerPicker from './controller_picker_widget';
 import RaceConfig from './race_config';
 
+const sound = require('pixi-sound').default;
+
 const NO_TINT = 0xFFFFFF;
 const DISABLED_TINT = 0x999999;
 
@@ -47,6 +49,8 @@ function setupRaceConfigScreen(app, controllerHandler, raceConfig, transitionToR
     raceConfig.setChangeListener(null);
     transitionToRaceCallback(raceConfig);
   });
+
+  sound.play('assets/audio/music/sketchybeats.mp3', { loop: true, volume: 0.5, speed: 1 });
 
   return container;
 }

@@ -46,21 +46,24 @@ class TrackScreen {
   }
 
   ai(car, delta) {
+    if (!car.enabled) {
+      return 0;
+    }
     let trackIdx = car.currentTrack;
     let track = this.track.track[trackIdx];
     const { side } = car;
-    let maxSpeed = track.getMaxSafeSpeed(side);
+    let maxSpeed = track.getMaxSafeSpeed(side) * 0.95;
     // add the car's speed to work out if we need to start braking this tick
-    let distance = track.getLength(side) - car.distance + delta * car.speed;
+    let distance = track.getLength(side) - car.distance - 2 * delta * car.speed;
     // arbitrary lookahead of 10 track segments - might be edge cases where this isn't enough
     for (let i = 0; i < 10; i += 1) {
       trackIdx = (trackIdx + 1) % this.track.track.length;
       track = this.track.track[trackIdx];
-      const speed = track.getMaxSafeSpeed(side);
+      const speed = track.getMaxSafeSpeed(side) * 0.95;
       if (speed < maxSpeed) {
         // will need to slow down at some point
         const brakingDistance = getBrakingDistance(car.speed, speed);
-        if (brakingDistance < distance) {
+        if (brakingDistance > distance) {
           // need to start slowing down now
           maxSpeed = speed;
         }
@@ -115,17 +118,22 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
     screen.gameLoop(delta);
   }
 
+  let cars;
+
   const raceState = new RaceResults(raceConfig, () => {
     // Our race result object needs a callback to end the race when it sees fit.
     // Our callback needs to remove the ticker *and* call the original callback we
     // were provided with.
+    cars[0].engineSound = undefined;
+    cars[1].engineSound = undefined;
     app.ticker.remove(ticker);
     raceOverCallback(raceConfig, raceState);
   });
   screen = new TrackScreen(app, raceConfig, raceState);
   app.ticker.add(ticker);
 
-  raceState.initCars([screen.track.carA, screen.track.carB]);
+  cars = [screen.track.carA, screen.track.carB];
+  raceState.initCars(cars);
   raceState.start(app, screen.container);
 
   const bgImage = new PIXI.Sprite(PIXI.utils.TextureCache[raceConfig.track.background]);
@@ -148,6 +156,8 @@ setupTackEvent.resources = [
   'assets/cars/car1.png',
   'assets/cars/car2.png',
 
+  'assets/cars/smoke.png',
+
   'assets/tracks/Pieces/R1.png',
   'assets/tracks/Pieces/R2.png',
   'assets/tracks/Pieces/R3.png',
@@ -157,8 +167,10 @@ setupTackEvent.resources = [
   'assets/tracks/Pieces/SSHO.png',
   'assets/tracks/Pieces/STR.png',
   // Audio samples for race sfx
+  'assets/audio/sfx/screech.mp3',
   'assets/audio/sfx/idle_engine.mp3',
   'assets/audio/sfx/321go.mp3',
+  'assets/audio/sfx/kaboom.mp3',
   ...createRaceLights.resources,
   ...TimerDisplay.getImages(),
 ];

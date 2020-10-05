@@ -15,8 +15,8 @@ const TRACK_INFO = [
     x: 700,
     y: 250,
     lightsPosition: [350, 350],
-    music: 'assets/audio/music/sketchybeats.mp3',
     laps: 10,
+    music: 'assets/audio/music/ohyeah.mp3',
   },
   {
     name: 'LOOPER TWO',
@@ -27,6 +27,7 @@ const TRACK_INFO = [
     y: 400,
     lightsPosition: [850, 350],
     laps: 3,
+    music: 'assets/audio/music/ohyeah.mp3',
   },
   {
     name: 'LOOPTY TREE',
@@ -37,6 +38,7 @@ const TRACK_INFO = [
     y: 250,
     lightsPosition: [350, 350],
     laps: 3,
+    music: 'assets/audio/music/ohyeah.mp3',
   },
 ];
 

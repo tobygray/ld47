@@ -24,11 +24,12 @@ export default class RaceResults {
 
   start(app, container) {
     sound.play('assets/audio/sfx/321go.mp3', {
+      speed: 1,
       complete: () => {
         this.enableCars();
-        sound.play(this.musicPath, { loop: true, volume: 0.5 });
+        sound.play(this.musicPath, { loop: true, volume: 0.5, speed: 1 });
       },
-    });
+    }).speed = 1;
 
     /* TODO: use duration from sound to sync better */
     container.addChild(this.lightsContainer);

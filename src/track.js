@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
 
 import Car from './car';
-import physics from './physics';
+import physics, { collide, PHYSICS_DEBUG } from './physics';
 import TrackPiece from './track_piece';
+
+const SAT = require('sat');
 
 const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
 const idiv = (a, b) => Math.trunc(a / b);
@@ -17,8 +19,21 @@ export default class Track {
 
     this.carA = new Car(0, 'left');
     this.container.addChild(this.carA.sprite);
+    this.container.addChild(this.carA.smoke);
     this.carB = new Car(1, 'right');
     this.container.addChild(this.carB.sprite);
+    this.container.addChild(this.carB.smoke);
+
+    if (PHYSICS_DEBUG) {
+      this.container.addChild(this.carA.corner1);
+      this.container.addChild(this.carA.corner2);
+      this.container.addChild(this.carA.corner3);
+      this.container.addChild(this.carA.corner4);
+      this.container.addChild(this.carB.corner1);
+      this.container.addChild(this.carB.corner2);
+      this.container.addChild(this.carB.corner3);
+      this.container.addChild(this.carB.corner4);
+    }
   }
 
   makeTrack(pieces) {
@@ -115,7 +130,7 @@ export default class Track {
   positionCar(car) {
     if (car.fallOut > 0) {
       [car.sprite.x, car.sprite.y] = car.pos;
-      car.sprite.angle = mod(car.sprite.angle + 5, 360);
+      car.sprite.angle = mod(car.sprite.angle + car.fallHandedness, 360);
       // arbitrary large value - stops crashing cars sliding under track
       // if guard on setting zindex avoids triggering spurious sorts
       if (car.sprite.zIndex !== 400) {
@@ -151,6 +166,7 @@ export default class Track {
     }
     car.pos = pos;
     car.angle = angle;
+    car.exhaust = rearPos;
   }
 
   moveCars(delta, raceState) {
@@ -187,20 +203,72 @@ export default class Track {
   }
 
   applyPhysics(delta, raceState) {
-    this.applyPhysicsToCar(delta, this.carA, raceState);
-    this.applyPhysicsToCar(delta, this.carB, raceState);
+    let coll = null;
+    if (this.carA.enabled && this.carA.fallOut <= 0 && this.carB.fallOut <= 0) {
+      // don't bother with collision checks for crashed or waiting cars
+      coll = collide(this.carA, this.carB);
+    }
+    let vec1 = null;
+    let vec2 = null;
+    if (coll !== null) {
+      // the result object gives us a vector that will uncollide the two objects by the shortest
+      // path, but that's not really what we want. keep the size of the overlap, but use a direct
+      // vector between the centre points
+      vec1 = new SAT.V(this.carA.pos[0] - this.carB.pos[0], this.carA.pos[1] - this.carB.pos[1]);
+      vec1.normalize().scale(coll.overlap);
+      vec2 = vec1.clone().reverse();
+
+      if (PHYSICS_DEBUG) {
+        const force1 = new PIXI.Graphics();
+        force1.lineStyle(4, 0xff00, 1).moveTo(this.carA.pos[0], this.carA.pos[1])
+          .lineTo(this.carA.pos[0] + vec1.x, this.carA.pos[1] + vec1.y);
+        force1.lineStyle(4, 0xff, 1).lineTo(this.carA.pos[0] + vec1.x * 2,
+          this.carA.pos[1] + vec1.y * 2);
+        force1.zIndex = 600;
+        this.container.addChild(force1);
+        const force2 = new PIXI.Graphics();
+        force2.lineStyle(4, 0xff00, 1).moveTo(this.carB.pos[0], this.carB.pos[1])
+          .lineTo(this.carB.pos[0] + vec2.x, this.carB.pos[1] + vec2.y);
+        force2.lineStyle(4, 0xff, 1).lineTo(this.carB.pos[0] + vec2.x * 2,
+          this.carB.pos[1] + vec2.y * 2);
+        force2.zIndex = 600;
+        this.container.addChild(force2);
+      }
+    }
+    this.applyPhysicsToCar(delta, this.carA, raceState, vec1);
+    this.applyPhysicsToCar(delta, this.carB, raceState, vec2);
   }
 
-  applyPhysicsToCar(delta, car, raceState) {
+  applyPhysicsToCar(delta, car, raceState, coll) {
     if (!car.enabled) {
       return;
     }
 
     const track = this.track[car.currentTrack];
-    physics(delta, car, track, car.side, raceState);
+    physics(delta, car, track, car.side, raceState, coll);
   }
 
   updateEngineSounds() {
+    if (!this.carA.engineSound || !this.carB.engineSound) {
+      /*
+      Working around a weird bug:
+
+      if we call stopAll() on every transition then the scoreboard screen sometimes
+      ends up with oddly fast music.
+
+      This bug occured because the last tick that updated an engine sound playback
+      speed was still running after we'd called stopAll() and after we'd started
+      the new music track. Given that we'd already tried to cancel the timer before
+      we reached that point though this points to an index into a sample buffer
+      getting re-used after it had been realloacted to the new sample.
+
+      To fix that we changed we remove the car engine sound objects early and if we
+      get another callback fire after we thought we'd stopped then we check if they're
+      defined. If they're not defined we ignore it quietly because we're probably on
+      cleanup detail now anyway and that sidesetps the bug. (I HOPE!!!).
+      */
+      return;
+    }
     // This should really be power, but for keyboard inputs speed makes a nicer effect!
     this.carA.engineSound.speed = 1 + (this.carA.speed / 5);
     this.carB.engineSound.speed = 1 + (this.carB.speed / 5);
@@ -209,10 +277,18 @@ export default class Track {
     this.carB.engineSound.volume = 0.5 + (this.carB.power / 2);
   }
 
+  updateSmoke() {
+    this.carA.makeSmoke();
+    this.carB.makeSmoke();
+    this.carA.updateSmoke();
+    this.carB.updateSmoke();
+  }
+
   updateCars(delta, raceState) {
     this.applyPhysics(delta, raceState);
     this.moveCars(delta, raceState);
     this.positionCars();
     this.updateEngineSounds();
+    this.updateSmoke();
   }
 }

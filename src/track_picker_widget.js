@@ -7,6 +7,8 @@ const UNSELECTED_TINT = 0xAAAAAA;
 function createTrackPicker(app, raceConfig) {
   const container = new PIXI.Container();
 
+  let defaultTrackCallback;
+
   const trackSprites = TRACK_INFO.map((track, idx) => {
     const currentTrackTexture = new PIXI.Sprite(
       PIXI.utils.TextureCache[track.preview_file],
@@ -41,6 +43,10 @@ function createTrackPicker(app, raceConfig) {
     };
     currentTrackTexture.on('pointertap', buttonSelectedCallback);
 
+    if (!defaultTrackCallback) {
+      defaultTrackCallback = buttonSelectedCallback;
+    }
+
     if (raceConfig.track && track === raceConfig.track) {
       // Has a previous configuration which has this track selected.
       setActive();
@@ -50,6 +56,11 @@ function createTrackPicker(app, raceConfig) {
 
     return currentTrackTexture;
   });
+
+  // Call the callback to pick a track as though we'd clicked on one
+  if (!raceConfig.track) {
+    defaultTrackCallback();
+  }
 
   container.addChild(...trackSprites);
   return container;

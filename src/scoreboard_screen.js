@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js';
 
+const sound = require('pixi-sound').default;
+
 const style = new PIXI.TextStyle({
   fontFamily: 'Arial',
   fontSize: 48,
@@ -30,9 +32,10 @@ function postResultsToServer(resultsArray, textControls) {
     .then((dataArray) => {
       console.log('Success:', dataArray);
       dataArray.forEach((data, index) => {
+        const worldLapsTXT = data.lapRank === 0 ? 'DNF' : `${data.lapRank}/${data.lapCount}`;
         textControls[index].text += `
 
-    World Lap: ${data.lapRank}/${data.lapCount}
+    World Lap: ${worldLapsTXT}
     World Race Time: ${data.totalRank}/${data.totalCount}
     World Crash Rank: ${data.crashRank}/${data.crashCount}`;
       });
@@ -56,17 +59,19 @@ function setupScoreboardScreen(app, raceResults,
   container.addChild(richText);
 
   // TODO: If number of laps gets to big change to output to be the fastest
+  const pOneFastLapTime = raceResults.driverResults[0].lapTimes.sort((a, b) => a - b)[0];
+  const pTwoFastLapTime = raceResults.driverResults[1].lapTimes.sort((a, b) => a - b)[0];
   const playerOneScoreText = new PIXI.Text(`
   ${raceResults.driverResults[0].name}
     Lap Count: ${raceResults.driverResults[0].lapCount}
     Crash Count: ${raceResults.driverResults[0].crashCount}
-    Lap Times: ${raceResults.driverResults[0].lapTimes.map((v) => v / 1000).join('s - ')}s
+    Fastest Lap: ${pOneFastLapTime ? `${pOneFastLapTime / 1000}s` : 'DNF'}
   `, style);
   const playerTwoScoreText = new PIXI.Text(`
   ${raceResults.driverResults[1].name}
     Lap Count: ${raceResults.driverResults[1].lapCount}
     Crash Count: ${raceResults.driverResults[1].crashCount}
-    Lap Times: ${raceResults.driverResults[1].lapTimes.map((v) => v / 1000).join('s - ')}s
+    Fastest Lap: ${pTwoFastLapTime ? `${pTwoFastLapTime / 1000}s` : 'DNF'}
   `, style);
   playerOneScoreText.x = 50;
   playerOneScoreText.y = 275;
@@ -109,6 +114,8 @@ function setupScoreboardScreen(app, raceResults,
     console.log('Wants settings: ', ev);
     transitionToActualRace();
   });
+
+  sound.play('assets/audio/music/sketchybeats.mp3', { loop: true, volume: 0.5, speed: 1 });
 
   return container;
 }

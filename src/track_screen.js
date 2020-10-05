@@ -81,6 +81,9 @@ class TrackScreen {
     } else {
       // stay at constant speed
       power = getStablePower(car);
+      if (power > 1) {
+        power = 1;
+      }
     }
     return power;
   }

@@ -118,15 +118,16 @@ export default class Car {
         s.position.set(s.position.x + ((Math.random() - 0.5) * posMult),
           s.position.y + ((Math.random() - 0.5) * posMult));
 
-        if (s.alpha <= 0.1) {
+        if (s.alpha <= 0.05) {
           s.visible = false;
+          s.alpha = 0;
         }
       }
     });
   }
 
   makeSmoke() {
-    const amountOfSmoke = 10;
+    const amountOfSmoke = 10 + this.speed + (this.power * 5);
     const smokeSpread = 50;
     for (let i = 0; i < amountOfSmoke; i += 1) {
       const offX = (Math.random() * smokeSpread) - (smokeSpread / 2);

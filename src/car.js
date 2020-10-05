@@ -152,8 +152,10 @@ export default class Car {
       if (this.fallOut > 0) {
         // When falling sprite posiution will be wrong
         // eslint-disable-next-line no-bitwise
-        const factor = (randRange(0, 50) * 255) & 0xFF00;
-        sprite.tint = 0xBEA500 + factor + (factor * 255);
+        const randRed = randRange(0x7f0000, 0xFF0000) & 0xFF0000;
+        // eslint-disable-next-line no-bitwise
+        const randGreen = randRange(0xFF00, 0) & 0xFF1F;
+        sprite.tint = randRed + randGreen;
         sprite.scaleMult = 1.5;
         sprite.aphaMult = 0.8;
         sprite.posMult = 30;

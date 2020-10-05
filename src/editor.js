@@ -3,7 +3,6 @@ import setupTackEvent from './track_screen';
 import Track from './track';
 
 const $ = require('jquery');
-require('jquery-ui');
 
 function getTextElement() {
   return $('form#editor textarea#json');
@@ -64,6 +63,4 @@ function setup(app) {
 
 document.addEventListener('DOMContentLoaded', () => {
   createViewElementInDom(setupTackEvent.resources, setup);
-
-  $('#dialog').draggable({ handle: '#pieces', scroll: false });
 });

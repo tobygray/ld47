@@ -129,12 +129,21 @@ export default class Car {
   }
 
   makeSmoke() {
-    const amountOfSmoke = 10 + this.speed + (this.power * 5);
+    let amountOfSmoke = 10 + this.speed + (this.power * 5);
+    if (this.fallOut > 0) {
+      amountOfSmoke = 75;
+    }
     const smokeSpread = 50;
     for (let i = 0; i < amountOfSmoke; i += 1) {
       const offX = (Math.random() * smokeSpread) - (smokeSpread / 2);
       const offY = Math.random() * smokeSpread - (smokeSpread / 2);
-      this.getFreeSmokeParticle(offX, offY);
+      const sprite = this.getFreeSmokeParticle(offX, offY);
+
+      if (this.fallOut > 0) {
+        // When falling sprite posiution will be wrong
+        sprite.position.set(this.sprite.position.x, this.sprite.position.y);
+        sprite.tint = 0xFFA500;
+      }
     }
   }
 }

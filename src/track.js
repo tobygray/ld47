@@ -36,7 +36,12 @@ export default class Track {
       let texture = 'assets/tracks/Pieces/';
       if (piece === 's') {
         size = 87.5;
-        texture += 'SHO.png';
+        if (track.length === 0) {
+          // 's' piece in position 0 is special - it's the start track piece!
+          texture += 'SHO0.png';
+        } else {
+          texture += 'SHO.png';
+        }
       } else if (piece === 'ss') {
         size = 78;
         texture += 'SSHO.png';

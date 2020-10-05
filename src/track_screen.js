@@ -153,6 +153,7 @@ setupTackEvent.resources = [
   'assets/tracks/Pieces/R3.png',
   'assets/tracks/Pieces/R4.png',
   'assets/tracks/Pieces/SHO.png',
+  'assets/tracks/Pieces/SHO0.png',
   'assets/tracks/Pieces/SSHO.png',
   'assets/tracks/Pieces/STR.png',
   // Audio samples for race sfx

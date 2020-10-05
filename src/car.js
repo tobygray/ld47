@@ -63,6 +63,7 @@ export default class Car {
       // smoke.scale.set(0.8 + Math.random() * 0.3);
       smoke.visible = false;
       smoke.alpha = 0; // Hide by default
+      smoke.tint = Math.random() * 0xFFFFFF;
       this.allSmoke.push(smoke);
       this.smoke.addChild(smoke);
     }

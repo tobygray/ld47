@@ -108,9 +108,11 @@ export default class Car {
   }
 
   makeSmoke() {
-    for (let i = 0; i < 20; i += 1) {
-      const offX = Math.random() * 20;
-      const offY = Math.random() * 20;
+    const amountOfSmoke = 10;
+    const smokeSpread = 50;
+    for (let i = 0; i < amountOfSmoke; i += 1) {
+      const offX = Math.random() * smokeSpread;
+      const offY = Math.random() * smokeSpread;
       this.getFreeSmokeParticle(offX, offY);
     }
   }

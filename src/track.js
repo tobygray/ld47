@@ -49,6 +49,7 @@ export default class Track {
       let radius = 0;
       let size = 0;
       let texture = 'assets/tracks/Pieces/';
+      let cross = false;
       if (piece === 's') {
         size = 87.5;
         if (track.length === 0) {
@@ -63,6 +64,16 @@ export default class Track {
       } else if (piece === 's4') {
         size = 350;
         texture += 'STR.png';
+      } else if (piece === 'c1') {
+        size = 175;
+        radius = 373;
+        texture += 'C.png';
+        cross = 1;
+      } else if (piece === 'c2') {
+        size = 175;
+        radius = 373;
+        texture = null;
+        cross = -1;
       } else {
         texture += 'R';
         let sign = 0;
@@ -87,7 +98,7 @@ export default class Track {
         texture += piece[1] + '.png';
         radius *= sign;
       }
-      const trackPiece = new TrackPiece(radius, size, pos, angle, texture, zIndex);
+      const trackPiece = new TrackPiece(radius, size, pos, angle, texture, zIndex, cross);
       angle = trackPiece.endAngle;
       pos = trackPiece.endPos;
       track.push(trackPiece);
@@ -99,23 +110,25 @@ export default class Track {
   makeTrackContainer(track) {
     const container = new PIXI.Container();
     for (const piece of track) {
-      if (piece.texture in PIXI.utils.TextureCache) {
-        const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[piece.texture]);
-        sprite.pivot.set(0, 78); // midpoint of edge
-        if (piece.radius < 0) {
-          // left
-          sprite.scale.y = -1;
+      if (piece.texture !== null) {
+        if (piece.texture in PIXI.utils.TextureCache) {
+          const sprite = new PIXI.Sprite(PIXI.utils.TextureCache[piece.texture]);
+          sprite.pivot.set(0, 78); // midpoint of edge
+          if (piece.radius < 0) {
+            // left
+            sprite.scale.y = -1;
+          }
+          // track sprites start pointing right
+          sprite.angle = mod(piece.startAngle - 90, 360);
+          [sprite.x, sprite.y] = piece.startPos;
+          sprite.zIndex = piece.zIndex;
+          container.addChild(sprite);
+        } else {
+          const line = new PIXI.Graphics();
+          line.lineStyle(156, 0x666666, 1).moveTo(...piece.startPos).lineTo(...piece.endPos);
+          line.zIndex = piece.zIndex;
+          container.addChild(line);
         }
-        // track sprites start pointing right
-        sprite.angle = mod(piece.startAngle - 90, 360);
-        [sprite.x, sprite.y] = piece.startPos;
-        sprite.zIndex = piece.zIndex;
-        container.addChild(sprite);
-      } else {
-        const line = new PIXI.Graphics();
-        line.lineStyle(156, 0x666666, 1).moveTo(...piece.startPos).lineTo(...piece.endPos);
-        line.zIndex = piece.zIndex;
-        container.addChild(line);
       }
     }
     container.sortableChildren = true;
@@ -144,11 +157,15 @@ export default class Track {
 
     let rearDist = car.distance - CAR_LENGTH;
     let rearIdx = car.currentTrack;
+    let rearSide = car.side;
     while (rearDist < 0) {
       rearIdx = mod(rearIdx - 1, this.track.length);
-      rearDist += this.track[rearIdx].getLength(car.side);
+      if (this.track[rearIdx].cross === 1) {
+        rearSide = rearSide === 'left' ? 'right' : 'left';
+      }
+      rearDist += this.track[rearIdx].getLength(rearSide);
     }
-    const rearPos = this.track[rearIdx].findPos(rearDist, car.side);
+    const rearPos = this.track[rearIdx].findPos(rearDist, rearSide);
     const rearX = pos[0] - rearPos[0];
     const rearY = pos[1] - rearPos[1];
     const angle = mod((Math.atan2(rearY, rearX) * 180) / Math.PI + 90, 360) + car.tailAngle;
@@ -193,6 +210,9 @@ export default class Track {
       car.currentLap = idiv(car.totalTrack, this.track.length);
       if (raceState) {
         raceState.onCarMovedPiece(car);
+      }
+      if (this.track[car.currentTrack].cross === -1) {
+        car.swapSides();
       }
     }
     car.distance = dist;

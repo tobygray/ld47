@@ -125,6 +125,14 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
     }
   }
 
+  if (raceConfig.controllerHandler.touchEventHandler) {
+    // Enable touch throttle if at least one player controller.
+    const { touchController } = raceConfig.controllerHandler.touchEventHandler;
+    if (raceConfig.players.some((player) => player.controller === touchController)) {
+      raceConfig.controllerHandler.touchEventHandler.showHandle = true;
+    }
+  }
+
   function ticker(delta) {
     screen.gameLoop(delta);
   }
@@ -142,6 +150,10 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
     if (raceConfig.controllerHandler.mouseEventHandler) {
       // Disable mouse throttle.
       raceConfig.controllerHandler.mouseEventHandler.showHandle = false;
+    }
+    if (raceConfig.controllerHandler.touchEventHandler) {
+      // Disable touch throttle.
+      raceConfig.controllerHandler.touchEventHandler.showHandle = false;
     }
     raceOverCallback(raceConfig, raceState);
   });

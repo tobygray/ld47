@@ -55,14 +55,16 @@ export default class Car {
       uvs: true,
       alpha: true,
     });
-
+    this.smoke.zIndex = 401;
     for (let i = 0; i < TOTAL_SMOKE; i += 1) {
       const smoke = PIXI.Sprite.from('assets/cars/smoke.png');
+      // const smoke = PIXI.Sprite.from('assets/cars/car2.png');
       smoke.anchor.set(0.5);
       // smoke.scale.set(0.8 + Math.random() * 0.3);
       smoke.visible = false;
-
+      smoke.zIndex = 401;
       this.allSmoke.push(smoke);
+      this.smoke.addChild(smoke);
     }
   }
 
@@ -80,9 +82,11 @@ export default class Car {
       }
     }
 
+    console.log('theOne === ', theOne);
     theOne.visible = true;
-    [theOne.x, theOne.y] = this.sprite.position;
+    theOne.position.set(this.sprite.position.x, this.sprite.position.y);
     theOne.scale.set(1, 1);
+    console.log('theOne === ', theOne);
 
     return theOne;
   }

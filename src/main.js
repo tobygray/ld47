@@ -24,6 +24,7 @@ function setup(app) {
 
   function resetScreenAndSound() {
     app.stage.removeChildren();
+    sound.speedAll = 1;
     sound.stopAll();
   }
 

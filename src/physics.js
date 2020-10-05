@@ -22,7 +22,7 @@ const DANGER_THRESHOLD = 0.5;
 // Maxium additional angle added by tail slide
 const MAX_TAIL_ANGLE = 45;
 // Scale collision forces
-const FORWARD_COLLISION_SCALE = 0.2;
+const FORWARD_COLLISION_SCALE = 0.1;
 const SIDE_COLLISION_SCALE = 0.2;
 
 export const PHYSICS_DEBUG = false;
@@ -39,7 +39,7 @@ export function getMaxSpeed(track, side) {
 
 // note: this ignores the additional friction on corners right now
 export function getBrakingDistance(currentSpeed, targetSpeed) {
-  const accel = (CO_MOVING_FRICTION * DOWNFORCE) / CAR_MASS;
+  const accel = -(CO_MOVING_FRICTION * DOWNFORCE) / CAR_MASS;
   return (targetSpeed * targetSpeed - currentSpeed * currentSpeed) / (2 * accel);
 }
 
@@ -109,9 +109,6 @@ export default function physics(delta, car, track, side, raceState, coll) {
     const right = new SAT.V(1, 0).rotate(angle);
     collLinearForce = coll.dot(forward) * FORWARD_COLLISION_SCALE;
     collSideForce = coll.dot(right) * SIDE_COLLISION_SCALE;
-    if (PHYSICS_DEBUG) {
-      console.log('collision:', collLinearForce, collSideForce);
-    }
   }
   let engineForce = car.power * MAX_TORQUE;
   // electric motors have a linear torque/speed graph
@@ -129,7 +126,8 @@ export default function physics(delta, car, track, side, raceState, coll) {
     // need to keep the sign because the collision force is signed as well, with a right force +ve
     circularForce = -(CAR_MASS * car.speed * car.speed) / radius;
     if (PHYSICS_DEBUG && coll !== null) {
-      console.log('car side', car.side, 'circularForce', circularForce, 'collSideForce', collSideForce, 'net', circularForce + collSideForce);
+      console.log(car.side, 'collLinearForce', collLinearForce, 'circularForce', circularForce,
+        'collSideForce', collSideForce, 'net', circularForce + collSideForce);
     }
     circularForce += collSideForce;
     // but for threshold checking we just want the absolute value
@@ -137,6 +135,9 @@ export default function physics(delta, car, track, side, raceState, coll) {
   }
 
   if (circularForce > MAX_SIDE_FORCE) {
+    if (PHYSICS_DEBUG) {
+      console.log(car.side, 'circularForce', circularForce);
+    }
     // car falls out
     car.fallOut = 60;
     // High danger when you're flying through the air.
@@ -159,6 +160,10 @@ export default function physics(delta, car, track, side, raceState, coll) {
   car.targetAngle = MAX_TAIL_ANGLE * car.dangerLevel;
   if (radius < 0) {
     car.targetAngle *= -1;
+  }
+
+  if (coll !== null) {
+    car.dangerLevel = 1.0;
   }
 
   let frictionForce;

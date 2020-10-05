@@ -46,21 +46,24 @@ class TrackScreen {
   }
 
   ai(car, delta) {
+    if (!car.enabled) {
+      return 0;
+    }
     let trackIdx = car.currentTrack;
     let track = this.track.track[trackIdx];
     const { side } = car;
-    let maxSpeed = track.getMaxSafeSpeed(side);
+    let maxSpeed = track.getMaxSafeSpeed(side) * 0.95;
     // add the car's speed to work out if we need to start braking this tick
-    let distance = track.getLength(side) - car.distance + delta * car.speed;
+    let distance = track.getLength(side) - car.distance - 2 * delta * car.speed;
     // arbitrary lookahead of 10 track segments - might be edge cases where this isn't enough
     for (let i = 0; i < 10; i += 1) {
       trackIdx = (trackIdx + 1) % this.track.track.length;
       track = this.track.track[trackIdx];
-      const speed = track.getMaxSafeSpeed(side);
+      const speed = track.getMaxSafeSpeed(side) * 0.95;
       if (speed < maxSpeed) {
         // will need to slow down at some point
         const brakingDistance = getBrakingDistance(car.speed, speed);
-        if (brakingDistance < distance) {
+        if (brakingDistance > distance) {
           // need to start slowing down now
           maxSpeed = speed;
         }

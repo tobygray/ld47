@@ -12,6 +12,7 @@ const TRACK_DATA = [
 ];
 
 const CREDITS = [
+  'assets/credits/with.png',
   'assets/credits/alan.png',
   'assets/credits/dan.png',
   'assets/credits/jem.png',
@@ -56,7 +57,11 @@ function setupWelcomeScreen(app, completionFunction) {
     });
 
     let currentPos = 0;
-    let activeCredit;
+
+    // Start with "with" visible
+    let activeCredit = creditSprites[currentPos];
+    activeCredit.visible = true;
+
     function menuLoopImpl(delta) {
       // Run cars real nice and slow?
       track.carA.power = 0.468;
@@ -73,7 +78,8 @@ function setupWelcomeScreen(app, completionFunction) {
       if (activeCredit) {
         activeCredit.visible = false;
       }
-      activeCredit = creditSprites[Math.trunc(Math.random() * CREDITS.length)];
+      // Pick a random one but don't show with again
+      activeCredit = creditSprites[1 + Math.trunc(Math.random() * (CREDITS.length - 1))];
       activeCredit.visible = true;
     }
 

@@ -68,7 +68,7 @@ export default class Car {
     }
   }
 
-  getFreeSmokeParticle() {
+  getFreeSmokeParticle(offX, offY) {
     let theOne = this.allSmoke[0];
 
     for (let i = 0; i < this.allSmoke.length; i += 1) {
@@ -84,7 +84,7 @@ export default class Car {
 
     console.log('theOne === ', theOne);
     theOne.visible = true;
-    theOne.position.set(this.sprite.position.x, this.sprite.position.y);
+    theOne.position.set(this.sprite.position.x + offX, this.sprite.position.y + offY);
     theOne.scale.set(1, 1);
     theOne.alpha = 1;
     console.log('theOne === ', theOne);
@@ -108,6 +108,10 @@ export default class Car {
   }
 
   makeSmoke() {
-    this.getFreeSmokeParticle();
+    for (let i = 0; i < 20; i += 1) {
+      const offX = Math.random() * 20;
+      const offY = Math.random() * 20;
+      this.getFreeSmokeParticle(offX, offY);
+    }
   }
 }

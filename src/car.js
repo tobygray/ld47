@@ -55,14 +55,14 @@ export default class Car {
       uvs: true,
       alpha: true,
     });
-    this.smoke.zIndex = 401;
+
     for (let i = 0; i < TOTAL_SMOKE; i += 1) {
       const smoke = PIXI.Sprite.from('assets/cars/smoke.png');
       // const smoke = PIXI.Sprite.from('assets/cars/car2.png');
       smoke.anchor.set(0.5);
       // smoke.scale.set(0.8 + Math.random() * 0.3);
       smoke.visible = false;
-      smoke.zIndex = 401;
+      smoke.alpha = 0; // Hide by default
       this.allSmoke.push(smoke);
       this.smoke.addChild(smoke);
     }
@@ -70,6 +70,7 @@ export default class Car {
 
   getFreeSmokeParticle(offX, offY) {
     let theOne = this.allSmoke[0];
+    this.smoke.zIndex = this.sprite.zIndex - 1;
 
     for (let i = 0; i < this.allSmoke.length; i += 1) {
       if (!this.allSmoke[i].visible) {
@@ -82,12 +83,11 @@ export default class Car {
       }
     }
 
-    console.log('theOne === ', theOne);
     theOne.visible = true;
     theOne.position.set(this.sprite.position.x + offX, this.sprite.position.y + offY);
     theOne.scale.set(1, 1);
     theOne.alpha = 1;
-    console.log('theOne === ', theOne);
+    theOne.direction = Math.random() * Math.PI * 2;
 
     return theOne;
   }

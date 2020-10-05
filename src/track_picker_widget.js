@@ -23,7 +23,7 @@ function createTrackPicker(app, raceConfig) {
 
     const setActive = () => {
       // Add a border on the current clicked one.
-      currentTrackTexture.scale.set(1.5, 1.5);
+      currentTrackTexture.scale.set(1.35, 1.35);
       currentTrackTexture.tint = SELECTED_TINT;
     };
     const buttonSelectedCallback = (_evt) => {

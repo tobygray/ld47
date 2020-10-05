@@ -84,7 +84,7 @@ export default class Car {
     }
 
     theOne.visible = true;
-    theOne.position.set(this.sprite.position.x + offX, this.sprite.position.y + offY);
+    theOne.position.set(this.exhaust[0] + offX, this.exhaust[1] + offY);
     theOne.scale.set(1, 1);
     theOne.alpha = 1;
     theOne.direction = Math.random() * Math.PI * 2;

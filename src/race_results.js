@@ -3,8 +3,6 @@ import createRaceLights from './race_start_lights';
 const sound = require('pixi-sound').default;
 const { DriverResult } = require('./api/driver_result.js');
 
-const LAP_TARGET = 3;
-
 export default class RaceResults {
   constructor(raceConfig, raceOverCallback) {
     // During the race this is absolute time stamps.
@@ -21,6 +19,7 @@ export default class RaceResults {
     this.endRace = raceOverCallback;
     this.lightsContainer = createRaceLights(0.75, raceConfig.track.lightsPosition);
     this.musicPath = raceConfig.track.music;
+    this.lapTarget = raceConfig.track.laps;
   }
 
   start(app, container) {
@@ -88,7 +87,7 @@ export default class RaceResults {
 
   // TODO: subclass this an then let other people implement other rules...
   shouldEndRace() {
-    return !this.driverResults.every((result) => result.lapCount < LAP_TARGET);
+    return !this.driverResults.every((result) => result.lapCount < this.lapTarget);
   }
 
   checkEndConditions() {
@@ -98,7 +97,7 @@ export default class RaceResults {
 
       // Set any driver who hit the lap count as having finished the race.
       this.driverResults.forEach((result) => {
-        if (result.lapCount >= LAP_TARGET) {
+        if (result.lapCount >= this.lapTarget) {
           result.finished();
         }
       });

@@ -4,6 +4,8 @@ import Car from './car';
 import physics, { collide, PHYSICS_DEBUG } from './physics';
 import TrackPiece from './track_piece';
 
+const SAT = require('sat');
+
 const mod = (a, b) => ((a % b) + b) % b; // JAVASCRIIIIIIPT
 const idiv = (a, b) => Math.trunc(a / b);
 const rad = (a) => (a * Math.PI) / 180;
@@ -201,12 +203,20 @@ export default class Track {
   }
 
   applyPhysics(delta, raceState) {
-    const coll = collide(this.carA, this.carB);
+    let coll = null;
+    if (this.carA.enabled && this.carA.fallOut <= 0 && this.carB.fallOut <= 0) {
+      // don't bother with collision checks for crashed or waiting cars
+      coll = collide(this.carA, this.carB);
+    }
     let vec1 = null;
     let vec2 = null;
     if (coll !== null) {
-      vec2 = coll.overlapV;
-      vec1 = coll.overlapV.clone().reverse();
+      // the result object gives us a vector that will uncollide the two objects by the shortest
+      // path, but that's not really what we want. keep the size of the overlap, but use a direct
+      // vector between the centre points
+      vec1 = new SAT.V(this.carA.pos[0] - this.carB.pos[0], this.carA.pos[1] - this.carB.pos[1]);
+      vec1.normalize().scale(coll.overlap);
+      vec2 = vec1.clone().reverse();
 
       if (PHYSICS_DEBUG) {
         const force1 = new PIXI.Graphics();

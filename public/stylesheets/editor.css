@@ -1,0 +1,28 @@
+#pieces {
+  border: 5px;
+  border-color: grey;
+  max-width: 300px;
+  position: absolute;
+  display: block;
+  z-index: 99;
+  border-style: ridge;
+  background-color: grey;
+  opacity: 0.5;
+  scale: 0.5;
+} 
+
+canvas {
+  /* top: 0px; */
+  border: 2px;
+  border-color: grey;
+  border-style: solid;
+}
+
+input {
+  width: 50px;
+  height: 50px;
+}
+
+/*input#s {
+  background:url(assets/tracks/Pieces/SHO.png) no-repeat;
+}*/

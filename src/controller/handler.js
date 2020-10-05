@@ -8,7 +8,7 @@ class ControllerHandler {
     this.keyboardEventHandler = new KeyboardEventHandler();
     this.gamepadEventHandler = new GamepadEventHandler();
     if (TouchEventHandler.supported()) {
-      this.touchEventHandler = new TouchEventHandler();
+      this.touchEventHandler = new TouchEventHandler(app);
     } else {
       this.touchEventHandler = null;
     }
@@ -32,6 +32,9 @@ class ControllerHandler {
   }
 
   reAdd() {
+    if (this.touchEventHandler) {
+      this.touchEventHandler.reAdd();
+    }
     if (this.mouseEventHandler) {
       this.mouseEventHandler.reAdd();
     }

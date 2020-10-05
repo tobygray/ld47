@@ -112,7 +112,7 @@ function setupScoreboardScreen(app, raceResults,
     transitionToActualRace();
   });
 
-  sound.play('assets/audio/music/sketchybeats.mp3', { loop: true, volume: 0.5, speed: 1 }).speed = 1;
+  sound.play('assets/audio/music/sketchybeats.mp3', { loop: true, volume: 0.5, speed: 0.99 }).speed = 1.01;
 
   return container;
 }

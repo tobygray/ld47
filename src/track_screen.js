@@ -118,17 +118,22 @@ function setupTackEvent(app, raceOverCallback, raceConfig) {
     screen.gameLoop(delta);
   }
 
+  let cars;
+
   const raceState = new RaceResults(raceConfig, () => {
     // Our race result object needs a callback to end the race when it sees fit.
     // Our callback needs to remove the ticker *and* call the original callback we
     // were provided with.
+    cars[0].engineSound = undefined;
+    cars[1].engineSound = undefined;
     app.ticker.remove(ticker);
     raceOverCallback(raceConfig, raceState);
   });
   screen = new TrackScreen(app, raceConfig, raceState);
   app.ticker.add(ticker);
 
-  raceState.initCars([screen.track.carA, screen.track.carB]);
+  cars = [screen.track.carA, screen.track.carB];
+  raceState.initCars(cars);
   raceState.start(app, screen.container);
 
   const bgImage = new PIXI.Sprite(PIXI.utils.TextureCache[raceConfig.track.background]);

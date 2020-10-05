@@ -249,6 +249,9 @@ export default class Track {
   }
 
   updateEngineSounds() {
+    if (!this.carA.engineSound || !this.carB.engineSound) {
+      return;
+    }
     // This should really be power, but for keyboard inputs speed makes a nicer effect!
     this.carA.engineSound.speed = 1 + (this.carA.speed / 5);
     this.carB.engineSound.speed = 1 + (this.carB.speed / 5);

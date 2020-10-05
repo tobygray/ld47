@@ -34,6 +34,9 @@ export default class Car {
     this.tailAngle = 0;
     this.currentFriction = 0;
 
+    // Used for sound tracking
+    this.offtrack = false;
+
     // unrotated car is pointing up
     const tex = PIXI.utils.TextureCache[`assets/cars/car${this.playerIndex + 1}.png`];
     this.sprite = new PIXI.Sprite(tex);
@@ -150,6 +153,7 @@ export default class Car {
       sprite.posMult = 10;
 
       if (this.fallOut > 0) {
+        this.offtrack = true;
         // When falling sprite posiution will be wrong
         // eslint-disable-next-line no-bitwise
         const randRed = randRange(0x7f0000, 0xFF0000) & 0xFF0000;
@@ -159,6 +163,10 @@ export default class Car {
         sprite.scaleMult = 1.5;
         sprite.aphaMult = 0.8;
         sprite.posMult = 30;
+      } else if (this.offtrack) {
+        // We were off track, but now we're back on. Play kaboom
+        this.offtrack = false;
+        sound.play('assets/audio/sfx/kaboom.mp3', { loop: false });
       }
     }
   }

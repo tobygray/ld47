@@ -187,4 +187,8 @@ export default class Car {
       }
     }
   }
+
+  swapSides() {
+    this.side = this.side === 'left' ? 'right' : 'left';
+  }
 }

@@ -28,7 +28,7 @@ export default class RaceResults {
       speed: 1,
       complete: () => {
         this.enableCars();
-        sound.play(this.musicPath, { loop: true, volume: 0.5, speed: 1 }).speed = 1;
+        sound.play(this.musicPath, { loop: true, volume: 0.5, speed: 1 });
       },
     }).speed = 1;
 

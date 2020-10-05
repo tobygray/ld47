@@ -33,12 +33,13 @@ const TRACK_INFO = [
     name: 'LOOPTY TREE',
     preview_file: 'assets/tracks/3/preview.png',
     pieces: ['s', 's', 's', 's', 'r3', 'r3', 'r2', 'r2', 'r2', 'r2', 'r2', 'r3', 'r3', 'r4', 's', 's', 'l2', 'l2', 'l2', 'l2', 'l2', 'l2', 'l3', 'l3', 'l3', 'l3', 's4', 'c1', 'c2', 's4', 's4', 's', 's', 'l3', 'l3', 'l3', 'l3', 's4', 's', 'l2', 'l2', 'l2', 'l1', 'l1', 'l2', 'l2', 'l2', 'l2', 'r3', 'r2', 'r2', 'r2', 'r2', 'c1', 'c2', 's4', 'r4', 'ss', 's4', 'r3', 'r2', 'r2', 'r2', 'r2', 'r3', 'r4', 's', 'ss'],
-    scale: 0.5,
+    scale: 0.4,
     x: 700,
-    y: 250,
+    y: 275,
     lightsPosition: [350, 350],
     laps: 3,
     music: 'assets/audio/music/ohyeah.mp3',
+    background: 'assets/tracks/3/bg.png',
   },
 ];
 

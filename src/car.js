@@ -133,7 +133,19 @@ export default class Car {
     });
   }
 
+  handleDanger() {
+    if (!this.screechSound && this.engineSound) {
+      this.screechSound = sound.play('assets/audio/sfx/screech.mp3', { loop: true, volume: 0 });
+    } else if (this.dangerLevel > 0.1 && this.engineSound) {
+      this.screechSound.volume = 0.1 * this.dangerLevel;
+    } else if (this.screechSound) {
+      this.screechSound.stop();
+      this.screechSound = undefined;
+    }
+  }
+
   makeSmoke() {
+    this.handleDanger();
     let amountOfSmoke = 10 + this.speed + (this.power * 5);
     let basePos = this.exhaust;
 
@@ -166,6 +178,10 @@ export default class Car {
       } else if (this.offtrack) {
         // We were off track, but now we're back on. Play kaboom
         this.offtrack = false;
+        if (this.screechSound) {
+          this.screechSound.stop();
+          this.screechSound = undefined;
+        }
         sound.play('assets/audio/sfx/kaboom.mp3', { loop: false, volume: 0.25 });
       }
     }

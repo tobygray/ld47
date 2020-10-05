@@ -167,6 +167,7 @@ setupTackEvent.resources = [
   'assets/tracks/Pieces/SSHO.png',
   'assets/tracks/Pieces/STR.png',
   // Audio samples for race sfx
+  'assets/audio/sfx/screech.mp3',
   'assets/audio/sfx/idle_engine.mp3',
   'assets/audio/sfx/321go.mp3',
   'assets/audio/sfx/kaboom.mp3',

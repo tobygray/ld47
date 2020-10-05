@@ -25,7 +25,7 @@ const TRACK_INFO = [
     x: 400,
     y: 400,
     lightsPosition: [850, 350],
-    // music: 'assets/audio/music/ohyeah.mp3',
+    music: 'assets/audio/music/ohyeah.mp3',
   },
   {
     name: 'LOOPTY TREE',
@@ -35,7 +35,7 @@ const TRACK_INFO = [
     x: 700,
     y: 250,
     lightsPosition: [350, 350],
-    // music: 'assets/audio/music/ohyeah.mp3',
+    music: 'assets/audio/music/ohyeah.mp3',
   },
 ];
 

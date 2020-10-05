@@ -2,8 +2,12 @@ import * as PIXI from 'pixi.js';
 
 const sound = require('pixi-sound').default;
 
+const TOTAL_SMOKE = 500;
+
 export default class Car {
   constructor(index, side) {
+    this.initSmoke();
+
     this.playerIndex = index;
     this.side = side;
 
@@ -39,5 +43,51 @@ export default class Car {
 
     // Audio sample for engine noise
     this.engineSound = sound.play('assets/audio/sfx/idle_engine.mp3', { loop: true });
+  }
+
+  initSmoke() {
+    this.allSmoke = [];
+
+    this.smoke = new PIXI.ParticleContainer(TOTAL_SMOKE, {
+      scale: true,
+      position: true,
+      rotation: true,
+      uvs: true,
+      alpha: true,
+    });
+
+    for (let i = 0; i < TOTAL_SMOKE; i += 1) {
+      const smoke = PIXI.Sprite.from('assets/cars/smoke.png');
+      smoke.anchor.set(0.5);
+      // smoke.scale.set(0.8 + Math.random() * 0.3);
+      smoke.visible = false;
+
+      this.allSmoke.push(smoke);
+    }
+  }
+
+  getFreeSmokeParticle() {
+    let theOne = this.allSmoke[0];
+
+    for (let i = 0; i < this.allSmoke.length; i += 1) {
+      if (!this.allSmoke[i].visible) {
+        theOne = this.allSmoke[i];
+        break;
+      }
+
+      if (theOne.alpha > this.allSmoke[i].alpha) {
+        theOne = this.allSmoke[i];
+      }
+    }
+
+    theOne.visible = true;
+    [theOne.x, theOne.y] = this.sprite.position;
+    theOne.scale.set(1, 1);
+
+    return theOne;
+  }
+
+  makeSmoke() {
+    this.getFreeSmokeParticle();
   }
 }

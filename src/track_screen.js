@@ -148,6 +148,8 @@ setupTackEvent.resources = [
   'assets/cars/car1.png',
   'assets/cars/car2.png',
 
+  'assets/cars/smoke.png',
+
   'assets/tracks/Pieces/R1.png',
   'assets/tracks/Pieces/R2.png',
   'assets/tracks/Pieces/R3.png',

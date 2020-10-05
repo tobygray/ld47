@@ -17,8 +17,10 @@ export default class Track {
 
     this.carA = new Car(0, 'left');
     this.container.addChild(this.carA.sprite);
+    this.container.addChild(this.carA.smoke);
     this.carB = new Car(1, 'right');
     this.container.addChild(this.carB.sprite);
+    this.container.addChild(this.carB.smoke);
   }
 
   makeTrack(pieces) {
@@ -209,10 +211,16 @@ export default class Track {
     this.carB.engineSound.volume = 0.5 + (this.carB.power / 2);
   }
 
+  updateSmoke() {
+    this.carA.makeSmoke();
+    this.carB.makeSmoke();
+  }
+
   updateCars(delta, raceState) {
     this.applyPhysics(delta, raceState);
     this.moveCars(delta, raceState);
     this.positionCars();
     this.updateEngineSounds();
+    this.updateSmoke();
   }
 }

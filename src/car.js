@@ -137,7 +137,7 @@ export default class Car {
     if (!this.screechSound && this.engineSound) {
       this.screechSound = sound.play('assets/audio/sfx/screech.mp3', { loop: true, volume: 0 });
     } else if (this.dangerLevel > 0.1 && this.engineSound) {
-      this.screechSound.volume = 0.1 * this.dangerLevel;
+      this.screechSound.volume = 0.15 * this.dangerLevel;
     } else if (this.screechSound) {
       this.screechSound.stop();
       this.screechSound = undefined;

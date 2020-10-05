@@ -2,8 +2,12 @@ import * as PIXI from 'pixi.js';
 
 const sound = require('pixi-sound').default;
 
+const TOTAL_SMOKE = 500;
+
 export default class Car {
   constructor(index, side) {
+    this.initSmoke();
+
     this.playerIndex = index;
     this.side = side;
 
@@ -39,5 +43,77 @@ export default class Car {
 
     // Audio sample for engine noise
     this.engineSound = sound.play('assets/audio/sfx/idle_engine.mp3', { loop: true });
+  }
+
+  initSmoke() {
+    this.allSmoke = [];
+
+    this.smoke = new PIXI.ParticleContainer(TOTAL_SMOKE, {
+      scale: true,
+      position: true,
+      rotation: true,
+      uvs: true,
+      alpha: true,
+    });
+    this.smoke.zIndex = 401;
+    for (let i = 0; i < TOTAL_SMOKE; i += 1) {
+      const smoke = PIXI.Sprite.from('assets/cars/smoke.png');
+      // const smoke = PIXI.Sprite.from('assets/cars/car2.png');
+      smoke.anchor.set(0.5);
+      // smoke.scale.set(0.8 + Math.random() * 0.3);
+      smoke.visible = false;
+      smoke.zIndex = 401;
+      this.allSmoke.push(smoke);
+      this.smoke.addChild(smoke);
+    }
+  }
+
+  getFreeSmokeParticle(offX, offY) {
+    let theOne = this.allSmoke[0];
+
+    for (let i = 0; i < this.allSmoke.length; i += 1) {
+      if (!this.allSmoke[i].visible) {
+        theOne = this.allSmoke[i];
+        break;
+      }
+
+      if (theOne.alpha > this.allSmoke[i].alpha) {
+        theOne = this.allSmoke[i];
+      }
+    }
+
+    console.log('theOne === ', theOne);
+    theOne.visible = true;
+    theOne.position.set(this.sprite.position.x + offX, this.sprite.position.y + offY);
+    theOne.scale.set(1, 1);
+    theOne.alpha = 1;
+    console.log('theOne === ', theOne);
+
+    return theOne;
+  }
+
+  updateSmoke() {
+    const scaleMult = 1.1;
+    const aphaMult = 0.9;
+    this.allSmoke.forEach((s) => {
+      if (s.visible) {
+        s.scale.set(s.scale.x * scaleMult, s.scale.y * scaleMult);
+        s.alpha *= aphaMult;
+
+        if (s.alpha <= 0.1) {
+          s.visible = false;
+        }
+      }
+    });
+  }
+
+  makeSmoke() {
+    const amountOfSmoke = 10;
+    const smokeSpread = 50;
+    for (let i = 0; i < amountOfSmoke; i += 1) {
+      const offX = Math.random() * smokeSpread;
+      const offY = Math.random() * smokeSpread;
+      this.getFreeSmokeParticle(offX, offY);
+    }
   }
 }

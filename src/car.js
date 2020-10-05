@@ -166,7 +166,7 @@ export default class Car {
       } else if (this.offtrack) {
         // We were off track, but now we're back on. Play kaboom
         this.offtrack = false;
-        sound.play('assets/audio/sfx/kaboom.mp3', { loop: false });
+        sound.play('assets/audio/sfx/kaboom.mp3', { loop: false, volume: 0.25 });
       }
     }
   }

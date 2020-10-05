@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js';
 
+import { PHYSICS_DEBUG } from './physics';
+
 const sound = require('pixi-sound').default;
 
 const TOTAL_SMOKE = 500;
@@ -19,6 +21,7 @@ export default class Car {
     this.totalTrack = 0; // This counts total elapsted segments and so after the first lap is > len
     this.currentLap = 0; // Counts the current lap
     this.fallOut = 0;
+    this.fallHandedness = 0;
     this.pos = [0, 0];
     this.angle = 0;
     this.dangerLevel = 0;
@@ -43,6 +46,17 @@ export default class Car {
 
     // Audio sample for engine noise
     this.engineSound = sound.play('assets/audio/sfx/idle_engine.mp3', { loop: true });
+
+    if (PHYSICS_DEBUG) {
+      this.corner1 = new PIXI.Graphics().beginFill(0xff0000).drawCircle(0, 0, 2).endFill();
+      this.corner2 = new PIXI.Graphics().beginFill(0xff00).drawCircle(0, 0, 2).endFill();
+      this.corner3 = new PIXI.Graphics().beginFill(0xff).drawCircle(0, 0, 2).endFill();
+      this.corner4 = new PIXI.Graphics().beginFill(0xff00ff).drawCircle(0, 0, 2).endFill();
+      this.corner1.zIndex = 600;
+      this.corner2.zIndex = 600;
+      this.corner3.zIndex = 600;
+      this.corner4.zIndex = 600;
+    }
   }
 
   initSmoke() {

@@ -70,14 +70,13 @@ export default class Car {
       alpha: true,
     });
 
+    this.generateTint = () => 0x0F0F0F;
+
     for (let i = 0; i < TOTAL_SMOKE; i += 1) {
       const smoke = PIXI.Sprite.from('assets/cars/smoke.png');
-      // const smoke = PIXI.Sprite.from('assets/cars/car2.png');
       smoke.anchor.set(0.5);
-      // smoke.scale.set(0.8 + Math.random() * 0.3);
       smoke.visible = false;
       smoke.alpha = 0; // Hide by default
-      smoke.tint = Math.random() * 0xFFFFFF;
       this.allSmoke.push(smoke);
       this.smoke.addChild(smoke);
     }
@@ -103,6 +102,9 @@ export default class Car {
     theOne.scale.set(1, 1);
     theOne.alpha = 1;
     theOne.direction = Math.random() * Math.PI * 2;
+    if (this.generateTint) {
+      theOne.tint = this.generateTint();
+    }
 
     return theOne;
   }

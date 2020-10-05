@@ -34,6 +34,13 @@ function setupWelcomeScreen(app, completionFunction) {
   track.container.x = app.renderer.width / 2;
   track.container.y = app.renderer.height / 8;
 
+  function rainbowFart() {
+    return Math.random() * 0xFFFFFF;
+  }
+
+  track.carA.generateTint = rainbowFart;
+  track.carB.generateTint = rainbowFart;
+
   const menuLoop = (() => {
     const creditSprites = CREDITS.map((imgPath) => {
       const sprite = new PIXI.Sprite(

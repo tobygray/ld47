@@ -86,9 +86,25 @@ export default class Car {
     theOne.visible = true;
     theOne.position.set(this.sprite.position.x, this.sprite.position.y);
     theOne.scale.set(1, 1);
+    theOne.alpha = 1;
     console.log('theOne === ', theOne);
 
     return theOne;
+  }
+
+  updateSmoke() {
+    const scaleMult = 1.1;
+    const aphaMult = 0.9;
+    this.allSmoke.forEach((s) => {
+      if (s.visible) {
+        s.scale.set(s.scale.x * scaleMult, s.scale.y * scaleMult);
+        s.alpha *= aphaMult;
+
+        if (s.alpha <= 0.1) {
+          s.visible = false;
+        }
+      }
+    });
   }
 
   makeSmoke() {

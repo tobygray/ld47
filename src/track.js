@@ -214,6 +214,8 @@ export default class Track {
   updateSmoke() {
     this.carA.makeSmoke();
     this.carB.makeSmoke();
+    this.carA.updateSmoke();
+    this.carB.updateSmoke();
   }
 
   updateCars(delta, raceState) {

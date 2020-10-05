@@ -6,6 +6,11 @@ const sound = require('pixi-sound').default;
 
 const TOTAL_SMOKE = 500;
 
+function randRange(minVal, maxVal) {
+  const rnd = Math.random() * (maxVal - minVal);
+  return minVal + rnd;
+}
+
 export default class Car {
   constructor(index, side) {
     this.initSmoke();
@@ -82,7 +87,7 @@ export default class Car {
     }
   }
 
-  getFreeSmokeParticle(offX, offY) {
+  getFreeSmokeParticle(posX, posY) {
     let theOne = this.allSmoke[0];
     this.smoke.zIndex = this.sprite.zIndex - 1;
 
@@ -98,7 +103,7 @@ export default class Car {
     }
 
     theOne.visible = true;
-    theOne.position.set(this.exhaust[0] + offX, this.exhaust[1] + offY);
+    theOne.position.set(posX, posY);
     theOne.scale.set(1, 1);
     theOne.alpha = 1;
     theOne.direction = Math.random() * Math.PI * 2;
@@ -110,15 +115,12 @@ export default class Car {
   }
 
   updateSmoke() {
-    const scaleMult = 1.1;
-    const aphaMult = 0.9;
-    const posMult = 10;
     this.allSmoke.forEach((s) => {
       if (s.visible) {
-        s.scale.set(s.scale.x * scaleMult, s.scale.y * scaleMult);
-        s.alpha *= aphaMult;
-        s.position.set(s.position.x + ((Math.random() - 0.5) * posMult),
-          s.position.y + ((Math.random() - 0.5) * posMult));
+        s.scale.set(s.scale.x * s.scaleMult, s.scale.y * s.scaleMult);
+        s.alpha *= s.aphaMult;
+        s.position.set(s.position.x + ((Math.random() - 0.5) * s.posMult),
+          s.position.y + ((Math.random() - 0.5) * s.posMult));
 
         if (s.alpha <= 0.05) {
           s.visible = false;
@@ -130,19 +132,31 @@ export default class Car {
 
   makeSmoke() {
     let amountOfSmoke = 10 + this.speed + (this.power * 5);
+    let basePos = this.exhaust;
+
     if (this.fallOut > 0) {
       amountOfSmoke = 75;
+      basePos = [this.sprite.position.x, this.sprite.position.y];
     }
     const smokeSpread = 50;
+
     for (let i = 0; i < amountOfSmoke; i += 1) {
       const offX = (Math.random() * smokeSpread) - (smokeSpread / 2);
       const offY = Math.random() * smokeSpread - (smokeSpread / 2);
-      const sprite = this.getFreeSmokeParticle(offX, offY);
+      const sprite = this.getFreeSmokeParticle(basePos[0] + offX, basePos[1] + offY);
+
+      sprite.scaleMult = 1.1;
+      sprite.aphaMult = 0.9;
+      sprite.posMult = 10;
 
       if (this.fallOut > 0) {
         // When falling sprite posiution will be wrong
-        sprite.position.set(this.sprite.position.x, this.sprite.position.y);
-        sprite.tint = 0xFFA500;
+        // eslint-disable-next-line no-bitwise
+        const factor = (randRange(0, 50) * 255) & 0xFF00;
+        sprite.tint = 0xBEA500 + factor + (factor * 255);
+        sprite.scaleMult = 1.5;
+        sprite.aphaMult = 0.8;
+        sprite.posMult = 30;
       }
     }
   }

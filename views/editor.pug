@@ -7,25 +7,28 @@ block scripts
   script(src='js/editor~main.bundle.js')
   script(src='js/editor.bundle.js')
 
+block styles
+  link(rel='stylesheet', href='/stylesheets/editor.css')
 
 block content
-  form(action="#", id="editor")
-    h1 Add piece
-    h2 Straight pieces
-    input(type="button", value="s" id="s")
-    input(type="button", value="ss")
-    h2 Right hand bends
-    input(type="button", value="r1")
-    input(type="button", value="r2")
-    input(type="button", value="r3")
-    input(type="button", value="r4")
-    h2 Left hand bends
-    input(type="button", value="l1")
-    input(type="button", value="l2")
-    input(type="button", value="l3")
-    input(type="button", value="l4")
-    h2 Remove
-    input(type="button", value="<--")
-    h1 JSON text
-    textarea(id="json", cols="80", rows="20", value="[]")
-  h1 Preview
+  div(id="pieces" class="ui-widget-content")
+    form(action="#", id="editor")
+      h1 Add piece
+      h2 Straight pieces
+      input(type="button", value="s")
+      input(type="button", value="ss")
+      input(type="button", value="s4")
+      h2 Right hand bends
+      input(type="button", value="r1")
+      input(type="button", value="r2")
+      input(type="button", value="r3")
+      input(type="button", value="r4")
+      h2 Left hand bends
+      input(type="button", value="l1")
+      input(type="button", value="l2")
+      input(type="button", value="l3")
+      input(type="button", value="l4")
+      h2 Remove
+      input(type="button", value="<--")
+      h1 JSON text
+      textarea(id="json", cols="39", rows="20", value="[]")

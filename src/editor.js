@@ -39,14 +39,32 @@ function redrawTrack(pieces, app) {
   track.container.scale.y = 0.5;
   track.container.x = 300;
   track.container.y = 400;
+  track.carA.sprite.visible = false;
+  track.carB.sprite.visible = false;
   app.stage.removeChildren();
   app.stage.addChild(track.container);
+}
+
+function downloadScreenshot(app) {
+  // From: https://pixijs.io/examples/#/demos-advanced/screenshot.js
+  app.renderer.extract.canvas(app.stage).toBlob((b) => {
+    const a = document.createElement('a');
+    document.body.append(a);
+    a.download = 'screenshot';
+    a.href = URL.createObjectURL(b);
+    a.click();
+    a.remove();
+  }, 'image/png');
 }
 
 function setup(app) {
   $('form#editor input').on('click', (evt) => {
     // Input buttons just change the text area and hook off that
     let arr = getCurrentArray();
+    if (evt.target.value === 'image') {
+      downloadScreenshot(app);
+      return;
+    }
     if (evt.target.value !== '<--') {
       arr = arr.concat(evt.target.value);
     } else {

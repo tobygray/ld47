@@ -127,6 +127,7 @@ export default class Car {
 
         if (s.alpha <= 0.05) {
           s.visible = false;
+          s.scale.set(1, 1);
           s.alpha = 0;
         }
       }
@@ -185,5 +186,9 @@ export default class Car {
         sound.play('assets/audio/sfx/kaboom.mp3', { loop: false, volume: 0.25 });
       }
     }
+  }
+
+  swapSides() {
+    this.side = this.side === 'left' ? 'right' : 'left';
   }
 }

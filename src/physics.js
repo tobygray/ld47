@@ -146,6 +146,12 @@ export default function physics(delta, car, track, side, raceState, coll) {
       raceState.onCarFallOut(car);
     }
     car.fallHandedness = radius > 0 ? 5 : -5;
+
+    if (track.cross === 1) {
+      car.distance = 2 * track.getLength(car.side);
+    } else if (track.cross === -1) {
+      car.distance = track.getLength(car.side);
+    }
     return;
   }
   const circularForceSqrt = Math.sqrt(circularForce);

@@ -153,6 +153,7 @@ export default class Track {
     }
     car.pos = pos;
     car.angle = angle;
+    car.exhaust = rearPos;
   }
 
   moveCars(delta, raceState) {

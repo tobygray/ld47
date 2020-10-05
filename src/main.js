@@ -28,7 +28,6 @@ function setup(app) {
   }
 
   function transitionToScoreboard(raceConfig, raceResults) {
-    console.log('Transitioning to scoreboard');
     resetScreenAndSound();
     controllerHandler.enablePolling();
     // TODO: the functions we pass in to this setup for the scoreborad need to actually
@@ -44,14 +43,12 @@ function setup(app) {
   }
 
   transitionToActualRace = (raceConfig) => {
-    console.log('Trqnsistioning to Race, yes I Cant spell!');
     resetScreenAndSound();
     const trackScreen = setupTrackEvent(app, transitionToScoreboard, raceConfig);
     app.stage.addChild(trackScreen);
   };
 
   transitionToConfigScreen = (raceConfig = null) => {
-    console.log('Transitioning to config screen');
     resetScreenAndSound();
     const setupScreen = setupRaceConfigScreen(app, controllerHandler, raceConfig,
       transitionToActualRace);

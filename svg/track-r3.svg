@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="track-r3.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="643.4207"
+     inkscape:cy="2457.9656"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1782"
+     inkscape:window-height="1342"
+     inkscape:window-x="1571"
+     inkscape:window-y="240"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#808080;fill-rule:evenodd;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 81.584023,-490.16101 v 156.30998 c 62.849077,-0.095 124.930387,13.10082 182.284827,38.63668 l 63.45092,-142.5131 c -77.32609,-34.42779 -161.02499,-52.21854 -245.735747,-52.43356 z"
+       id="path2234"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="/home/sam/devel/ludumdare47/ld47-assets/public/assets/tracks/Pieces/R3.png"
+       inkscape:export-xdpi="25.4"
+       inkscape:export-ydpi="25.4" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffff00;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path819"
+       sodipodi:type="arc"
+       sodipodi:cx="81.650841"
+       sodipodi:cy="114.05401"
+       sodipodi:rx="565"
+       sodipodi:ry="565"
+       sodipodi:start="4.712389"
+       sodipodi:end="5.131268"
+       d="m 81.650841,-450.94599 a 565,565 0 0 1 229.806199,48.84681"
+       sodipodi:open="true" />
+    <path
+       sodipodi:open="true"
+       d="m 81.650841,-372.94599 a 487,487 0 0 1 198.080749,42.10336"
+       sodipodi:end="5.131268"
+       sodipodi:start="4.712389"
+       sodipodi:ry="487"
+       sodipodi:rx="487"
+       sodipodi:cy="114.05401"
+       sodipodi:cx="81.650841"
+       sodipodi:type="arc"
+       id="path821"
+       style="fill:none;fill-opacity:1;stroke:#ffff00;stroke-width:1;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

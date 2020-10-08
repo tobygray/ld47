@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  web:
+    image: registry.lislan.org.uk:5050/ld47/ld47-main:latest
+    container_name: ld47-web
+    hostname: ld47-web
+    restart: always
+    ports:
+      - '8080:3000'
+
